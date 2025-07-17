@@ -1,5 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/check", "destination": "/api/password-check" }
-  ]
-}
