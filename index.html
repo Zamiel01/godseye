@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gods Eye | Data Breach Checker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a365d 100%);
+            color: #e8eaed;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ffffff, #f0f4f8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            animation: pulse 2s infinite;
+            position: relative;
+            border: 3px solid #1a365d;
+            box-shadow: 0 0 0 2px white;
+        }
+
+        .logo-text {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffffff, #f0f4f8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #9aa0a6;
+            margin-bottom: 0.5rem;
+        }
+
+        .description {
+            font-size: 1rem;
+            color: #73797e;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #9aa0a6;
+        }
+
+        .main-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #9aa0a6;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .input-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #9aa0a6;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-button.active {
+            background: #ffffff;
+            border-color: #ffffff;
+            color: #1a365d;
+        }
+
+        .tab-button:hover:not(.active) {
+            border-color: rgba(255, 255, 255, 0.4);
+            color: #e8eaed;
+        }
+
+        .tab-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .input-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #e8eaed;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .input-field::placeholder {
+            color: #73797e;
+        }
+
+        .check-button {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #ffffff, #f0f4f8);
+            border: none;
+            border-radius: 12px;
+            color: #1a365d;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .check-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.4);
+        }
+
+        .check-button:active {
+            transform: translateY(0);
+        }
+
+        .check-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid #1a365d;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        .result-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+        }
+
+        .result-success {
+            background: rgba(52, 168, 83, 0.1);
+            border: 1px solid rgba(52, 168, 83, 0.3);
+            color: #34a853;
+        }
+
+        .result-danger {
+            background: rgba(234, 67, 53, 0.1);
+            border: 1px solid rgba(234, 67, 53, 0.3);
+            color: #ea4335;
+        }
+
+        .result-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-message {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .protection-steps {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: left;
+            display: none;
+        }
+
+        .protection-steps.show {
+            display: block;
+        }
+
+        .protection-steps h3 {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .protection-steps .steps-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .protection-steps .step-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .protection-steps .step-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .protection-steps .step-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .protection-steps .step-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .protection-steps .step-icon {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .protection-steps .step-title {
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .protection-steps .step-description {
+            color: #9aa0a6;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-left: 2rem;
+        }
+
+        .protection-steps .priority-high {
+            border-left: 4px solid #ea4335;
+        }
+
+        .protection-steps .priority-medium {
+            border-left: 4px solid #fbbc04;
+        }
+
+        .protection-steps .priority-low {
+            border-left: 4px solid #34a853;
+        }
+
+        .protection-steps .additional-tips {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .protection-steps .tips-title {
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .protection-steps .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+            color: #9aa0a6;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .protection-steps .tip-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .protection-steps .tip-icon {
+            color: #34a853;
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
+        }
+
+        .privacy-note {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #73797e;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #73797e;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .logo-text {
+                font-size: 2rem;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem;
+            }
+
+            .main-section {
+                padding: 2rem;
+            }
+
+            .input-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tab-button {
+                width: 100%;
+                max-width: 200px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .main-section {
+                padding: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Shield -->
+                        <path d="M15 2L4 7V14C4 20 8 25 15 28C22 25 26 20 26 14V7L15 2Z" fill="#1a365d" stroke="white" stroke-width="2"/>
+                        <!-- Eye -->
+                        <ellipse cx="15" cy="15" rx="8" ry="5" fill="white"/>
+                        <circle cx="15" cy="15" r="3" fill="#1a365d"/>
+                        <circle cx="15" cy="15" r="1.5" fill="white"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">Gods Eye</h1>
+            </div>
+            <p class="subtitle">Advanced Data Breach Intelligence</p>
+            <p class="description">Protect your digital identity by checking if your information has been compromised in known data breaches.</p>
+        </header>
+
+        <div class="stats">
+            <div class="stat-card">
+                <span class="stat-icon">🗄️</span>
+                <div class="stat-number">1,250+</div>
+                <div class="stat-label">Total Breaches Monitored</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">⚠️</span>
+                <div class="stat-number">15.2B+</div>
+                <div class="stat-label">Compromised Accounts</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">🛡️</span>
+                <div class="stat-number">98</div>
+                <div class="stat-label">Data Types Tracked</div>
+            </div>
+        </div>
+
+        <main class="main-section">
+            <div class="shield-icon" style="text-align: center; margin-bottom: 2rem;">
+                <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.3;">
+                    <!-- Shield -->
+                    <path d="M40 5L10 18V37C10 53 21 67 40 75C59 67 70 53 70 37V18L40 5Z" fill="white" stroke="#1a365d" stroke-width="2"/>
+                    <!-- Eye -->
+                    <ellipse cx="40" cy="40" rx="20" ry="12" fill="#1a365d"/>
+                    <circle cx="40" cy="40" r="8" fill="white"/>
+                    <circle cx="40" cy="40" r="4" fill="#1a365d"/>
+                </svg>
+            </div>
+            
+            <h2 class="section-title">Check if your data has been compromised</h2>
+            <p class="section-subtitle">Search for your information in known data breaches and stay protected</p>
+
+            <div class="input-tabs">
+                <button class="tab-button" data-tab="email" disabled>
+                    📧 Email
+                </button>
+                <button class="tab-button" data-tab="phone" disabled>
+                    📱 Phone
+                </button>
+                <button class="tab-button active" data-tab="password">
+                    🔒 Password
+                </button>
+            </div>
+
+            <form class="input-form" id="passwordForm">
+                <div class="input-group">
+                    <input 
+                        type="password" 
+                        id="passwordInput" 
+                        class="input-field" 
+                        placeholder="Enter your password to check"
+                        required
+                    >
+                </div>
+                <button type="submit" class="check-button" id="checkButton">
+                    <span class="loading-spinner" id="loadingSpinner"></span>
+                    <span id="buttonText">Check Password</span>
+                </button>
+            </form>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-icon" id="resultIcon"></div>
+                <div class="result-title" id="resultTitle"></div>
+                <div class="result-message" id="resultMessage"></div>
+            </div>
+
+            <div class="protection-steps" id="protectionSteps">
+                <h3>🛡️ Immediate Protection Steps</h3>
+                <ul class="steps-list">
+                    <li class="step-item priority-high">
+                        <div class="step-header">
+                            <span class="step-icon">🚨</span>
+                            <span class="step-title">Change Password Immediately</span>
+                        </div>
+                        <div class="step-description">
+                            Change this password on ALL accounts where you've used it. Start with the most critical accounts (email, banking, work).
+                        </div>
+                    </li>
+                    <li class="step-item priority-high">
+                        <div class="step-header">
+                            <span class="step-icon">🔐</span>
+                            <span class="step-title">Enable Two-Factor Authentication</span>
+                        </div>
+                        <div class="step-description">
+                            Add an extra layer of security with 2FA on all important accounts. Use authenticator apps like Google Authenticator or Authy.
+                        </div>
+                    </li>
+                    <li class="step-item priority-medium">
+                        <div class="step-header">
+                            <span class="step-icon">🔑</span>
+                            <span class="step-title">Use a Password Manager</span>
+                        </div>
+                        <div class="step-description">
+                            Generate and store unique passwords for each account. Consider tools like Bitwarden, 1Password, or Dashlane.
+                        </div>
+                    </li>
+                    <li class="step-item priority-medium">
+                        <div class="step-header">
+                            <span class="step-icon">📊</span>
+                            <span class="step-title">Monitor Your Accounts</span>
+                        </div>
+                        <div class="step-description">
+                            Check for unusual activity on your accounts. Set up account alerts and review recent login activity.
+                        </div>
+                    </li>
+                    <li class="step-item priority-low">
+                        <div class="step-header">
+                            <span class="step-icon">🔄</span>
+                            <span class="step-title">Regular Security Checkups</span>
+                        </div>
+                        <div class="step-description">
+                            Regularly check your passwords, update security settings, and stay informed about data breaches.
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="additional-tips">
+                    <div class="tips-title">💡 Additional Security Tips</div>
+                    <div class="tip-item">
+                        <span class="tip-icon">✓</span>
+                        <span>Use passwords with at least 12 characters, including uppercase, lowercase, numbers, and symbols</span>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">✓</span>
+                        <span>Never reuse passwords across multiple accounts</span>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">✓</span>
+                        <span>Be cautious of phishing emails and suspicious links</span>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">✓</span>
+                        <span>Keep your devices and browsers updated with the latest security patches</span>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">✓</span>
+                        <span>Consider using a VPN when connecting to public Wi-Fi</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="privacy-note">
+                <span>🔐</span>
+                <span>Your data is hashed client-side for privacy. We never store your actual input.</span>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Gods Eye | Advanced Data Breach Intelligence Platform</p>
+        </footer>
+    </div>
+
+    <script>
+        // SHA-256 hashing function
+        async function sha256(text) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(text);
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hash));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        // API configuration
+        const API_KEY = 'zxC/9ZeagjtlqZS3h1ZNLk4mFnIaqMLEZM7Pa1+apqKuUUAN9nCM1Mg=';
+        const API_URL = 'https://api.dehashed.com/v2/search-password';
+
+        // DOM elements
+        const passwordForm = document.getElementById('passwordForm');
+        const passwordInput = document.getElementById('passwordInput');
+        const checkButton = document.getElementById('checkButton');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const buttonText = document.getElementById('buttonText');
+        const resultSection = document.getElementById('resultSection');
+        const resultIcon = document.getElementById('resultIcon');
+        const resultTitle = document.getElementById('resultTitle');
+        const resultMessage = document.getElementById('resultMessage');
+        const protectionSteps = document.getElementById('protectionSteps');
+
+        // Tab functionality (for future features)
+        const tabButtons = document.querySelectorAll('.tab-button');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (!button.disabled) {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                }
+            });
+        });
+
+        // Form submission handler
+        passwordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const password = passwordInput.value.trim();
+            if (!password) {
+                showResult('danger', '⚠️', 'Invalid Input', 'Please enter a password to check.');
+                return;
+            }
+
+            setLoading(true);
+            hideResult();
+
+            try {
+                // Hash the password client-side
+                const hashedPassword = await sha256(password);
+                
+                // Make API request
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'DeHashed-Api-Key': API_KEY
+                    },
+                    body: JSON.stringify({
+                        sha256_hashed_password: hashedPassword
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    const resultsFound = data.results_found || 0;
+                    
+                    if (resultsFound > 0) {
+                        showResult(
+                            'danger', 
+                            '🚨', 
+                            'Password Compromised!', 
+                            `This password has been found in ${resultsFound} known data breach${resultsFound > 1 ? 'es' : ''}. Follow the steps below to protect your accounts.`,
+                            true // Show protection steps
+                        );
+                    } else {
+                        showResult(
+                            'success', 
+                            '✅', 
+                            'Password Safe', 
+                            'Good news! This password has not been found in any known data breaches.'
+                        );
+                    }
+                } else {
+                    throw new Error(data.error || 'API request failed');
+                }
+            } catch (error) {
+                console.error('Error checking password:', error);
+                showResult(
+                    'danger', 
+                    '❌', 
+                    'Check Failed', 
+                    'Unable to check password. Please try again later or contact support.'
+                );
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        function setLoading(isLoading) {
+            checkButton.disabled = isLoading;
+            loadingSpinner.style.display = isLoading ? 'inline-block' : 'none';
+            buttonText.textContent = isLoading ? 'Checking...' : 'Check Password';
+        }
+
+        function showResult(type, icon, title, message, showProtection = false) {
+            resultSection.className = `result-section result-${type}`;
+            resultIcon.textContent = icon;
+            resultTitle.textContent = title;
+            resultMessage.textContent = message;
+            resultSection.style.display = 'block';
+            
+            // Show or hide protection steps based on result type
+            if (showProtection && type === 'danger') {
+                protectionSteps.classList.add('show');
+            } else {
+                protectionSteps.classList.remove('show');
+            }
+            
+            // Smooth scroll to result
+            resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function hideResult() {
+            resultSection.style.display = 'none';
+            protectionSteps.classList.remove('show');
+        }
+
+        // Clear result when user starts typing
+        passwordInput.addEventListener('input', hideResult);
+
+        // Enhanced security - clear password input after check
+        passwordForm.addEventListener('submit', () => {
+            setTimeout(() => {
+                passwordInput.value = '';
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
