@@ -290,6 +290,118 @@
             opacity: 0.9;
         }
 
+        /* Breach Results Table Styles */
+        .breach-results-table {
+            width: 100%;
+            margin-top: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+
+        .breach-results-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .breach-results-table th,
+        .breach-results-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .breach-results-table th {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .breach-results-table td {
+            color: #e8eaed;
+            font-size: 0.9rem;
+        }
+
+        .breach-results-table tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .breach-results-table .breach-name {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .breach-results-table .breach-date {
+            color: #9aa0a6;
+        }
+
+        .breach-results-table .data-types {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+        }
+
+        .breach-results-table .data-type-tag {
+            background: rgba(234, 67, 53, 0.2);
+            color: #ea4335;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .breach-summary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .breach-summary h3 {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .breach-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .breach-stat {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .breach-stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ea4335;
+            margin-bottom: 0.25rem;
+        }
+
+        .breach-stat-label {
+            font-size: 0.8rem;
+            color: #9aa0a6;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         .protection-steps {
             margin-top: 2rem;
             padding: 1.5rem;
@@ -413,6 +525,24 @@
             margin-top: 0.2rem;
         }
 
+        .protection-steps .additional-tips {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+        }
+
+        .protection-steps .tips-title {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
         .privacy-note {
             text-align: center;
             font-size: 0.9rem;
@@ -456,6 +586,70 @@
             margin-bottom: 2rem;
         }
 
+        /* News Search Styles */
+        .news-search-container {
+            margin-bottom: 2rem;
+        }
+
+        .news-search-wrapper {
+            display: flex;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto 1rem auto;
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .news-search-wrapper:focus-within {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .news-search-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: #e8eaed;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .news-search-input::placeholder {
+            color: #73797e;
+        }
+
+        .news-search-button,
+        .news-clear-button {
+            padding: 1rem;
+            background: transparent;
+            border: none;
+            color: #9aa0a6;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 48px;
+        }
+
+        .news-search-button:hover,
+        .news-clear-button:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .news-search-info {
+            text-align: center;
+            color: #9aa0a6;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
         .news-filters {
             display: flex;
             justify-content: center;
@@ -491,8 +685,8 @@
 
         .news-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
@@ -500,6 +694,7 @@
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
+            padding: 0;
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
@@ -515,46 +710,32 @@
             border-color: rgba(255, 255, 255, 0.2);
         }
 
-        .news-image {
+        .news-card-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px 12px 0 0;
+            background: linear-gradient(135deg, #1a365d 0%, #2d5a87 100%);
             transition: all 0.3s ease;
-            opacity: 0;
-            animation: fadeIn 0.5s ease-out 0.1s forwards;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-        
-        .news-image:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
 
-        .news-image-placeholder {
+        .news-card-image:hover {
+            transform: scale(1.02);
+        }
+
+        .news-card-placeholder {
             width: 100%;
             height: 200px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            border-radius: 12px 12px 0 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1rem;
-            color: #73797e;
-            font-size: 2rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .news-image-placeholder:hover {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
-        }
-
-        .news-content {
+        .news-card-content {
             padding: 1.5rem;
             flex: 1;
             display: flex;
@@ -578,29 +759,9 @@
         }
 
         .news-date {
-            font-size: 0.85rem;
-            color: #9aa0a6;
+            font-size: 0.8rem;
+            color: #73797e;
             margin-left: auto;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 0.25rem 0.5rem;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .news-badge-new {
-            background: linear-gradient(45deg, #34a853, #4caf50);
-            color: white;
-            font-size: 0.7rem;
-            padding: 0.15rem 0.4rem;
-            border-radius: 4px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            animation: pulse 2s infinite;
         }
 
         .news-title-card {
@@ -707,6 +868,118 @@
             transform: none;
         }
 
+        /* Pagination Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1rem;
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 0.5rem;
+        }
+
+        .pagination-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: transparent;
+            color: #9aa0a6;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pagination-button:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .pagination-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .pagination-button.active {
+            background: linear-gradient(45deg, #ffffff, #f0f4f8);
+            color: #1a365d;
+            font-weight: 600;
+        }
+
+        .pagination-button.active:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .pagination-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #9aa0a6;
+            font-size: 0.9rem;
+            margin: 0 1rem;
+        }
+
+        .pagination-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .pagination-nav-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: transparent;
+            color: #9aa0a6;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-nav-button:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+        }
+
+        .pagination-nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination-ellipsis {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            color: #73797e;
+            font-size: 0.9rem;
+        }
+
         .news-error {
             text-align: center;
             padding: 2rem;
@@ -716,16 +989,24 @@
             border-radius: 12px;
         }
 
+        .severity-critical {
+            border-left: 4px solid #d93025;
+            background: rgba(217, 48, 37, 0.05);
+        }
+
         .severity-high {
             border-left: 4px solid #ea4335;
+            background: rgba(234, 67, 53, 0.03);
         }
 
         .severity-medium {
             border-left: 4px solid #fbbc04;
+            background: rgba(251, 188, 4, 0.03);
         }
 
         .severity-low {
             border-left: 4px solid #34a853;
+            background: rgba(52, 168, 83, 0.03);
         }
 
         .footer {
@@ -766,17 +1047,6 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         @media (max-width: 768px) {
@@ -830,13 +1100,23 @@
                 gap: 1rem;
             }
 
-            .news-card .news-content {
+            .news-card {
                 padding: 1.25rem;
             }
-            
-            .news-image,
-            .news-image-placeholder {
-                height: 160px;
+
+            .pagination-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .pagination {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .pagination-info {
+                order: -1;
+                margin: 0;
             }
         }
 
@@ -876,10 +1156,196 @@
                 font-size: 0.75rem;
                 padding: 0.35rem 0.7rem;
             }
+
+            .pagination-button,
+            .pagination-nav-button {
+                width: 32px;
+                height: 32px;
+                font-size: 0.8rem;
+            }
+
+            .pagination-info {
+                font-size: 0.8rem;
+                text-align: center;
+            }
+
+            .news-search-wrapper {
+                max-width: 100%;
+                margin: 0 0 1rem 0;
+            }
+
+            .news-search-input {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .news-search-button,
+            .news-clear-button {
+                padding: 0.75rem;
+                min-width: 40px;
+            }
+        }
+        /* API Loading Screen Styles */
+        .api-loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f1419 0%, #1a365d 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            color: #e8eaed;
+        }
+
+        .api-loading-screen.hidden {
+            display: none;
+        }
+
+        .api-loading-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            animation: pulse 2s infinite;
+        }
+
+        .api-loading-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #ffffff, #f0f4f8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            border: 3px solid #1a365d;
+            box-shadow: 0 0 0 2px white;
+        }
+
+        .api-loading-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffffff, #f0f4f8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .api-loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 2rem;
+        }
+
+        .api-loading-message {
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 1rem;
+        }
+
+        .api-loading-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .api-loading-subtitle {
+            font-size: 1rem;
+            color: #9aa0a6;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .api-loading-status {
+            font-size: 0.9rem;
+            color: #73797e;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .api-loading-dots {
+            display: inline-flex;
+            gap: 0.25rem;
+        }
+
+        .api-loading-dot {
+            width: 4px;
+            height: 4px;
+            background: #73797e;
+            border-radius: 50%;
+            animation: loadingDots 1.5s infinite;
+        }
+
+        .api-loading-dot:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .api-loading-dot:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes loadingDots {
+            0%, 60%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            30% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        .main-app {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .main-app.loaded {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
+    <!-- API Loading Screen -->
+    <div id="apiLoadingScreen" class="api-loading-screen">
+        <div class="api-loading-logo">
+            <div class="api-loading-icon">👁️</div>
+            <div class="api-loading-text">Gods Eye</div>
+        </div>
+        
+        <div class="api-loading-spinner"></div>
+        
+        <div class="api-loading-message">
+            <div class="api-loading-title">Initializing Security Systems</div>
+            <div class="api-loading-subtitle">
+                Starting up security servers and threat intelligence systems. 
+                This may take up to 60 seconds for cold start.
+            </div>
+        </div>
+        
+        <div class="api-loading-status">
+            <span id="apiLoadingStatusText">Connecting to security database</span>
+            <div class="api-loading-dots">
+                <div class="api-loading-dot"></div>
+                <div class="api-loading-dot"></div>
+                <div class="api-loading-dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="mainApp" class="main-app">
     <div class="container">
         <header class="header">
             <div class="logo">
@@ -929,16 +1395,10 @@
                 </svg>
             </div>
             
-            <h2 class="section-title">Check if your data has been compromised</h2>
-            <p class="section-subtitle">Search for your information in known data breaches and stay protected</p>
+            <h2 class="section-title">Check if your password has been compromised</h2>
+            <p class="section-subtitle">Verify if your password has appeared in any known data breaches</p>
 
             <div class="input-tabs">
-                <button class="tab-button" data-tab="email" disabled>
-                    📧 Email
-                </button>
-                <button class="tab-button" data-tab="phone" disabled>
-                    📱 Phone
-                </button>
                 <button class="tab-button active" data-tab="password">
                     🔒 Password
                 </button>
@@ -1047,6 +1507,71 @@
             </div>
         </main>
 
+        <!-- Data Breach Search Section -->
+        <main class="main-section">
+            <div class="shield-icon" style="text-align: center; margin-bottom: 2rem;">
+                <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.3;">
+                    <!-- Shield -->
+                    <path d="M40 5L10 18V37C10 53 21 67 40 75C59 67 70 53 70 37V18L40 5Z" fill="white" stroke="#1a365d" stroke-width="2"/>
+                    <!-- Search Icon -->
+                    <circle cx="35" cy="35" r="12" fill="none" stroke="#1a365d" stroke-width="3"/>
+                    <path d="m45 45 8 8" stroke="#1a365d" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+            </div>
+            
+            <h2 class="section-title">Data Breach Search</h2>
+            <p class="section-subtitle">Search for your personal information in known data breaches</p>
+
+            <div class="input-tabs">
+                <button class="tab-button active" data-tab="email">
+                    📧 Email
+                </button>
+                <button class="tab-button" data-tab="username">
+                    👤 Username
+                </button>
+                <button class="tab-button" data-tab="phone">
+                    📱 Phone
+                </button>
+                <button class="tab-button" data-tab="ip">
+                    🌐 IP Address
+                </button>
+                <button class="tab-button" data-tab="fullname">
+                    👥 Full Name
+                </button>
+            </div>
+
+            <form class="input-form" id="breachForm">
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        id="breachQuery" 
+                        name="query" 
+                        class="input-field" 
+                        placeholder="Enter your email address to search..."
+                        required
+                    >
+                </div>
+                <button type="submit" class="check-button" id="breachCheckButton">
+                    <span class="loading-spinner" id="breachLoadingSpinner"></span>
+                    <span id="breachButtonText">Check Data</span>
+                </button>
+            </form>
+
+            <div class="result-section" id="breachResultSection" style="display: none;">
+                <div class="result-icon" id="breachResultIcon"></div>
+                <div class="result-title" id="breachResultTitle"></div>
+                <div class="result-message" id="breachResultMessage"></div>
+            </div>
+
+            <!-- Breach Results Display -->
+            <div id="breachResult" style="margin-top: 2rem;"></div>
+
+            <div class="privacy-note">
+                <span>🔐</span>
+                <span>Your searches are processed securely. We never store your personal information.</span>
+            </div>
+        </main>
+
         <!-- News Section -->
         <section class="news-section">
             <div class="news-header">
@@ -1055,7 +1580,30 @@
                 </h2>
                 <p class="news-subtitle">Stay informed about the latest data breaches, hacking incidents, and cybersecurity threats</p>
                 
+                <!-- News Search -->
+                <div class="news-search-container">
+                    <div class="news-search-wrapper">
+                        <input type="text" id="newsSearchInput" class="news-search-input" placeholder="Search cybersecurity news..." />
+                        <button id="newsSearchButton" class="news-search-button">
+                            <span class="search-icon">🔍</span>
+                        </button>
+                        <button id="newsClearButton" class="news-clear-button" style="display: none;">
+                            <span class="clear-icon">✕</span>
+                        </button>
+                    </div>
+                    <div class="news-search-info" id="newsSearchInfo" style="display: none;">
+                        <span id="newsSearchResults">0 articles found</span>
+                    </div>
+                </div>
 
+                <!-- News Filters -->
+                <div class="news-filters">
+                    <button class="filter-button active" data-filter="all">All News</button>
+                    <button class="filter-button" data-filter="critical">Critical</button>
+                    <button class="filter-button" data-filter="high">High Priority</button>
+                    <button class="filter-button" data-filter="medium">Medium Priority</button>
+                    <button class="filter-button" data-filter="low">Low Priority</button>
+                </div>
             </div>
 
             <div id="newsLoading" class="news-loading">
@@ -1071,9 +1619,30 @@
                 <!-- News articles will be populated here -->
             </div>
 
-            <button id="loadMoreNews" class="load-more-button" style="display: none;">
-                Load More Articles
-            </button>
+            <!-- Pagination Container -->
+            <div id="paginationContainer" class="pagination-container" style="display: none;">
+                <div class="pagination">
+                    <div class="pagination-nav">
+                        <button id="firstPageBtn" class="pagination-nav-button" title="First Page">⟪</button>
+                        <button id="prevPageBtn" class="pagination-nav-button" title="Previous Page">‹</button>
+                    </div>
+                    
+                    <div id="paginationNumbers" class="pagination-nav">
+                        <!-- Page numbers will be populated here -->
+                    </div>
+                    
+                    <div class="pagination-nav">
+                        <button id="nextPageBtn" class="pagination-nav-button" title="Next Page">›</button>
+                        <button id="lastPageBtn" class="pagination-nav-button" title="Last Page">⟫</button>
+                    </div>
+                </div>
+                
+                <div class="pagination-info">
+                    <span id="paginationInfo">Page 1 of 1</span>
+                    <span>•</span>
+                    <span id="articlesInfo">0 articles</span>
+                </div>
+            </div>
         </section>
 
         <footer class="footer">
@@ -1098,7 +1667,110 @@
         
         // GNews API configuration
         const GNEWS_API_KEY = 'de0c5925e8a7fce52ecd19ddb2dac4dd';
-        const GNEWS_API_URL = 'https://gnews.io/api/v4/search';
+        const GNEWS_API_BASE = 'https://gnews.io/api/v4';
+        
+        // Render API configuration (backup)
+        const RENDER_API_BASE = 'https://gods-eye-api.onrender.com/api';
+        const API_HEALTH_CHECK = 'https://gods-eye-api.onrender.com';
+
+        // Loading Screen Management with Render API Cold Start Handling
+        let apiWakeUpAttempts = 0;
+        const maxWakeUpAttempts = 15; // Allow more time for cold start
+        
+        async function initializeLoadingScreen() {
+            const loadingScreen = document.getElementById('apiLoadingScreen');
+            const mainApp = document.getElementById('mainApp');
+            const statusText = document.getElementById('apiLoadingStatusText');
+            
+            const statusMessages = [
+                'Connecting to security servers',
+                'Warming up threat intelligence systems',
+                'Initializing breach detection modules',
+                'Loading cybersecurity databases',
+                'Establishing secure connections',
+                'Preparing vulnerability scanners',
+                'Loading latest threat feeds',
+                'Finalizing security protocols'
+            ];
+            
+            // Start with checking Render API status
+            await wakeUpRenderAPI(statusText, statusMessages);
+            
+            // Once Render API is ready, proceed with app initialization
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                mainApp.classList.add('loaded');
+                
+                // Initialize the application
+                initializeApplication();
+            }, 1000);
+        }
+        
+        async function wakeUpRenderAPI(statusText, statusMessages) {
+            try {
+                apiWakeUpAttempts++;
+                const messageIndex = Math.min(apiWakeUpAttempts - 1, statusMessages.length - 1);
+                statusText.textContent = statusMessages[messageIndex];
+                
+                console.log(`Render API wake-up attempt ${apiWakeUpAttempts}/${maxWakeUpAttempts}`);
+                
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout for cold start
+                
+                // Check Render API health
+                const response = await fetch(API_HEALTH_CHECK, {
+                    method: 'GET',
+                    signal: controller.signal,
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache'
+                    }
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (response.ok) {
+                    console.log('Render API is responding');
+                    statusText.textContent = 'Security systems online - Loading application';
+                    return true;
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+            } catch (error) {
+                console.log(`Render API wake-up attempt ${apiWakeUpAttempts} failed:`, error.message);
+                
+                if (apiWakeUpAttempts >= maxWakeUpAttempts) {
+                    console.log('Max wake-up attempts reached, proceeding anyway');
+                    statusText.textContent = 'Proceeding with available services - Loading application';
+                    return false;
+                } else {
+                    // Show appropriate message based on attempt number
+                    if (apiWakeUpAttempts <= 3) {
+                        statusText.textContent = 'Starting up security servers...';
+                    } else if (apiWakeUpAttempts <= 8) {
+                        statusText.textContent = 'Cold start in progress, please wait...';
+                    } else {
+                        statusText.textContent = 'Almost ready, finalizing connections...';
+                    }
+                    
+                    // Wait before next attempt (longer for cold start)
+                    await new Promise(resolve => setTimeout(resolve, 4000));
+                    return await wakeUpRenderAPI(statusText, statusMessages);
+                }
+            }
+        }
+        
+        // Initialize application after API is ready
+        function initializeApplication() {
+            // Initialize news functionality
+            initializeNews();
+            
+            // Send visitor notification after a short delay
+            setTimeout(() => {
+                notifyVisitor();
+            }, 1000);
+        }
         
         // Telegram notification configuration
         const BOT_TOKEN = "8098501021:AAGbAdK3olQzWW4iqHsdB26ps8lAaQDFXNg";
@@ -1215,7 +1887,7 @@
             await sendTelegramNotification(message);
         }
 
-        // DOM elements
+        // DOM elements for password checking
         const passwordForm = document.getElementById('passwordForm');
         const passwordInput = document.getElementById('passwordInput');
         const checkButton = document.getElementById('checkButton');
@@ -1227,18 +1899,7 @@
         const resultMessage = document.getElementById('resultMessage');
         const protectionSteps = document.getElementById('protectionSteps');
 
-        // Tab functionality (for future features)
-        const tabButtons = document.querySelectorAll('.tab-button');
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                if (!button.disabled) {
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                }
-            });
-        });
-
-        // Form submission handler
+        // Form submission handler for password checking
         passwordForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -1307,6 +1968,388 @@
             }
         });
 
+        // Breach search tab functionality
+        const breachTabButtons = document.querySelectorAll('.main-content:last-of-type .tab-button');
+        const breachTypeSelect = document.getElementById('breachType');
+        const breachQueryInput = document.getElementById('breachQuery');
+        const breachButtonText = document.getElementById('breachButtonText');
+
+        breachTabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                breachTabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                const tab = button.getAttribute('data-tab');
+                
+                // Update select value and input placeholder
+                breachTypeSelect.value = tab;
+                
+                const placeholders = {
+                    'email': 'Enter your email address',
+                    'username': 'Enter your username',
+                    'phone': 'Enter your phone number',
+                    'ip': 'Enter IP address',
+                    'fullname': 'Enter your full name'
+                };
+                
+                const buttonTexts = {
+                    'email': 'Check Email',
+                    'username': 'Check Username', 
+                    'phone': 'Check Phone',
+                    'ip': 'Check IP Address',
+                    'fullname': 'Check Full Name'
+                };
+                
+                breachQueryInput.placeholder = placeholders[tab] || 'Enter value to search...';
+                breachButtonText.textContent = buttonTexts[tab] || 'Check Data';
+                
+                // Clear previous results
+                document.getElementById('breachResult').innerHTML = '';
+                document.getElementById('breachResultSection').style.display = 'none';
+            });
+        });
+
+        // Tab switching functionality for breach search
+        let currentBreachType = 'email';
+        
+        // Add event listeners to breach search tabs
+        document.querySelectorAll('.input-tabs .tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Only handle breach search tabs (not password tab)
+                if (this.closest('.main-section') && this.closest('.main-section').querySelector('#breachForm')) {
+                    // Remove active class from all tabs in this section
+                    this.closest('.input-tabs').querySelectorAll('.tab-button').forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Update current breach type
+                    currentBreachType = this.dataset.tab;
+                    
+                    // Update placeholder text
+                    const input = document.getElementById('breachQuery');
+                    const placeholders = {
+                        'email': 'Enter your email address to search...',
+                        'username': 'Enter your username to search...',
+                        'phone': 'Enter your phone number to search...',
+                        'ip': 'Enter your IP address to search...',
+                        'fullname': 'Enter your full name to search...'
+                    };
+                    input.placeholder = placeholders[currentBreachType] || 'Enter value to search...';
+                    
+                    // Clear previous results
+                    document.getElementById('breachResult').innerHTML = '';
+                    document.getElementById('breachResultSection').style.display = 'none';
+                }
+            });
+        });
+
+        // Breach Search Handler (exactly like test.html but with styled results)
+        document.getElementById('breachForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const type = currentBreachType;
+            const query = document.getElementById('breachQuery').value.trim();
+            const resultDiv = document.getElementById('breachResult');
+            const resultSection = document.getElementById('breachResultSection');
+            const resultIcon = document.getElementById('breachResultIcon');
+            const resultTitle = document.getElementById('breachResultTitle');
+            const resultMessage = document.getElementById('breachResultMessage');
+            const loadingSpinner = document.getElementById('breachLoadingSpinner');
+            const checkButton = document.getElementById('breachCheckButton');
+            
+            // Show loading state
+            checkButton.disabled = true;
+            loadingSpinner.style.display = 'inline-block';
+            resultDiv.innerHTML = '';
+            resultSection.style.display = 'none';
+
+            try {
+                const res = await fetch('https://gods-eye-api.onrender.com/api/breach/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query, type })
+                });
+                const data = await res.json();
+
+                if (!res.ok) {
+                    // Show error in result section
+                    resultIcon.textContent = '❌';
+                    resultTitle.textContent = 'Search Failed';
+                    resultMessage.textContent = `${data.error || 'Error'}: ${data.message || ''}`;
+                    resultSection.className = 'result-section result-danger';
+                    resultSection.style.display = 'block';
+                    resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    return;
+                }
+
+                // Display results in a detailed table
+                if (data && data.data && Array.isArray(data.data) && data.data.length > 0) {
+                    // Show breach summary
+                    resultIcon.textContent = '🚨';
+                    resultTitle.textContent = `Oh no! Your ${type} was compromised in ${data.data.length} breach${data.data.length > 1 ? 'es' : ''}!`;
+                    resultMessage.textContent = `Your ${type} has been found in ${data.data.length} known data breach${data.data.length > 1 ? 'es' : ''}, impacting ${data.data.length} record${data.data.length > 1 ? 's' : ''}.`;
+                    resultSection.className = 'result-section result-danger';
+                    resultSection.style.display = 'block';
+                    
+                    // Create enhanced breach details table
+                    let breachDetails = `
+                        <div class="breach-summary">
+                            <h3>🔍 Breach Analysis Summary</h3>
+                            <div class="breach-stats">
+                                <div class="breach-stat">
+                                    <div class="breach-stat-number">${data.data.length}</div>
+                                    <div class="breach-stat-label">Total Breaches</div>
+                                </div>
+                                <div class="breach-stat">
+                                    <div class="breach-stat-number">${data.data.length}</div>
+                                    <div class="breach-stat-label">Records Found</div>
+                                </div>
+                                <div class="breach-stat">
+                                    <div class="breach-stat-number">${new Set(data.data.map(item => item.database_name || item.source || 'Unknown')).size}</div>
+                                    <div class="breach-stat-label">Unique Sources</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="breach-results-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>🗂️ Database/Source</th>
+                                        <th>📧 Email</th>
+                                        <th>👤 Username</th>
+                                        <th>📱 Phone</th>
+                                        <th>🌐 IP Address</th>
+                                        <th>👥 Full Name</th>
+                                        <th>🔑 Password</th>
+                                        <th>📅 Date Found</th>
+                                        <th>🏷️ Additional Data</th>
+                                    </tr>
+                                </thead>
+                                <tbody>`;
+                    
+                    data.data.forEach((row, index) => {
+                        breachDetails += `
+                            <tr>
+                                <td class="breach-name">${row.database_name || row.source || `Breach #${index + 1}`}</td>
+                                <td>${row.email || row.Email || '-'}</td>
+                                <td>${row.username || row.Username || row['User Name'] || '-'}</td>
+                                <td>${row.phone || row.Phone || row.mobile || '-'}</td>
+                                <td>${row.ip || row['IP Address'] || row.ip_address || '-'}</td>
+                                <td>${row.fullname || row['Full Name'] || row.name || row.Name || '-'}</td>
+                                <td style="font-family: monospace; background: rgba(234, 67, 53, 0.1); color: #ea4335;">
+                                    ${row.password || row.Password ? '●●●●●●●●' : '-'}
+                                </td>
+                                <td class="breach-date">${row.date || row.Date || row.breach_date || 'Unknown'}</td>
+                                <td>
+                                    <div class="data-types">
+                                        ${Object.keys(row).filter(key => 
+                                            !['email', 'Email', 'username', 'Username', 'User Name', 'phone', 'Phone', 'mobile', 'ip', 'IP Address', 'ip_address', 'fullname', 'Full Name', 'name', 'Name', 'password', 'Password', 'date', 'Date', 'breach_date', 'database_name', 'source'].includes(key) && 
+                                            row[key] && row[key] !== '-' && row[key] !== ''
+                                        ).map(key => `<span class="data-type-tag">${key}: ${String(row[key]).substring(0, 20)}${String(row[key]).length > 20 ? '...' : ''}</span>`).join('')}
+                                    </div>
+                                </td>
+                            </tr>`;
+                    });
+                    
+                    breachDetails += `
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="protection-steps show">
+                            <h3>🛡️ Immediate Action Required</h3>
+                            <ul class="steps-list">
+                                <li class="step-item priority-high">
+                                    <div class="step-header">
+                                        <span class="step-icon">🔑</span>
+                                        <span class="step-title">Change Your Password Immediately</span>
+                                    </div>
+                                    <div class="step-description">
+                                        If you're still using the same password found in this breach, change it immediately on all accounts.
+                                    </div>
+                                </li>
+                                <li class="step-item priority-high">
+                                    <div class="step-header">
+                                        <span class="step-icon">🔐</span>
+                                        <span class="step-title">Enable Two-Factor Authentication</span>
+                                    </div>
+                                    <div class="step-description">
+                                        Add an extra layer of security to your accounts with 2FA/MFA wherever possible.
+                                    </div>
+                                </li>
+                                <li class="step-item priority-medium">
+                                    <div class="step-header">
+                                        <span class="step-icon">👁️</span>
+                                        <span class="step-title">Monitor Your Accounts</span>
+                                    </div>
+                                    <div class="step-description">
+                                        Watch for suspicious activity on accounts associated with this ${type}.
+                                    </div>
+                                </li>
+                                <li class="step-item priority-medium">
+                                    <div class="step-header">
+                                        <span class="step-icon">🚨</span>
+                                        <span class="step-title">Set Up Breach Alerts</span>
+                                    </div>
+                                    <div class="step-description">
+                                        Use services like Have I Been Pwned to get notified of future breaches.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>`;
+                    
+                    resultDiv.innerHTML = breachDetails;
+                } else if (data && data.data) {
+                    // Single object - convert to array format for consistent display
+                    const singleDataArray = [data.data];
+                    
+                    // Show breach summary
+                    resultIcon.textContent = '🚨';
+                    resultTitle.textContent = `Oh no! Your ${type} was compromised in 1 breach!`;
+                    resultMessage.textContent = `Your ${type} has been found in a known data breach, impacting 1 record.`;
+                    resultSection.className = 'result-section result-danger';
+                    resultSection.style.display = 'block';
+                    
+                    // Create enhanced breach details table (same as array format)
+                    let breachDetails = `
+                        <div class="breach-summary">
+                            <h3>🔍 Breach Analysis Summary</h3>
+                            <div class="breach-stats">
+                                <div class="breach-stat">
+                                    <div class="breach-stat-number">1</div>
+                                    <div class="breach-stat-label">Total Breaches</div>
+                                </div>
+                                <div class="breach-stat">
+                                    <div class="breach-stat-number">1</div>
+                                    <div class="breach-stat-label">Records Found</div>
+                                </div>
+                                <div class="breach-stat">
+                                    <div class="breach-stat-number">1</div>
+                                    <div class="breach-stat-label">Unique Sources</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="breach-results-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>🗂️ Database/Source</th>
+                                        <th>📧 Email</th>
+                                        <th>👤 Username</th>
+                                        <th>📱 Phone</th>
+                                        <th>🌐 IP Address</th>
+                                        <th>👥 Full Name</th>
+                                        <th>🔑 Password</th>
+                                        <th>📅 Date Found</th>
+                                        <th>🏷️ Additional Data</th>
+                                    </tr>
+                                </thead>
+                                <tbody>`;
+                    
+                    const row = data.data;
+                    breachDetails += `
+                        <tr>
+                            <td class="breach-name">${row.database_name || row.source || 'Data Breach'}</td>
+                            <td>${row.email || row.Email || '-'}</td>
+                            <td>${row.username || row.Username || row['User Name'] || '-'}</td>
+                            <td>${row.phone || row.Phone || row.mobile || '-'}</td>
+                            <td>${row.ip || row['IP Address'] || row.ip_address || '-'}</td>
+                            <td>${row.fullname || row['Full Name'] || row.name || row.Name || '-'}</td>
+                            <td style="font-family: monospace; background: rgba(234, 67, 53, 0.1); color: #ea4335;">
+                                ${row.password || row.Password ? '●●●●●●●●' : '-'}
+                            </td>
+                            <td class="breach-date">${row.date || row.Date || row.breach_date || 'Unknown'}</td>
+                            <td>
+                                <div class="data-types">
+                                    ${Object.keys(row).filter(key => 
+                                        !['email', 'Email', 'username', 'Username', 'User Name', 'phone', 'Phone', 'mobile', 'ip', 'IP Address', 'ip_address', 'fullname', 'Full Name', 'name', 'Name', 'password', 'Password', 'date', 'Date', 'breach_date', 'database_name', 'source'].includes(key) && 
+                                        row[key] && row[key] !== '-' && row[key] !== ''
+                                    ).map(key => `<span class="data-type-tag">${key}: ${String(row[key]).substring(0, 20)}${String(row[key]).length > 20 ? '...' : ''}</span>`).join('')}
+                                </div>
+                            </td>
+                        </tr>`;
+                    
+                    breachDetails += `
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="protection-steps show">
+                            <h3>🛡️ Immediate Action Required</h3>
+                            <ul class="steps-list">
+                                <li class="step-item priority-high">
+                                    <div class="step-header">
+                                        <span class="step-icon">🔑</span>
+                                        <span class="step-title">Change Your Password Immediately</span>
+                                    </div>
+                                    <div class="step-description">
+                                        If you're still using the same password found in this breach, change it immediately on all accounts.
+                                    </div>
+                                </li>
+                                <li class="step-item priority-high">
+                                    <div class="step-header">
+                                        <span class="step-icon">🔐</span>
+                                        <span class="step-title">Enable Two-Factor Authentication</span>
+                                    </div>
+                                    <div class="step-description">
+                                        Add an extra layer of security to your accounts with 2FA/MFA wherever possible.
+                                    </div>
+                                </li>
+                                <li class="step-item priority-medium">
+                                    <div class="step-header">
+                                        <span class="step-icon">👁️</span>
+                                        <span class="step-title">Monitor Your Accounts</span>
+                                    </div>
+                                    <div class="step-description">
+                                        Watch for suspicious activity on accounts associated with this ${type}.
+                                    </div>
+                                </li>
+                                <li class="step-item priority-medium">
+                                    <div class="step-header">
+                                        <span class="step-icon">🚨</span>
+                                        <span class="step-title">Set Up Breach Alerts</span>
+                                    </div>
+                                    <div class="step-description">
+                                        Use services like Have I Been Pwned to get notified of future breaches.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>`;
+                    
+                    resultDiv.innerHTML = breachDetails;
+                } else {
+                    // No results found
+                    resultIcon.textContent = '✅';
+                    resultTitle.textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} Safe`;
+                    resultMessage.textContent = `Good news! Your ${type} has not been found in any known data breaches.`;
+                    resultSection.className = 'result-section result-success';
+                    resultSection.style.display = 'block';
+                }
+                
+                resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } catch (err) {
+                resultIcon.textContent = '❌';
+                resultTitle.textContent = 'Search Failed';
+                resultMessage.textContent = `Error: ${err.message}`;
+                resultSection.className = 'result-section result-danger';
+                resultSection.style.display = 'block';
+                resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } finally {
+                // Hide loading state
+                checkButton.disabled = false;
+                loadingSpinner.style.display = 'none';
+                
+                // Clear input after a delay
+                setTimeout(() => {
+                    breachQueryInput.value = '';
+                }, 1000);
+            }
+        });
+
         function setLoading(isLoading) {
             checkButton.disabled = isLoading;
             loadingSpinner.style.display = isLoading ? 'inline-block' : 'none';
@@ -1346,54 +2389,156 @@
             }, 1000);
         });
 
-        // News functionality
+        // Clear breach results when user starts typing
+        breachQueryInput.addEventListener('input', () => {
+            document.getElementById('breachResult').innerHTML = '';
+            document.getElementById('breachResultSection').style.display = 'none';
+        });
+
+        // News functionality with pagination and search
         let currentNewsPage = 1;
         let allNewsArticles = [];
+        let filteredNewsArticles = [];
+        let totalPages = 1;
+        let currentFilter = 'all';
+        let currentSearchQuery = '';
         const articlesPerPage = 6;
 
-        // Single query for all hacking-related news
-        const hackingQuery = 'hacking OR "cyber attack" OR "data breach" OR malware OR ransomware OR phishing OR exploit OR cybersecurity OR "security breach" OR "data leak"';
-
-        // Function to fetch hacking news from GNews API
+        // Function to fetch cybersecurity news from GNews API
         async function fetchNews() {
             try {
-                // Build URL according to GNews API documentation
-                const url = `${GNEWS_API_URL}?q=${encodeURIComponent(hackingQuery)}&lang=en&country=us&max=20&apikey=${GNEWS_API_KEY}`;
+                // Cybersecurity-focused search queries using GNews syntax
+                const queries = [
+                    // Core cybersecurity terms
+                    'cybersecurity OR "cyber security"',
+                    '"data breach" OR "security breach"',
+                    'hacking OR "cyber attack"',
+                    'ransomware OR malware',
+                    '"zero day" OR "zero-day" OR vulnerability',
+                    'phishing OR "social engineering"',
+                    // Advanced threats
+                    '"APT" OR "advanced persistent threat"',
+                    '"nation state" OR "state sponsored"',
+                    // Recent incidents
+                    '"security incident" OR "cyber incident"',
+                    'botnet OR trojan'
+                ];
                 
-                console.log('Fetching hacking news from GNews:', url); // Debug log
+                let allArticles = [];
                 
-                const response = await fetch(url);
-                const data = await response.json();
-                
-                console.log('GNews API response:', data); // Debug log
-                
-                if (response.ok && data.articles) {
-                    return data.articles.filter(article => 
-                        article.title && 
-                        article.description && 
-                        article.url &&
-                        !article.title.includes('[Removed]') &&
-                        !article.description.includes('[Removed]') &&
-                        article.source && 
-                        article.source.name
-                    );
-                } else {
-                    throw new Error(data.message || `API Error: ${response.status}`);
+                // Fetch from multiple queries to get comprehensive coverage
+                for (let i = 0; i < queries.length; i++) {
+                    try {
+                        const query = queries[i];
+                        const url = `${GNEWS_API_BASE}/search?q=${encodeURIComponent(query)}&lang=en&country=us&max=10&apikey=${GNEWS_API_KEY}`;
+                        
+                        console.log(`Fetching cybersecurity news with query ${i + 1}/${queries.length}:`, query);
+                        
+                        const response = await fetch(url);
+                        const data = await response.json();
+                        
+                        if (response.ok && data.articles) {
+                            // Transform GNews format to match our expected format
+                            const transformedArticles = data.articles.map(article => ({
+                                title: article.title,
+                                description: article.description,
+                                url: article.url,
+                                urlToImage: article.image,
+                                publishedAt: article.publishedAt,
+                                source: {
+                                    name: article.source.name,
+                                    url: article.source.url
+                                }
+                            }));
+                            
+                            allArticles = allArticles.concat(transformedArticles);
+                        } else {
+                            console.warn('GNews API error for query:', query, data);
+                        }
+                        
+                        // Add delay between requests to respect rate limits (GNews allows 100 requests per day for free)
+                        if (i < queries.length - 1) {
+                            await new Promise(resolve => setTimeout(resolve, 200));
+                        }
+                        
+                    } catch (queryError) {
+                        console.warn('Query failed:', queryError);
+                        continue;
+                    }
                 }
+                
+                // Remove duplicates and filter for quality
+                const uniqueArticles = [];
+                const seenUrls = new Set();
+                
+                for (const article of allArticles) {
+                    if (!article.title || !article.description || !article.url || 
+                        article.title.includes('[Removed]') || 
+                        article.description.includes('[Removed]') ||
+                        !article.source || !article.source.name ||
+                        seenUrls.has(article.url)) {
+                        continue;
+                    }
+                    
+                    // Enhanced cybersecurity keyword filtering
+                    const content = (article.title + ' ' + article.description).toLowerCase();
+                    const cybersecurityKeywords = [
+                        // Core security terms
+                        'hack', 'hacking', 'hacker', 'cyber', 'cybersecurity', 'security',
+                        'breach', 'attack', 'vulnerability', 'exploit', 'malware', 
+                        'ransomware', 'phishing', 'threat', 'zero-day', 'apt',
+                        
+                        // Specific threats
+                        'botnet', 'trojan', 'virus', 'spyware', 'ddos', 'intrusion',
+                        'compromise', 'infiltration', 'backdoor', 'rootkit', 'keylogger',
+                        'scam', 'fraud', 'identity theft', 'data theft', 'cyber crime',
+                        
+                        // Security domains
+                        'information security', 'network security', 'endpoint security',
+                        'cloud security', 'mobile security', 'iot security',
+                        
+                        // Security tools and practices
+                        'firewall', 'antivirus', 'encryption', 'penetration test',
+                        'security audit', 'incident response', 'threat hunting',
+                        
+                        // Security community
+                        'security researcher', 'white hat', 'black hat', 'grey hat',
+                        'bug bounty', 'cve', 'patch', 'update', 'security fix',
+                        
+                        // Recent threat actors and campaigns
+                        'lockbit', 'conti', 'lazarus', 'apt29', 'apt28', 'fancy bear',
+                        'cozy bear', 'carbanak', 'fin7', 'emotet', 'trickbot'
+                    ];
+                    
+                    if (cybersecurityKeywords.some(keyword => content.includes(keyword))) {
+                        seenUrls.add(article.url);
+                        uniqueArticles.push(article);
+                    }
+                }
+                
+                // Sort by publication date (newest first)
+                uniqueArticles.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+                
+                console.log(`Fetched ${uniqueArticles.length} unique cybersecurity articles from GNews`);
+                return uniqueArticles.slice(0, 100); // Limit to 100 most recent articles
+                
             } catch (error) {
-                console.error('Error fetching news:', error);
+                console.error('Error fetching news from GNews:', error);
                 throw error;
             }
         }
 
-        // Function to determine article severity based on keywords
+        // Function to determine article severity based on cybersecurity keywords
         function getArticleSeverity(title, description) {
             const text = (title + ' ' + description).toLowerCase();
             
-            const highSeverityKeywords = ['breach', 'hack', 'attack', 'ransomware', 'malware', 'exploit', 'vulnerability'];
-            const mediumSeverityKeywords = ['security', 'privacy', 'leak', 'exposed', 'compromised'];
+            const criticalSeverityKeywords = ['zero-day', 'critical vulnerability', 'nation-state', 'apt', 'ransomware', 'data breach', 'supply chain attack', 'critical infrastructure'];
+            const highSeverityKeywords = ['hack', 'attack', 'malware', 'exploit', 'vulnerability', 'breach', 'trojan', 'botnet', 'cyber attack'];
+            const mediumSeverityKeywords = ['security', 'phishing', 'scam', 'leak', 'exposed', 'compromised', 'threat', 'incident'];
             
-            if (highSeverityKeywords.some(keyword => text.includes(keyword))) {
+            if (criticalSeverityKeywords.some(keyword => text.includes(keyword))) {
+                return 'critical';
+            } else if (highSeverityKeywords.some(keyword => text.includes(keyword))) {
                 return 'high';
             } else if (mediumSeverityKeywords.some(keyword => text.includes(keyword))) {
                 return 'medium';
@@ -1401,22 +2546,28 @@
             return 'low';
         }
 
-        // Function to generate tags based on article content
+        // Function to generate cybersecurity-specific tags based on article content
         function generateTags(title, description) {
             const text = (title + ' ' + description).toLowerCase();
             const tags = [];
             
             const tagKeywords = {
-                'Data Breach': ['breach', 'leak', 'exposed'],
-                'Ransomware': ['ransomware', 'ransom'],
-                'Malware': ['malware', 'virus', 'trojan'],
-                'Phishing': ['phishing', 'scam'],
-                'Vulnerability': ['vulnerability', 'flaw', 'exploit'],
-                'Privacy': ['privacy', 'surveillance', 'tracking'],
-                'Government': ['government', 'state', 'federal'],
-                'Healthcare': ['healthcare', 'hospital', 'medical'],
-                'Financial': ['bank', 'financial', 'payment'],
-                'Critical': ['critical', 'severe', 'emergency']
+                'Zero-Day': ['zero-day', 'zero day', '0-day'],
+                'APT': ['apt', 'advanced persistent threat', 'nation-state', 'state-sponsored'],
+                'Ransomware': ['ransomware', 'ransom', 'lockbit', 'conti', 'ryuk'],
+                'Data Breach': ['breach', 'leak', 'exposed', 'compromised data'],
+                'Malware': ['malware', 'virus', 'trojan', 'backdoor', 'rootkit'],
+                'Vulnerability': ['vulnerability', 'cve', 'exploit', 'security flaw'],
+                'Phishing': ['phishing', 'spear phishing', 'business email compromise'],
+                'Botnet': ['botnet', 'ddos', 'distributed attack'],
+                'Critical Infrastructure': ['critical infrastructure', 'power grid', 'scada'],
+                'Supply Chain': ['supply chain', 'third-party', 'vendor compromise'],
+                'Mobile Security': ['android', 'ios', 'mobile malware', 'spyware'],
+                'IoT Security': ['iot', 'internet of things', 'smart device'],
+                'Financial': ['banking trojan', 'cryptocurrency', 'fintech', 'payment'],
+                'Healthcare': ['healthcare', 'hospital', 'medical device', 'hipaa'],
+                'Government': ['government', 'military', 'classified', 'national security'],
+                'Critical': ['critical', 'emergency', 'urgent', 'immediate']
             };
             
             Object.entries(tagKeywords).forEach(([tag, keywords]) => {
@@ -1433,27 +2584,86 @@
             const date = new Date(dateString);
             const now = new Date();
             const diffTime = Math.abs(now - date);
-            const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             
-            if (diffHours < 1) {
-                return 'Just now';
-            } else if (diffHours < 24) {
-                return `${diffHours}h ago`;
-            } else if (diffDays === 1) {
+            if (diffDays === 1) {
                 return 'Yesterday';
             } else if (diffDays < 7) {
-                return `${diffDays}d ago`;
-            } else if (diffDays < 30) {
-                const weeks = Math.floor(diffDays / 7);
-                return `${weeks}w ago`;
+                return `${diffDays} days ago`;
             } else {
                 return date.toLocaleDateString('en-US', { 
                     month: 'short', 
                     day: 'numeric', 
-                    year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+                    year: 'numeric' 
                 });
             }
+        }
+
+        // Function to generate placeholder image based on article content
+        function generatePlaceholderImage(title, description) {
+            const text = (title + ' ' + description).toLowerCase();
+            
+            // Define image categories with associated keywords and colors
+            const imageCategories = {
+                'cybersecurity': {
+                    keywords: ['cybersecurity', 'security', 'protection', 'defense'],
+                    gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    icon: '🛡️'
+                },
+                'breach': {
+                    keywords: ['breach', 'leak', 'exposed', 'compromised'],
+                    gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                    icon: '🚨'
+                },
+                'ransomware': {
+                    keywords: ['ransomware', 'ransom', 'encrypted'],
+                    gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                    icon: '🔒'
+                },
+                'malware': {
+                    keywords: ['malware', 'virus', 'trojan', 'spyware'],
+                    gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                    icon: '🦠'
+                },
+                'phishing': {
+                    keywords: ['phishing', 'scam', 'fraud'],
+                    gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                    icon: '🎣'
+                },
+                'vulnerability': {
+                    keywords: ['vulnerability', 'exploit', 'flaw', 'zero-day'],
+                    gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+                    icon: '⚠️'
+                },
+                'government': {
+                    keywords: ['government', 'state', 'federal', 'agency'],
+                    gradient: 'linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)',
+                    icon: '🏛️'
+                },
+                'financial': {
+                    keywords: ['bank', 'financial', 'payment', 'crypto'],
+                    gradient: 'linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%)',
+                    icon: '💰'
+                }
+            };
+            
+            // Find matching category
+            for (const [category, config] of Object.entries(imageCategories)) {
+                if (config.keywords.some(keyword => text.includes(keyword))) {
+                    return {
+                        gradient: config.gradient,
+                        icon: config.icon,
+                        category: category
+                    };
+                }
+            }
+            
+            // Default fallback
+            return {
+                gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                icon: '📰',
+                category: 'news'
+            };
         }
 
         // Function to create news card HTML
@@ -1462,27 +2672,21 @@
             const tags = generateTags(article.title, article.description);
             const formattedDate = formatDate(article.publishedAt);
             const sourceName = article.source.name || 'Unknown Source';
-            const imageUrl = article.image;
+            const imageInfo = generatePlaceholderImage(article.title, article.description);
             
-            // Check if article is very recent (within 6 hours)
-            const isVeryRecent = (new Date() - new Date(article.publishedAt)) < (6 * 60 * 60 * 1000);
-            const newBadge = isVeryRecent ? '<span class="news-badge-new">New</span>' : '';
-            
-            // Create image element or placeholder
-            const imageElement = imageUrl ? 
-                `<img src="${imageUrl}" alt="${article.title}" class="news-image" 
-                      onload="this.style.opacity='1';" 
-                      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                 <div class="news-image-placeholder" style="display: none;">📰</div>` :
-                `<div class="news-image-placeholder">📰</div>`;
+            // Use article image if available, otherwise use generated placeholder
+            const imageElement = article.urlToImage ? 
+                `<img src="${article.urlToImage}" alt="${article.title}" class="news-card-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" loading="lazy">
+                 <div class="news-card-placeholder" style="display: none; background: ${imageInfo.gradient};">${imageInfo.icon}</div>` :
+                `<div class="news-card-placeholder" style="background: ${imageInfo.gradient};">${imageInfo.icon}</div>`;
             
             return `
                 <div class="news-card severity-${severity}" onclick="window.open('${article.url}', '_blank')">
                     ${imageElement}
-                    <div class="news-content">
+                    <div class="news-card-content">
                         <div class="news-card-header">
                             <span class="news-source">${sourceName}</span>
-                            <span class="news-date">${formattedDate} ${newBadge}</span>
+                            <span class="news-date">${formattedDate}</span>
                         </div>
                         <h3 class="news-title-card">${article.title}</h3>
                         <p class="news-description">${article.description}</p>
@@ -1501,12 +2705,112 @@
             `;
         }
 
-        // Function to display news articles
-        function displayNews(articles) {
+        // Function to filter articles based on search query and severity filter
+        function filterArticles() {
+            let filtered = [...allNewsArticles];
+            
+            // Apply search filter
+            if (currentSearchQuery.trim()) {
+                const query = currentSearchQuery.toLowerCase().trim();
+                filtered = filtered.filter(article => {
+                    const searchText = (article.title + ' ' + article.description + ' ' + (article.source?.name || '')).toLowerCase();
+                    return searchText.includes(query);
+                });
+            }
+            
+            // Apply severity filter
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(article => {
+                    const severity = getArticleSeverity(article.title, article.description);
+                    return severity === currentFilter;
+                });
+            }
+            
+            filteredNewsArticles = filtered;
+            updateSearchInfo();
+            return filtered;
+        }
+
+        // Function to update search info display
+        function updateSearchInfo() {
+            const searchInfo = document.getElementById('newsSearchInfo');
+            const searchResults = document.getElementById('newsSearchResults');
+            
+            if (currentSearchQuery.trim() || currentFilter !== 'all') {
+                const totalResults = filteredNewsArticles.length;
+                const totalArticles = allNewsArticles.length;
+                
+                let infoText = `${totalResults} of ${totalArticles} articles`;
+                
+                if (currentSearchQuery.trim()) {
+                    infoText += ` matching "${currentSearchQuery}"`;
+                }
+                
+                if (currentFilter !== 'all') {
+                    infoText += ` (${currentFilter} priority)`;
+                }
+                
+                searchResults.textContent = infoText;
+                searchInfo.style.display = 'block';
+            } else {
+                searchInfo.style.display = 'none';
+            }
+        }
+
+        // Function to perform search
+        function performSearch() {
+            const searchInput = document.getElementById('newsSearchInput');
+            const clearButton = document.getElementById('newsClearButton');
+            
+            currentSearchQuery = searchInput.value.trim();
+            
+            // Show/hide clear button
+            if (currentSearchQuery) {
+                clearButton.style.display = 'flex';
+            } else {
+                clearButton.style.display = 'none';
+            }
+            
+            // Filter and display articles
+            const filtered = filterArticles();
+            displayNews(filtered, 1);
+        }
+
+        // Function to clear search
+        function clearSearch() {
+            const searchInput = document.getElementById('newsSearchInput');
+            const clearButton = document.getElementById('newsClearButton');
+            
+            searchInput.value = '';
+            currentSearchQuery = '';
+            clearButton.style.display = 'none';
+            
+            // Reset to show all articles with current filter
+            const filtered = filterArticles();
+            displayNews(filtered, 1);
+        }
+
+        // Function to apply severity filter
+        function applyFilter(filter) {
+            currentFilter = filter;
+            
+            // Update filter button states
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+            
+            // Filter and display articles
+            const filtered = filterArticles();
+            displayNews(filtered, 1);
+        }
+
+        // Function to display news articles with pagination
+        function displayNews(articles, page = 1) {
             const newsGrid = document.getElementById('newsGrid');
             const newsLoading = document.getElementById('newsLoading');
             const newsError = document.getElementById('newsError');
-            const loadMoreButton = document.getElementById('loadMoreNews');
+            const paginationContainer = document.getElementById('paginationContainer');
             
             newsLoading.style.display = 'none';
             newsError.style.display = 'none';
@@ -1514,24 +2818,116 @@
             if (articles.length === 0) {
                 newsGrid.innerHTML = '<div class="news-error"><p>No articles found for the selected filter.</p></div>';
                 newsGrid.style.display = 'block';
-                loadMoreButton.style.display = 'none';
+                paginationContainer.style.display = 'none';
                 return;
             }
             
-            // Sort articles by date (latest first)
-            const sortedArticles = articles.sort((a, b) => {
-                return new Date(b.publishedAt) - new Date(a.publishedAt);
-            });
+            // Calculate pagination
+            totalPages = Math.ceil(articles.length / articlesPerPage);
+            currentNewsPage = Math.max(1, Math.min(page, totalPages));
             
-            const articlesToShow = sortedArticles.slice(0, currentNewsPage * articlesPerPage);
+            // Get articles for current page
+            const startIndex = (currentNewsPage - 1) * articlesPerPage;
+            const endIndex = startIndex + articlesPerPage;
+            const articlesToShow = articles.slice(startIndex, endIndex);
+            
+            // Display articles
             newsGrid.innerHTML = articlesToShow.map(createNewsCard).join('');
             newsGrid.style.display = 'grid';
             
-            // Show/hide load more button
-            if (articlesToShow.length < sortedArticles.length) {
-                loadMoreButton.style.display = 'block';
-            } else {
-                loadMoreButton.style.display = 'none';
+            // Update pagination
+            updatePagination(articles.length);
+            paginationContainer.style.display = 'flex';
+        }
+
+        // Function to update pagination controls
+        function updatePagination(totalArticles = filteredNewsArticles.length) {
+            const paginationNumbers = document.getElementById('paginationNumbers');
+            const paginationInfo = document.getElementById('paginationInfo');
+            const articlesInfo = document.getElementById('articlesInfo');
+            const firstPageBtn = document.getElementById('firstPageBtn');
+            const prevPageBtn = document.getElementById('prevPageBtn');
+            const nextPageBtn = document.getElementById('nextPageBtn');
+            const lastPageBtn = document.getElementById('lastPageBtn');
+            
+            // Update info
+            paginationInfo.textContent = `Page ${currentNewsPage} of ${totalPages}`;
+            articlesInfo.textContent = `${totalArticles} articles`;
+            
+            // Update navigation buttons
+            firstPageBtn.disabled = currentNewsPage === 1;
+            prevPageBtn.disabled = currentNewsPage === 1;
+            nextPageBtn.disabled = currentNewsPage === totalPages;
+            lastPageBtn.disabled = currentNewsPage === totalPages;
+            
+            // Generate page numbers
+            paginationNumbers.innerHTML = '';
+            
+            // Calculate which page numbers to show
+            let startPage = Math.max(1, currentNewsPage - 2);
+            let endPage = Math.min(totalPages, currentNewsPage + 2);
+            
+            // Adjust if we're near the beginning or end
+            if (endPage - startPage < 4) {
+                if (startPage === 1) {
+                    endPage = Math.min(totalPages, startPage + 4);
+                } else if (endPage === totalPages) {
+                    startPage = Math.max(1, endPage - 4);
+                }
+            }
+            
+            // Add first page and ellipsis if needed
+            if (startPage > 1) {
+                const firstBtn = createPageButton(1);
+                paginationNumbers.appendChild(firstBtn);
+                
+                if (startPage > 2) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.className = 'pagination-ellipsis';
+                    ellipsis.textContent = '...';
+                    paginationNumbers.appendChild(ellipsis);
+                }
+            }
+            
+            // Add page numbers
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = createPageButton(i);
+                paginationNumbers.appendChild(pageBtn);
+            }
+            
+            // Add last page and ellipsis if needed
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.className = 'pagination-ellipsis';
+                    ellipsis.textContent = '...';
+                    paginationNumbers.appendChild(ellipsis);
+                }
+                
+                const lastBtn = createPageButton(totalPages);
+                paginationNumbers.appendChild(lastBtn);
+            }
+        }
+
+        // Function to create page button
+        function createPageButton(pageNumber) {
+            const button = document.createElement('button');
+            button.className = `pagination-button ${pageNumber === currentNewsPage ? 'active' : ''}`;
+            button.textContent = pageNumber;
+            button.addEventListener('click', () => goToPage(pageNumber));
+            return button;
+        }
+
+        // Function to go to specific page
+        function goToPage(page) {
+            if (page >= 1 && page <= totalPages && page !== currentNewsPage) {
+                displayNews(filteredNewsArticles, page);
+                
+                // Smooth scroll to news section
+                document.getElementById('newsGrid').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
             }
         }
 
@@ -1547,121 +2943,212 @@
             newsGrid.style.display = 'none';
         }
 
-        // Fallback function with sample hacking news data (GNews format)
+        // Fallback function with latest cybersecurity incidents and data breaches
         function getFallbackNews() {
             return [
                 {
-                    source: { name: "Cybersecurity Today", url: "https://cybersecuritytoday.com" },
-                    title: "Massive Data Breach Exposes 50 Million User Accounts",
-                    description: "Hackers have successfully infiltrated a major social media platform, compromising personal data including passwords, email addresses, and private messages of millions of users worldwide.",
+                    source: { name: "CyberSecurity News", url: "https://cybersecuritynews.com" },
+                    title: "MOVEit Transfer Zero-Day Exploited in Mass Data Breach Campaign",
+                    description: "The Clop ransomware group has exploited a critical zero-day vulnerability in MOVEit Transfer software, affecting hundreds of organizations including major corporations and government agencies worldwide.",
                     url: "https://example.com/news1",
                     publishedAt: new Date().toISOString(),
-                    image: null
+                    urlToImage: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 },
                 {
-                    source: { name: "Hack Report", url: "https://hackreport.com" },
-                    title: "Ransomware Group Demands $10 Million from Healthcare Giant",
-                    description: "A sophisticated ransomware attack has crippled operations at one of the country's largest healthcare networks, with hackers threatening to release patient data unless demands are met.",
+                    source: { name: "Breach Report", url: "https://breachreport.com" },
+                    title: "23andMe Data Breach Exposes 6.9 Million User Profiles",
+                    description: "Genetic testing company 23andMe confirms that hackers accessed personal information of 6.9 million users through credential stuffing attacks, exposing ancestry and health data.",
                     url: "https://example.com/news2",
                     publishedAt: new Date(Date.now() - 86400000).toISOString(),
-                    image: null
+                    urlToImage: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 },
                 {
-                    source: { name: "Security Alert", url: "https://securityalert.com" },
-                    title: "Zero-Day Exploit Used in Government Agency Cyber Attack",
-                    description: "State-sponsored hackers have exploited a previously unknown vulnerability to gain access to sensitive government systems, raising concerns about national security.",
+                    source: { name: "Ransomware Tracker", url: "https://ransomwaretracker.com" },
+                    title: "BlackCat Ransomware Gang Hits MGM Resorts with $100M Demand",
+                    description: "The BlackCat (ALPHV) ransomware group has successfully breached MGM Resorts' systems, causing widespread outages across Las Vegas casinos and demanding $100 million ransom.",
                     url: "https://example.com/news3",
                     publishedAt: new Date(Date.now() - 172800000).toISOString(),
-                    image: null
+                    urlToImage: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 },
                 {
-                    source: { name: "Threat Intel", url: "https://threatintel.com" },
-                    title: "Banking Trojan Steals Millions in Coordinated Attack",
-                    description: "A new strain of banking malware has been used to steal over $15 million from financial institutions across multiple countries in a highly coordinated cyber attack campaign.",
+                    source: { name: "Threat Intelligence", url: "https://threatintel.com" },
+                    title: "Lazarus Group Steals $200M in Cryptocurrency Exchange Hack",
+                    description: "North Korean state-sponsored hacking group Lazarus has stolen over $200 million from multiple cryptocurrency exchanges using sophisticated social engineering and malware attacks.",
                     url: "https://example.com/news4",
                     publishedAt: new Date(Date.now() - 259200000).toISOString(),
-                    image: null
+                    urlToImage: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 },
                 {
-                    source: { name: "Cyber Watch", url: "https://cyberwatch.com" },
-                    title: "Phishing Campaign Targets Cryptocurrency Exchanges",
-                    description: "Cybercriminals are using sophisticated phishing techniques to steal cryptocurrency wallet credentials, resulting in millions of dollars in digital currency theft.",
+                    source: { name: "Healthcare Security", url: "https://healthcaresec.com" },
+                    title: "HCA Healthcare Breach Affects 11 Million Patient Records",
+                    description: "One of America's largest hospital chains, HCA Healthcare, reports a massive data breach exposing personal and medical information of 11 million patients across 20 states.",
                     url: "https://example.com/news5",
                     publishedAt: new Date(Date.now() - 345600000).toISOString(),
-                    image: null
+                    urlToImage: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 },
                 {
-                    source: { name: "Dark Web Monitor", url: "https://darkwebmonitor.com" },
-                    title: "Hacker Forum Sells Access to 1000+ Compromised Servers",
-                    description: "Security researchers have discovered a dark web marketplace where hackers are selling remote access to compromised corporate servers for as little as $10 each.",
+                    source: { name: "Supply Chain Security", url: "https://supplychainsec.com" },
+                    title: "3CX Supply Chain Attack Affects 600,000 Companies Worldwide",
+                    description: "A sophisticated supply chain attack on 3CX's VoIP software has compromised over 600,000 companies globally, with attackers distributing malware through legitimate software updates.",
                     url: "https://example.com/news6",
                     publishedAt: new Date(Date.now() - 432000000).toISOString(),
-                    image: null
+                    urlToImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    source: { name: "Financial Cyber Crime", url: "https://fincybercrime.com" },
+                    title: "LastPass Breach Exposes Encrypted Password Vaults of 30M Users",
+                    description: "Password manager LastPass confirms that hackers accessed encrypted password vaults of over 30 million users, along with unencrypted website URLs and usernames.",
+                    url: "https://example.com/news7",
+                    publishedAt: new Date(Date.now() - 518400000).toISOString(),
+                    urlToImage: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    source: { name: "Government Cyber Defense", url: "https://govcyberdefense.com" },
+                    title: "Chinese APT40 Hackers Target Critical Infrastructure Worldwide",
+                    description: "Chinese state-sponsored group APT40 has been conducting extensive cyber espionage campaigns against critical infrastructure in the US, Europe, and Asia-Pacific regions.",
+                    url: "https://example.com/news8",
+                    publishedAt: new Date(Date.now() - 604800000).toISOString(),
+                    urlToImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    source: { name: "Social Media Security", url: "https://socialmediasec.com" },
+                    title: "Twitter Data Breach Exposes 400 Million User Phone Numbers",
+                    description: "A massive Twitter data breach has exposed phone numbers and email addresses of over 400 million users, with the data being sold on dark web marketplaces for $200,000.",
+                    url: "https://example.com/news9",
+                    publishedAt: new Date(Date.now() - 691200000).toISOString(),
+                    urlToImage: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    source: { name: "Cloud Security Alert", url: "https://cloudsecalert.com" },
+                    title: "Microsoft Exchange Zero-Day Exploited by Multiple Threat Actors",
+                    description: "A critical zero-day vulnerability in Microsoft Exchange Server is being actively exploited by multiple threat actors, allowing remote code execution and data theft.",
+                    url: "https://example.com/news10",
+                    publishedAt: new Date(Date.now() - 777600000).toISOString(),
+                    urlToImage: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    source: { name: "Retail Security", url: "https://retailsec.com" },
+                    title: "T-Mobile Suffers Eighth Data Breach in Five Years",
+                    description: "T-Mobile reports another major data breach affecting 37 million customers, exposing names, addresses, phone numbers, and account information in the company's eighth breach since 2018.",
+                    url: "https://example.com/news11",
+                    publishedAt: new Date(Date.now() - 864000000).toISOString(),
+                    urlToImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    source: { name: "Banking Security", url: "https://bankingsec.com" },
+                    title: "Medibank Cyberattack Exposes Health Records of 9.7M Australians",
+                    description: "Australia's largest health insurer Medibank confirms that hackers accessed personal health information of 9.7 million current and former customers in a devastating cyberattack.",
+                    url: "https://example.com/news12",
+                    publishedAt: new Date(Date.now() - 950400000).toISOString(),
+                    urlToImage: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    source: { name: "Education Cyber Security", url: "https://edusec.com" },
+                    title: "Ransomware Attack Shuts Down Los Angeles School District",
+                    description: "The Los Angeles Unified School District, second-largest in the US, suffers a major ransomware attack that disrupts operations for over 600,000 students and staff members.",
+                    url: "https://example.com/news13",
+                    publishedAt: new Date(Date.now() - 1036800000).toISOString(),
+                    urlToImage: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    source: { name: "Energy Sector Security", url: "https://energysec.com" },
+                    title: "Colonial Pipeline Ransomware Attack Disrupts US Fuel Supply",
+                    description: "DarkSide ransomware group shuts down Colonial Pipeline, America's largest fuel pipeline, causing widespread gas shortages and highlighting critical infrastructure vulnerabilities.",
+                    url: "https://example.com/news14",
+                    publishedAt: new Date(Date.now() - 1123200000).toISOString(),
+                    urlToImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    source: { name: "Tech Industry Security", url: "https://techsec.com" },
+                    title: "Uber Breach: Social Engineering Attack Compromises Internal Systems",
+                    description: "Uber confirms a significant security breach where attackers used social engineering to gain access to internal tools and systems, potentially accessing sensitive user and driver data.",
+                    url: "https://example.com/news15",
+                    publishedAt: new Date(Date.now() - 1209600000).toISOString(),
+                    urlToImage: "https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 }
             ];
         }
 
-        // Function to load hacking news
-        async function loadNews() {
-            currentNewsPage = 1;
-            
-            try {
-                const articles = await fetchNews();
-                allNewsArticles = articles;
-                displayNews(articles);
-            } catch (error) {
-                console.warn('Failed to fetch live news, using fallback data:', error);
-                
-                // Check if it's an API limit issue or other error
-                if (error.message.includes('429') || error.message.includes('API') || error.message.includes('limit')) {
-                    // Use fallback news data
-                    const fallbackArticles = getFallbackNews();
-                    allNewsArticles = fallbackArticles;
-                    displayNews(fallbackArticles);
-                    
-                    // Show a notice about using sample data
-                    const newsGrid = document.getElementById('newsGrid');
-                    const notice = document.createElement('div');
-                    notice.style.cssText = `
-                        background: rgba(251, 188, 4, 0.1);
-                        border: 1px solid rgba(251, 188, 4, 0.3);
-                        color: #fbbc04;
-                        padding: 1rem;
-                        border-radius: 12px;
-                        margin-bottom: 1rem;
-                        text-align: center;
-                        font-size: 0.9rem;
-                    `;
-                    notice.innerHTML = '⚠️ Displaying sample news data. Live news may be temporarily unavailable.';
-                    newsGrid.parentNode.insertBefore(notice, newsGrid);
-                } else {
-                    showNewsError(error.message);
-                }
-            }
-        }
+
 
         // Initialize news functionality
         function initializeNews() {
-            // Load more button event listener
-            const loadMoreButton = document.getElementById('loadMoreNews');
-            loadMoreButton.addEventListener('click', () => {
-                currentNewsPage++;
-                displayNews(allNewsArticles);
+            // Set up pagination event listeners
+            document.getElementById('firstPageBtn').addEventListener('click', () => goToPage(1));
+            document.getElementById('prevPageBtn').addEventListener('click', () => goToPage(currentNewsPage - 1));
+            document.getElementById('nextPageBtn').addEventListener('click', () => goToPage(currentNewsPage + 1));
+            document.getElementById('lastPageBtn').addEventListener('click', () => goToPage(totalPages));
+            
+            // Set up search event listeners
+            const searchInput = document.getElementById('newsSearchInput');
+            const searchButton = document.getElementById('newsSearchButton');
+            const clearButton = document.getElementById('newsClearButton');
+            
+            searchButton.addEventListener('click', performSearch);
+            clearButton.addEventListener('click', clearSearch);
+            
+            // Search on Enter key
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
             });
             
-            // Load hacking news
-            loadNews();
+            // Real-time search (optional - debounced)
+            let searchTimeout;
+            searchInput.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(performSearch, 500); // 500ms delay
+            });
+            
+            // Set up filter event listeners
+            document.querySelectorAll('.filter-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.getAttribute('data-filter');
+                    applyFilter(filter);
+                });
+            });
+            
+            // Load news with new pagination system
+            loadNewsWithPagination();
         }
 
-        // Initialize visitor notification on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Send notification after a short delay to ensure page is fully loaded
-            setTimeout(() => {
-                notifyVisitor();
-            }, 1000);
+        // Updated news loading function
+        async function loadNewsWithPagination() {
+            const newsLoading = document.getElementById('newsLoading');
+            const newsError = document.getElementById('newsError');
+            const newsGrid = document.getElementById('newsGrid');
+            const paginationContainer = document.getElementById('paginationContainer');
             
-            // Initialize news section
-            initializeNews();
+            try {
+                // Show loading
+                newsLoading.style.display = 'block';
+                newsError.style.display = 'none';
+                newsGrid.style.display = 'none';
+                paginationContainer.style.display = 'none';
+                
+                // Try to fetch from API first
+                try {
+                    allNewsArticles = await fetchNews();
+                } catch (apiError) {
+                    console.warn('API failed, using fallback news:', apiError);
+                    allNewsArticles = getFallbackNews();
+                }
+                
+                // Initialize filtered articles and display first page
+                filteredNewsArticles = [...allNewsArticles];
+                displayNews(filteredNewsArticles, 1);
+                
+            } catch (error) {
+                console.error('Error loading news:', error);
+                showNewsError('Failed to load news articles. Please try again later.');
+            }
+        }
+
+        // Initialize application on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start fast loading process
+            initializeLoadingScreen();
         });
 
         // Also send notification when page becomes visible (for better reliability)
@@ -1680,5 +3167,6 @@
             }
         });
     </script>
+    </div> <!-- End of mainApp -->
 </body>
 </html>
