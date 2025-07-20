@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>God's Eye - Breach Search Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .search-section {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .search-type-btn {
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .search-type-btn.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+
+        .search-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .search-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .search-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .results-section {
+            margin-top: 30px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .breach-card {
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .breach-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .breach-source {
+            color: #e74c3c;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .breach-date {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .breach-data {
+            display: grid;
+            gap: 10px;
+        }
+
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .data-label {
+            font-weight: 600;
+            color: #495057;
+            text-transform: capitalize;
+        }
+
+        .data-value {
+            color: #212529;
+            font-family: monospace;
+            background: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid #e1e5e9;
+        }
+
+        .summary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .summary h3 {
+            margin-bottom: 10px;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .batch-search {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e1e5e9;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: vertical;
+            font-family: monospace;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 God's Eye</h1>
+        
+        <div class="tab-container">
+            <div class="tab active" onclick="switchTab('single')">Single Search</div>
+            <div class="tab" onclick="switchTab('batch')">Batch Search</div>
+        </div>
+
+        <!-- Single Search Tab -->
+        <div id="single-tab" class="tab-content active">
+            <div class="search-section">
+                <form id="searchForm">
+                    <div class="form-group">
+                        <label for="searchQuery">Search Query:</label>
+                        <input type="text" id="searchQuery" placeholder="Enter email, username, phone, etc." required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Search Type:</label>
+                        <div class="search-type-grid">
+                            <div class="search-type-btn active" data-type="auto">Auto</div>
+                            <div class="search-type-btn" data-type="email">Email</div>
+                            <div class="search-type-btn" data-type="username">Username</div>
+                            <div class="search-type-btn" data-type="phone">Phone</div>
+                            <div class="search-type-btn" data-type="fullname">Full Name</div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="search-btn" id="searchBtn">
+                        🔍 Search Breaches
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Batch Search Tab -->
+        <div id="batch-tab" class="tab-content">
+            <div class="search-section">
+                <form id="batchSearchForm">
+                    <div class="form-group">
+                        <label for="batchQuery">Search Queries (one per line, max 100):</label>
+                        <textarea id="batchQuery" placeholder="Enter multiple emails, usernames, etc. (one per line)&#10;example1@email.com&#10;example2@email.com&#10;username123" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="search-btn" id="batchSearchBtn">
+                        🔍 Batch Search Breaches
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div id="results" class="results-section"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://gods-eye-api.onrender.com';
+        let selectedSearchType = 'auto';
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName + '-tab').classList.add('active');
+
+            // Clear results when switching tabs
+            document.getElementById('results').innerHTML = '';
+        }
+
+        // Search type selection
+        document.querySelectorAll('.search-type-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.search-type-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                selectedSearchType = this.dataset.type;
+            });
+        });
+
+        // Single search form handler
+        document.getElementById('searchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const query = document.getElementById('searchQuery').value.trim();
+            if (!query) return;
+
+            const searchBtn = document.getElementById('searchBtn');
+            const resultsDiv = document.getElementById('results');
+            
+            // Show loading
+            searchBtn.disabled = true;
+            searchBtn.innerHTML = '⏳ Searching...';
+            resultsDiv.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Searching breaches...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/breach/search`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                        type: selectedSearchType
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayResults([data], false);
+                } else {
+                    displayError(data.message || 'Search failed');
+                }
+            } catch (error) {
+                displayError('Network error: ' + error.message);
+            } finally {
+                searchBtn.disabled = false;
+                searchBtn.innerHTML = '🔍 Search Breaches';
+            }
+        });
+
+        // Batch search form handler
+        document.getElementById('batchSearchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const batchInput = document.getElementById('batchQuery').value.trim();
+            if (!batchInput) return;
+
+            const keywords = batchInput.split('\n')
+                .map(line => line.trim())
+                .filter(line => line.length > 0);
+
+            if (keywords.length === 0) {
+                displayError('Please enter at least one search query');
+                return;
+            }
+
+            if (keywords.length > 100) {
+                displayError('Maximum 100 keywords allowed per batch search');
+                return;
+            }
+
+            const searchBtn = document.getElementById('batchSearchBtn');
+            const resultsDiv = document.getElementById('results');
+            
+            // Show loading
+            searchBtn.disabled = true;
+            searchBtn.innerHTML = '⏳ Searching...';
+            resultsDiv.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Searching ${keywords.length} queries...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/breach/query_detail_batch`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        keywords: keywords
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayResults(data.data || [], true);
+                } else {
+                    displayError(data.message || 'Batch search failed');
+                }
+            } catch (error) {
+                displayError('Network error: ' + error.message);
+            } finally {
+                searchBtn.disabled = false;
+                searchBtn.innerHTML = '🔍 Batch Search Breaches';
+            }
+        });
+
+        function displayResults(results, isBatch) {
+            const resultsDiv = document.getElementById('results');
+            
+            if (!results || results.length === 0) {
+                resultsDiv.innerHTML = `
+                    <div class="no-results">
+                        <h3>🛡️ No breaches found</h3>
+                        <p>Great news! No data breaches were found for the provided query.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let totalBreaches = 0;
+            let html = '';
+
+            results.forEach((result, index) => {
+                if (result.data && result.data.length > 0) {
+                    totalBreaches += result.total_count || result.data.length;
+                    
+                    if (isBatch) {
+                        html += `<h3 style="color: #667eea; margin: 20px 0 10px 0;">Query ${index + 1} Results:</h3>`;
+                    }
+                    
+                    result.data.forEach(breach => {
+                        html += createBreachCard(breach);
+                    });
+                }
+            });
+
+            if (totalBreaches > 0) {
+                html = `
+                    <div class="summary">
+                        <h3>⚠️ Search Results</h3>
+                        <p>Found <strong>${totalBreaches}</strong> breach record(s)</p>
+                    </div>
+                    ${html}
+                `;
+            }
+
+            resultsDiv.innerHTML = html || `
+                <div class="no-results">
+                    <h3>🛡️ No breaches found</h3>
+                    <p>Great news! No data breaches were found for the provided queries.</p>
+                </div>
+            `;
+        }
+
+        function createBreachCard(breach) {
+            let dataItems = '';
+            
+            // Display all available data fields
+            Object.keys(breach).forEach(key => {
+                if (key !== 'breach_source' && key !== 'breach_date' && breach[key]) {
+                    const label = key.replace(/_/g, ' ');
+                    dataItems += `
+                        <div class="data-item">
+                            <span class="data-label">${label}:</span>
+                            <span class="data-value">${breach[key]}</span>
+                        </div>
+                    `;
+                }
+            });
+
+            return `
+                <div class="breach-card">
+                    <div class="breach-source">${breach.breach_source || 'Unknown Source'}</div>
+                    <div class="breach-date">Breach Date: ${breach.breach_date || 'Unknown'}</div>
+                    <div class="breach-data">
+                        ${dataItems}
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayError(message) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <div class="error">
+                    <strong>❌ Error:</strong> ${message}
+                </div>
+            `;
+        }
+
+        // Test API connection on load
+        window.addEventListener('load', async function() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/`);
+                if (!response.ok) {
+                    console.warn('API connection test failed');
+                }
+            } catch (error) {
+                console.warn('API connection test failed:', error);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -19,11 +19,168 @@
             overflow-x: hidden;
         }
 
+        /* Navigation Bar Styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .navbar-brand-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #ffffff, #f0f4f8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #1a365d;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            color: #9aa0a6;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 2px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link.active {
+            color: #1a365d;
+            background: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .navbar-toggle {
+            display: none;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggle:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .navbar-container {
+                padding: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .navbar-brand {
+                font-size: 1.3rem;
+            }
+
+            .navbar-brand-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+
+            .navbar-toggle {
+                display: block;
+            }
+
+            .navbar-nav {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-top: 1rem;
+                padding-top: 1rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .navbar-nav.show {
+                display: flex;
+            }
+
+            .nav-link {
+                width: 100%;
+                justify-content: center;
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar-container {
+                padding: 0.75rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .navbar-brand-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
-            min-height: 100vh;
+            padding: 1rem 2rem 2rem 2rem;
+            min-height: calc(100vh - 80px);
             display: flex;
             flex-direction: column;
         }
@@ -1344,6 +1501,43 @@
         </div>
     </div>
 
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">
+                <div class="navbar-brand-icon">
+                    <svg width="20" height="20" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Shield -->
+                        <path d="M15 2L4 7V14C4 20 8 25 15 28C22 25 26 20 26 14V7L15 2Z" fill="#1a365d" stroke="currentColor" stroke-width="2"/>
+                        <!-- Eye -->
+                        <ellipse cx="15" cy="15" rx="8" ry="5" fill="currentColor"/>
+                        <circle cx="15" cy="15" r="3" fill="#1a365d"/>
+                        <circle cx="15" cy="15" r="1.5" fill="currentColor"/>
+                    </svg>
+                </div>
+                Gods Eye
+            </a>
+            
+            <button class="navbar-toggle" id="navbarToggle">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            
+            <ul class="navbar-nav" id="navbarNav">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" id="homeTab">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
     <!-- Main Application -->
     <div id="mainApp" class="main-app">
     <div class="container">
@@ -2084,252 +2278,101 @@
                     return;
                 }
 
-                // Display results in a detailed table
+                // Helper function to check if data indicates no breaches
+                function hasNoBreaches(data) {
+                    if (!data || !data.data) return true;
+                    
+                    // If it's an array, check if empty
+                    if (Array.isArray(data.data)) {
+                        return data.data.length === 0;
+                    }
+                    
+                    // If it's an object, check for meaningful data
+                    if (typeof data.data === 'object') {
+                        // Check if all values are empty, null, undefined, or 0
+                        const values = Object.values(data.data);
+                        return values.every(value => 
+                            value === null || 
+                            value === undefined || 
+                            value === '' || 
+                            value === 0 || 
+                            (typeof value === 'string' && value.trim() === '')
+                        );
+                    }
+                    
+                    return true;
+                }
+
+                // Check if breaches were found
                 if (data && data.data && Array.isArray(data.data) && data.data.length > 0) {
-                    // Show breach summary
+                    // Breaches found - show danger message
                     resultIcon.textContent = '🚨';
-                    resultTitle.textContent = `Oh no! Your ${type} was compromised in ${data.data.length} breach${data.data.length > 1 ? 'es' : ''}!`;
-                    resultMessage.textContent = `Your ${type} has been found in ${data.data.length} known data breach${data.data.length > 1 ? 'es' : ''}, impacting ${data.data.length} record${data.data.length > 1 ? 's' : ''}.`;
+                    resultTitle.textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} Found in Breaches!`;
+                    resultMessage.textContent = `Your ${type} has been found in ${data.data.length} known data breach${data.data.length > 1 ? 'es' : ''}. This indicates your data may have been compromised.`;
                     resultSection.className = 'result-section result-danger';
                     resultSection.style.display = 'block';
-                    
-                    // Create enhanced breach details table
-                    let breachDetails = `
-                        <div class="breach-summary">
-                            <h3>🔍 Breach Analysis Summary</h3>
-                            <div class="breach-stats">
-                                <div class="breach-stat">
-                                    <div class="breach-stat-number">${data.data.length}</div>
-                                    <div class="breach-stat-label">Total Breaches</div>
+
+                    // Simple breach summary without detailed tables
+                    let summaryHtml = `
+                        <div style="background: rgba(234, 67, 53, 0.1); border: 1px solid rgba(234, 67, 53, 0.3); border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem; text-align: center;">
+                            <h3 style="color: #ea4335; font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                ⚠️ Security Alert
+                            </h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                                <div style="background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 1rem;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #ea4335; margin-bottom: 0.25rem;">${data.data.length}</div>
+                                    <div style="font-size: 0.8rem; color: #9aa0a6; text-transform: uppercase; letter-spacing: 0.5px;">Breach${data.data.length > 1 ? 'es' : ''} Found</div>
                                 </div>
-                                <div class="breach-stat">
-                                    <div class="breach-stat-number">${data.data.length}</div>
-                                    <div class="breach-stat-label">Records Found</div>
-                                </div>
-                                <div class="breach-stat">
-                                    <div class="breach-stat-number">${new Set(data.data.map(item => item.database_name || item.source || 'Unknown')).size}</div>
-                                    <div class="breach-stat-label">Unique Sources</div>
+                                <div style="background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 1rem;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #ea4335; margin-bottom: 0.25rem;">HIGH</div>
+                                    <div style="font-size: 0.8rem; color: #9aa0a6; text-transform: uppercase; letter-spacing: 0.5px;">Risk Level</div>
                                 </div>
                             </div>
+                            <p style="color: #e8eaed; font-size: 0.9rem; line-height: 1.5; margin: 0;">
+                                Your ${type} has been found in known data breaches. We recommend taking immediate action to secure your accounts.
+                            </p>
                         </div>
-                        
-                        <div class="breach-results-table">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>🗂️ Database/Source</th>
-                                        <th>📧 Email</th>
-                                        <th>👤 Username</th>
-                                        <th>📱 Phone</th>
-                                        <th>🌐 IP Address</th>
-                                        <th>👥 Full Name</th>
-                                        <th>🔑 Password</th>
-                                        <th>📅 Date Found</th>
-                                        <th>🏷️ Additional Data</th>
-                                    </tr>
-                                </thead>
-                                <tbody>`;
-                    
-                    data.data.forEach((row, index) => {
-                        breachDetails += `
-                            <tr>
-                                <td class="breach-name">${row.database_name || row.source || `Breach #${index + 1}`}</td>
-                                <td>${row.email || row.Email || '-'}</td>
-                                <td>${row.username || row.Username || row['User Name'] || '-'}</td>
-                                <td>${row.phone || row.Phone || row.mobile || '-'}</td>
-                                <td>${row.ip || row['IP Address'] || row.ip_address || '-'}</td>
-                                <td>${row.fullname || row['Full Name'] || row.name || row.Name || '-'}</td>
-                                <td style="font-family: monospace; background: rgba(234, 67, 53, 0.1); color: #ea4335;">
-                                    ${row.password || row.Password ? '●●●●●●●●' : '-'}
-                                </td>
-                                <td class="breach-date">${row.date || row.Date || row.breach_date || 'Unknown'}</td>
-                                <td>
-                                    <div class="data-types">
-                                        ${Object.keys(row).filter(key => 
-                                            !['email', 'Email', 'username', 'Username', 'User Name', 'phone', 'Phone', 'mobile', 'ip', 'IP Address', 'ip_address', 'fullname', 'Full Name', 'name', 'Name', 'password', 'Password', 'date', 'Date', 'breach_date', 'database_name', 'source'].includes(key) && 
-                                            row[key] && row[key] !== '-' && row[key] !== ''
-                                        ).map(key => `<span class="data-type-tag">${key}: ${String(row[key]).substring(0, 20)}${String(row[key]).length > 20 ? '...' : ''}</span>`).join('')}
-                                    </div>
-                                </td>
-                            </tr>`;
-                    });
-                    
-                    breachDetails += `
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="protection-steps show">
-                            <h3>🛡️ Immediate Action Required</h3>
-                            <ul class="steps-list">
-                                <li class="step-item priority-high">
-                                    <div class="step-header">
-                                        <span class="step-icon">🔑</span>
-                                        <span class="step-title">Change Your Password Immediately</span>
-                                    </div>
-                                    <div class="step-description">
-                                        If you're still using the same password found in this breach, change it immediately on all accounts.
-                                    </div>
-                                </li>
-                                <li class="step-item priority-high">
-                                    <div class="step-header">
-                                        <span class="step-icon">🔐</span>
-                                        <span class="step-title">Enable Two-Factor Authentication</span>
-                                    </div>
-                                    <div class="step-description">
-                                        Add an extra layer of security to your accounts with 2FA/MFA wherever possible.
-                                    </div>
-                                </li>
-                                <li class="step-item priority-medium">
-                                    <div class="step-header">
-                                        <span class="step-icon">👁️</span>
-                                        <span class="step-title">Monitor Your Accounts</span>
-                                    </div>
-                                    <div class="step-description">
-                                        Watch for suspicious activity on accounts associated with this ${type}.
-                                    </div>
-                                </li>
-                                <li class="step-item priority-medium">
-                                    <div class="step-header">
-                                        <span class="step-icon">🚨</span>
-                                        <span class="step-title">Set Up Breach Alerts</span>
-                                    </div>
-                                    <div class="step-description">
-                                        Use services like Have I Been Pwned to get notified of future breaches.
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>`;
-                    
-                    resultDiv.innerHTML = breachDetails;
-                } else if (data && data.data) {
-                    // Single object - convert to array format for consistent display
-                    const singleDataArray = [data.data];
-                    
-                    // Show breach summary
+                    `;
+                    resultDiv.innerHTML = summaryHtml;
+                } else if (data && data.data && !Array.isArray(data.data) && !hasNoBreaches(data)) {
+                    // Single object with meaningful data - show danger message
                     resultIcon.textContent = '🚨';
-                    resultTitle.textContent = `Oh no! Your ${type} was compromised in 1 breach!`;
-                    resultMessage.textContent = `Your ${type} has been found in a known data breach, impacting 1 record.`;
+                    resultTitle.textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} Found in Breach!`;
+                    resultMessage.textContent = `Your ${type} has been found in a known data breach. This indicates your data may have been compromised.`;
                     resultSection.className = 'result-section result-danger';
                     resultSection.style.display = 'block';
-                    
-                    // Create enhanced breach details table (same as array format)
-                    let breachDetails = `
-                        <div class="breach-summary">
-                            <h3>🔍 Breach Analysis Summary</h3>
-                            <div class="breach-stats">
-                                <div class="breach-stat">
-                                    <div class="breach-stat-number">1</div>
-                                    <div class="breach-stat-label">Total Breaches</div>
+
+                    // Simple breach alert without detailed table
+                    let alertHtml = `
+                        <div style="background: rgba(234, 67, 53, 0.1); border: 1px solid rgba(234, 67, 53, 0.3); border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem; text-align: center;">
+                            <h3 style="color: #ea4335; font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                ⚠️ Security Alert
+                            </h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                                <div style="background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 1rem;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #ea4335; margin-bottom: 0.25rem;">1</div>
+                                    <div style="font-size: 0.8rem; color: #9aa0a6; text-transform: uppercase; letter-spacing: 0.5px;">Breach Found</div>
                                 </div>
-                                <div class="breach-stat">
-                                    <div class="breach-stat-number">1</div>
-                                    <div class="breach-stat-label">Records Found</div>
-                                </div>
-                                <div class="breach-stat">
-                                    <div class="breach-stat-number">1</div>
-                                    <div class="breach-stat-label">Unique Sources</div>
+                                <div style="background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 1rem;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #ea4335; margin-bottom: 0.25rem;">HIGH</div>
+                                    <div style="font-size: 0.8rem; color: #9aa0a6; text-transform: uppercase; letter-spacing: 0.5px;">Risk Level</div>
                                 </div>
                             </div>
+                            <p style="color: #e8eaed; font-size: 0.9rem; line-height: 1.5; margin: 0;">
+                                Your ${type} has been found in a known data breach. We recommend taking immediate action to secure your accounts.
+                            </p>
                         </div>
-                        
-                        <div class="breach-results-table">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>🗂️ Database/Source</th>
-                                        <th>📧 Email</th>
-                                        <th>👤 Username</th>
-                                        <th>📱 Phone</th>
-                                        <th>🌐 IP Address</th>
-                                        <th>👥 Full Name</th>
-                                        <th>🔑 Password</th>
-                                        <th>📅 Date Found</th>
-                                        <th>🏷️ Additional Data</th>
-                                    </tr>
-                                </thead>
-                                <tbody>`;
-                    
-                    const row = data.data;
-                    breachDetails += `
-                        <tr>
-                            <td class="breach-name">${row.database_name || row.source || 'Data Breach'}</td>
-                            <td>${row.email || row.Email || '-'}</td>
-                            <td>${row.username || row.Username || row['User Name'] || '-'}</td>
-                            <td>${row.phone || row.Phone || row.mobile || '-'}</td>
-                            <td>${row.ip || row['IP Address'] || row.ip_address || '-'}</td>
-                            <td>${row.fullname || row['Full Name'] || row.name || row.Name || '-'}</td>
-                            <td style="font-family: monospace; background: rgba(234, 67, 53, 0.1); color: #ea4335;">
-                                ${row.password || row.Password ? '●●●●●●●●' : '-'}
-                            </td>
-                            <td class="breach-date">${row.date || row.Date || row.breach_date || 'Unknown'}</td>
-                            <td>
-                                <div class="data-types">
-                                    ${Object.keys(row).filter(key => 
-                                        !['email', 'Email', 'username', 'Username', 'User Name', 'phone', 'Phone', 'mobile', 'ip', 'IP Address', 'ip_address', 'fullname', 'Full Name', 'name', 'Name', 'password', 'Password', 'date', 'Date', 'breach_date', 'database_name', 'source'].includes(key) && 
-                                        row[key] && row[key] !== '-' && row[key] !== ''
-                                    ).map(key => `<span class="data-type-tag">${key}: ${String(row[key]).substring(0, 20)}${String(row[key]).length > 20 ? '...' : ''}</span>`).join('')}
-                                </div>
-                            </td>
-                        </tr>`;
-                    
-                    breachDetails += `
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="protection-steps show">
-                            <h3>🛡️ Immediate Action Required</h3>
-                            <ul class="steps-list">
-                                <li class="step-item priority-high">
-                                    <div class="step-header">
-                                        <span class="step-icon">🔑</span>
-                                        <span class="step-title">Change Your Password Immediately</span>
-                                    </div>
-                                    <div class="step-description">
-                                        If you're still using the same password found in this breach, change it immediately on all accounts.
-                                    </div>
-                                </li>
-                                <li class="step-item priority-high">
-                                    <div class="step-header">
-                                        <span class="step-icon">🔐</span>
-                                        <span class="step-title">Enable Two-Factor Authentication</span>
-                                    </div>
-                                    <div class="step-description">
-                                        Add an extra layer of security to your accounts with 2FA/MFA wherever possible.
-                                    </div>
-                                </li>
-                                <li class="step-item priority-medium">
-                                    <div class="step-header">
-                                        <span class="step-icon">👁️</span>
-                                        <span class="step-title">Monitor Your Accounts</span>
-                                    </div>
-                                    <div class="step-description">
-                                        Watch for suspicious activity on accounts associated with this ${type}.
-                                    </div>
-                                </li>
-                                <li class="step-item priority-medium">
-                                    <div class="step-header">
-                                        <span class="step-icon">🚨</span>
-                                        <span class="step-title">Set Up Breach Alerts</span>
-                                    </div>
-                                    <div class="step-description">
-                                        Use services like Have I Been Pwned to get notified of future breaches.
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>`;
-                    
-                    resultDiv.innerHTML = breachDetails;
+                    `;
+                    resultDiv.innerHTML = alertHtml;
                 } else {
-                    // No results found
+                    // No breaches found (empty array, null, no data, or all values are empty/zero) - show success message
                     resultIcon.textContent = '✅';
                     resultTitle.textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} Safe`;
-                    resultMessage.textContent = `Good news! Your ${type} has not been found in any known data breaches.`;
+                    resultMessage.textContent = `Great news! No breaches found for your ${type}. Your credentials appear to be safe.`;
                     resultSection.className = 'result-section result-success';
                     resultSection.style.display = 'block';
                 }
-                
+
                 resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             } catch (err) {
                 resultIcon.textContent = '❌';
@@ -3149,6 +3192,31 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Start fast loading process
             initializeLoadingScreen();
+            
+            // Navigation toggle functionality
+            const navbarToggle = document.getElementById('navbarToggle');
+            const navbarNav = document.getElementById('navbarNav');
+            
+            if (navbarToggle && navbarNav) {
+                navbarToggle.addEventListener('click', function() {
+                    navbarNav.classList.toggle('show');
+                });
+                
+                // Close mobile menu when clicking on nav links
+                const navLinks = navbarNav.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        navbarNav.classList.remove('show');
+                    });
+                });
+                
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!navbarToggle.contains(event.target) && !navbarNav.contains(event.target)) {
+                        navbarNav.classList.remove('show');
+                    }
+                });
+            }
         });
 
         // Also send notification when page becomes visible (for better reliability)
