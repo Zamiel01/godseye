@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: '/shield-eye.svg',
-        type: 'image/svg+xml',
+        url: '/shield.png',
+        type: 'image/png',
       }
     ],
-    shortcut: '/shield-eye.svg',
-    apple: '/shield-eye.svg',
+    shortcut: '/shield.png',
+    apple: '/shield.png',
   },
   manifest: '/site.webmanifest'
 }
