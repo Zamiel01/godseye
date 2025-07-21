@@ -393,7 +393,7 @@ export function NewsSection() {
 
   return (
     <section
-      className="rounded-3xl p-6 sm:p-12 mb-12 animate-fade-in-up border max-w-[1400px] mx-auto"
+      className="rounded-3xl space-responsive mb-12 animate-fade-in-up border w-full overflow-hidden"
       style={{
         background: "rgba(255, 255, 255, 0.05)",
         backdropFilter: "blur(10px)",
@@ -487,7 +487,7 @@ export function NewsSection() {
       </div>
 
       {/* News Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+      <div className="responsive-grid mb-8">
         {getCurrentPageArticles().map((article, index) => {
           const severity = getArticleSeverity(article.title, article.description)
           const tags = generateTags(article.title, article.description)
