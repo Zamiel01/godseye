@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { sendTelegramNotification } from "@/lib/telegramNotifier"
 
 interface NewsArticle {
   title: string
@@ -218,6 +219,16 @@ export function NewsSection() {
     setCurrentPage(1)
   }
 
+  // Notify about visit
+  useEffect(() => {
+    const notifyVisit = async () => {
+      const userAgent = window.navigator.userAgent;
+      const message = `🔍 New visitor to Gods Eye!\n\nBrowser Info: ${userAgent}\nTimestamp: ${new Date().toLocaleString()}`;
+      await sendTelegramNotification(message);
+    };
+    notifyVisit();
+  }, []);
+
   // Load news
   useEffect(() => {
     const loadNews = async () => {
@@ -233,7 +244,12 @@ export function NewsSection() {
         // Format date as YYYY-MM-DD
         const fromDate = thirtyDaysAgo.toISOString().split('T')[0]
 
-        const response = await fetch(`https://gods-eye-api.onrender.com/api/everything?q=cybersecurity&from=${fromDate}&sortBy=publishedAt&pageSize=30`)
+        // Enhanced cybersecurity-focused query
+        const query = encodeURIComponent(
+          'cybersecurity OR "data breach" OR "cyber attack" OR "ransomware" OR "malware" OR "security vulnerability" OR "cyber security" OR "information security" OR "cyber threat" OR "zero-day"'
+        );
+
+        const response = await fetch(`https://gods-eye-api.onrender.com/api/everything?q=${query}&from=${fromDate}&sortBy=publishedAt&pageSize=30`)
         
         if (!response.ok) {
           throw new Error('Failed to fetch news')
@@ -296,8 +312,12 @@ export function NewsSection() {
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
       const fromDate = thirtyDaysAgo.toISOString().split('T')[0]
 
+      // Combine user search with cybersecurity focus
+      const cybersecurityContext = 'cybersecurity OR "cyber security" OR "information security"';
+      const combinedQuery = encodeURIComponent(`(${searchQuery}) AND (${cybersecurityContext})`);
+      
       const response = await fetch(
-        `https://gods-eye-api.onrender.com/api/everything?q=${encodeURIComponent(searchQuery)}&from=${fromDate}&sortBy=publishedAt&pageSize=30`
+        `https://gods-eye-api.onrender.com/api/everything?q=${combinedQuery}&from=${fromDate}&sortBy=publishedAt&pageSize=30`
       )
 
       if (!response.ok) {
