@@ -95,7 +95,7 @@ export function MobileNav() {
                   <circle cx="15" cy="15" r="1.5" fill="currentColor" />
                 </svg>
               </div>
-              <span className="font-bold text-xl">Gods Eye</span>
+              <span className="font-bold text-xl">God's Eye</span>
             </div>
           </div>
           <nav className="flex-1 px-2 py-4">
@@ -118,7 +118,7 @@ export function MobileNav() {
           </nav>
           <div className="p-4 border-t border-white/10">
             <p className="text-xs text-gray-400 text-center">
-              © {new Date().getFullYear()} Gods Eye. All rights reserved.
+              © {new Date().getFullYear()} God's Eye. All rights reserved.
             </p>
           </div>
         </div>

@@ -38,7 +38,7 @@ export function Navigation() {
               <circle cx="15" cy="15" r="1.5" fill="currentColor" />
             </svg>
           </div>
-          Gods Eye
+          God's Eye
         </a>
 
         {/* Desktop Navigation */}

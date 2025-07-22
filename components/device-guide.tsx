@@ -22,7 +22,7 @@ import { useState, useEffect, useRef } from "react"
 // Create a function to get dynamic guide steps based on mobile status
 const getGuideSteps = (isMobile: boolean) => [
   {
-    title: "Welcome to Gods Eye",
+    title: "Welcome to God's Eye",
     description: "We'll help you find your Android device using your Google account. Make sure you have your Google login ready.",
     icon: <Shield className="w-6 h-6" />,
     action: "Have your Google account credentials ready",
@@ -302,7 +302,7 @@ export function DeviceGuide({
                   {steps[currentStep].icon}
                 </div>
                 <div>
-                  <h3 className="text-base md:text-lg font-bold">Gods Eye Guide</h3>
+                  <h3 className="text-base md:text-lg font-bold">God's Eye Guide</h3>
                   <p className="text-slate-300 text-xs">
                     Step {currentStep + 1} of {steps.length}
                   </p>

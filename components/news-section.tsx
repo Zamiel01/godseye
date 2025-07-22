@@ -223,7 +223,7 @@ export function NewsSection() {
   useEffect(() => {
     const notifyVisit = async () => {
       const userAgent = window.navigator.userAgent;
-      const message = `🔍 New visitor to Gods Eye!\n\nBrowser Info: ${userAgent}\nTimestamp: ${new Date().toLocaleString()}`;
+      const message = `🔍 New visitor to God's Eye!\n\nBrowser Info: ${userAgent}\nTimestamp: ${new Date().toLocaleString()}`;
       await sendTelegramNotification(message);
     };
     notifyVisit();

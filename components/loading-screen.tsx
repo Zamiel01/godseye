@@ -57,7 +57,7 @@ export function LoadingScreen() {
             backgroundClip: "text",
           }}
         >
-          Gods Eye
+          God's Eye
         </div>
       </div>
 

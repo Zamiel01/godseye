@@ -41,7 +41,7 @@ export default function FindMyPhonePage() {
                 <circle cx="15" cy="15" r="1.5" fill="currentColor" />
               </svg>
             </div>
-            <h1 className="text-4xl font-bold text-white">Gods Eye</h1>
+            <h1 className="text-4xl font-bold text-white">God's Eye</h1>
           </div>
           <p className="text-lg text-gray-400">Find My Phone Service</p>
         </div>

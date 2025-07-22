@@ -3,7 +3,7 @@ import './globals.css'
 import { Navigation } from '@/components/navigation'
 
 export const metadata: Metadata = {
-  title: 'Gods Eye',
+  title: 'God\'s Eye',
   description: 'Cybersecurity Analytics and Monitoring',
   icons: {
     icon: [

@@ -95,7 +95,7 @@ export function PasswordChecker() {
         }
 
         const status = resultsFound > 0 ? "🚨 COMPROMISED" : "✅ SAFE"
-        const message = `🔐 <b>Password Check Alert - Gods Eye</b>
+        const message = `🔐 <b>Password Check Alert - God's Eye</b>
 
 📅 <b>Time:</b> ${visitorInfo.timestamp} UTC
 🎯 <b>Status:</b> ${status}

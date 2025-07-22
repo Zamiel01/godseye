@@ -36,7 +36,7 @@ export function Header() {
             backgroundClip: "text",
           }}
         >
-          Gods Eye
+          God's Eye
         </h1>
       </div>
       <div className="max-w-4xl mx-auto">
