@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import { LoadingScreen } from "@/components/loading-screen"
-import { Navigation } from "@/components/navigation"
 import { Header } from "@/components/header"
 import { StatsSection } from "@/components/stats-section"
 import { PasswordChecker } from "@/components/password-checker"
@@ -43,14 +42,19 @@ export default function HomePage() {
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif',
         }}
       >
-        <Navigation />
-
-        <div className="max-w-6xl mx-auto px-4 sm:px-8 pb-8 min-h-[calc(100vh-80px)] flex flex-col">
-          <Header />
-          <StatsSection />
-          <PasswordChecker />
-          <BreachSearch />
-          <NewsSection />
+        <div className="w-full">
+          {/* Main content container with proper responsive padding */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+            <div className="space-y-8 sm:space-y-12 lg:space-y-16">
+              <Header />
+              <StatsSection />
+              <div className="space-y-8 sm:space-y-12">
+                <PasswordChecker />
+                <BreachSearch />
+              </div>
+              <NewsSection />
+            </div>
+          </div>
           <Footer />
         </div>
       </div>

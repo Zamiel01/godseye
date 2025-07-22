@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { Navigation } from '@/components/navigation'
 
 export const metadata: Metadata = {
   title: 'Gods Eye',
@@ -28,9 +29,10 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </head>
       <body className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white antialiased">
-        <div className="responsive-container">
+        <Navigation />
+        <main className="w-full">
           {children}
-        </div>
+        </main>
       </body>
     </html>
   )

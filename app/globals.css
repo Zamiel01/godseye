@@ -149,6 +149,37 @@ html {
   --header-height: 4rem;
 }
 
+/* Ripple animation */
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-ripple {
+  animation: ripple 1s ease-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
   .animate-fade-in-up {
@@ -158,6 +189,19 @@ html {
   :root {
     --container-padding: 1rem;
     --header-height: 3.5rem;
+  }
+  
+  /* Ensure proper spacing on mobile */
+  .space-y-8 > * + * {
+    margin-top: 1.5rem !important;
+  }
+  
+  .space-y-12 > * + * {
+    margin-top: 2rem !important;
+  }
+  
+  .space-y-16 > * + * {
+    margin-top: 2.5rem !important;
   }
 }
 
@@ -264,4 +308,67 @@ html {
 
 .loading-dot:nth-child(3) {
   animation-delay: 0.6s;
+}
+
+/* Additional responsive utilities for better mobile experience */
+@media (max-width: 640px) {
+  /* Reduce font sizes on very small screens */
+  .text-4xl {
+    font-size: 2rem !important;
+  }
+  
+  .text-5xl {
+    font-size: 2.5rem !important;
+  }
+  
+  .text-6xl {
+    font-size: 3rem !important;
+  }
+  
+  /* Adjust padding for mobile */
+  .p-8 {
+    padding: 1rem !important;
+  }
+  
+  .px-8 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  .py-8 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+}
+
+/* Ensure proper container behavior */
+.container-responsive {
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-responsive {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-responsive {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Improved glass morphism for mobile */
+@media (max-width: 768px) {
+  .glass {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+  }
 }
