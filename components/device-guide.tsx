@@ -19,7 +19,8 @@ import {
 } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 
-const guideSteps = [
+// Create a function to get dynamic guide steps based on mobile status
+const getGuideSteps = (isMobile: boolean) => [
   {
     title: "Welcome to Gods Eye",
     description: "We'll help you find your Android device using your Google account. Make sure you have your Google login ready.",
@@ -30,14 +31,14 @@ const guideSteps = [
   },
   {
     title: "Important Requirements",
-    description: window.innerWidth < 640 
+    description: isMobile 
       ? "Please make sure your device is turned on, connected to the internet, and has location services enabled. After completing this guide, we'll open Google's Find My Device service."
       : "We'll open Google's service in a smaller window so you can follow along with our guide.",
     icon: <ExternalLink className="w-6 h-6" />,
-    action: window.innerWidth < 640 
+    action: isMobile 
       ? "Ensure your device meets these requirements"
       : "Click to open Google Find My Device",
-    buttonText: window.innerWidth < 640 ? "Requirements Ready" : "Open Find My Device",
+    buttonText: isMobile ? "Requirements Ready" : "Open Find My Device",
     showPopup: true,
   },
   {
@@ -115,20 +116,26 @@ export function DeviceGuide({
   const [popupClosed, setPopupClosed] = useState(false)
   const [popupOpened, setPopupOpened] = useState(false)
   const [userAlreadySignedIn, setUserAlreadySignedIn] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(true) // Default to mobile for SSR
   const popupCheckInterval = useRef<NodeJS.Timeout | null>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+  const steps = getGuideSteps(isMobile)
 
   // Handle responsive behavior
   useEffect(() => {
+    // Check mobile on mount and resize
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640) // sm breakpoint
+      setIsMobile(window?.innerWidth < 640) // sm breakpoint
     }
     
+    // Initial check
     checkMobile()
-    window.addEventListener('resize', checkMobile)
-    
-    return () => window.removeEventListener('resize', checkMobile)
+
+    // Add resize listener
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', checkMobile)
+      return () => window.removeEventListener('resize', checkMobile)
+    }
   }, [])
 
   // Auto-scroll to top when step changes
@@ -226,7 +233,7 @@ export function DeviceGuide({
 
       if (event.key === "ArrowLeft" && currentStep > 0) {
         setCurrentStep(currentStep - 1)
-      } else if (event.key === "ArrowRight" && currentStep < guideSteps.length - 1) {
+      } else if (event.key === "ArrowRight" && currentStep < steps.length - 1) {
         setCurrentStep(currentStep + 1)
       } else if (event.key === "Escape") {
         onClose()
@@ -235,7 +242,7 @@ export function DeviceGuide({
 
     window.addEventListener("keydown", handleKeyPress)
     return () => window.removeEventListener("keydown", handleKeyPress)
-  }, [isOpen, currentStep, setCurrentStep, onClose])
+  }, [isOpen, currentStep, setCurrentStep, onClose, steps])
 
   if (!isOpen) return null
 
@@ -292,12 +299,12 @@ export function DeviceGuide({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 md:gap-3">
                 <div className="w-6 h-6 md:w-8 md:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                  {guideSteps[currentStep].icon}
+                  {steps[currentStep].icon}
                 </div>
                 <div>
                   <h3 className="text-base md:text-lg font-bold">Gods Eye Guide</h3>
                   <p className="text-slate-300 text-xs">
-                    Step {currentStep + 1} of {guideSteps.length}
+                    Step {currentStep + 1} of {steps.length}
                   </p>
                 </div>
               </div>
@@ -314,9 +321,9 @@ export function DeviceGuide({
 
           {/* Scrollable Content */}
           <div ref={contentRef} className="p-3 md:p-4 overflow-y-auto flex-1 min-h-0 custom-scrollbar">
-            <h4 className="text-base md:text-lg font-bold text-white mb-2">{guideSteps[currentStep].title}</h4>
+            <h4 className="text-base md:text-lg font-bold text-white mb-2">{steps[currentStep].title}</h4>
             <p className="text-slate-300 text-sm leading-relaxed mb-3 md:mb-4">
-              {guideSteps[currentStep].description}
+              {steps[currentStep].description}
             </p>
 
             {/* Action Instruction */}
@@ -327,11 +334,11 @@ export function DeviceGuide({
                 </div>
                 <span className="font-medium text-blue-300 text-sm">Next:</span>
               </div>
-              <p className="text-blue-200 text-sm">{guideSteps[currentStep].action}</p>
+              <p className="text-blue-200 text-sm">{steps[currentStep].action}</p>
             </div>
 
             {/* Alternative Action for Sign In Step */}
-            {guideSteps[currentStep].alternativeAction && !userAlreadySignedIn && (
+            {steps[currentStep].alternativeAction && !userAlreadySignedIn && (
               <div className="bg-green-900 bg-opacity-30 border border-green-600 rounded-lg p-2 md:p-3 mb-3 md:mb-4">
                 <div className="flex items-center gap-2 mb-2">
                   <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
@@ -351,11 +358,11 @@ export function DeviceGuide({
             )}
 
             {/* Single Tip */}
-            {guideSteps[currentStep].tip && (
+            {steps[currentStep].tip && (
               <div className="bg-slate-700 border border-slate-600 rounded-lg p-2 md:p-3 mb-3 md:mb-4">
                 <div className="flex items-start gap-2">
                   <HelpCircle className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
-                  <p className="text-slate-300 text-sm">{guideSteps[currentStep].tip}</p>
+                  <p className="text-slate-300 text-sm">{steps[currentStep].tip}</p>
                 </div>
               </div>
             )}
@@ -365,13 +372,13 @@ export function DeviceGuide({
               <div className="flex justify-between items-center mb-2">
                 <span className="text-xs text-slate-400">Progress</span>
                 <span className="text-xs text-white">
-                  {Math.round(((currentStep + 1) / guideSteps.length) * 100)}%
+                  {Math.round(((currentStep + 1) / steps.length) * 100)}%
                 </span>
               </div>
               <div className="w-full bg-slate-600 rounded-full h-2">
                 <div
                   className="bg-gradient-to-r from-blue-500 to-blue-400 h-2 rounded-full transition-all duration-500"
-                  style={{ width: `${((currentStep + 1) / guideSteps.length) * 100}%` }}
+                  style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
                 />
               </div>
             </div>
@@ -434,14 +441,11 @@ export function DeviceGuide({
 
               <Button
                 onClick={() => {
-                  // For mobile devices, only open popup at the end of the guide
-                  const isMobile = window.innerWidth < 640 // sm breakpoint
-                  
-                  if (!isMobile && guideSteps[currentStep].showPopup && !popupOpened) {
+                  if (!isMobile && steps[currentStep].showPopup && !popupOpened) {
                     openFindMyDevice()
                   }
 
-                  if (currentStep === guideSteps.length - 1) {
+                  if (currentStep === steps.length - 1) {
                     if (isMobile) {
                       openFindMyDevice() // Open popup when finishing the guide on mobile
                     }
@@ -453,11 +457,11 @@ export function DeviceGuide({
                 className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 px-2 md:px-3 py-2 text-sm font-medium flex items-center gap-1 flex-1 max-w-[200px]"
               >
                 <span className="truncate">
-                  {currentStep === guideSteps.length - 1 
+                  {currentStep === steps.length - 1 
                     ? (isMobile ? "Find Device" : "Done") 
-                    : guideSteps[currentStep].buttonText}
+                    : steps[currentStep].buttonText}
                 </span>
-                {currentStep === guideSteps.length - 1 ? (
+                {currentStep === steps.length - 1 ? (
                   isMobile ? <ExternalLink className="w-3 h-3 flex-shrink-0" /> : <CheckCircle className="w-3 h-3 flex-shrink-0" />
                 ) : (
                   <ChevronRight className="w-3 h-3 flex-shrink-0" />
