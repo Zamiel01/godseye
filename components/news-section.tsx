@@ -59,7 +59,7 @@ export function NewsSection() {
       ? hit._highlightResult.story_text.value.replace(/<[^>]*>/g, "").slice(0, 300)
       : hit.story_text ? hit.story_text.slice(0, 300) : `Posted by ${hit.author} · ${hit.points} points · ${hit.num_comments} comments`,
     url: hit.url || `https://news.ycombinator.com/item?id=${hit.objectID}`,
-    urlToImage: undefined,
+    urlToImage: `https://picsum.photos/seed/${encodeURIComponent(hit.title || hit.objectID).slice(0, 20)}/600/400`,
     publishedAt: new Date(hit.created_at).toISOString(),
     author: hit.author,
     content: hit.story_text,
@@ -138,7 +138,7 @@ export function NewsSection() {
       description: "A new open-source tool that lets you receive emails without revealing your real address. Built with Next.js and Firebase.",
       url: "#",
       publishedAt: new Date(Date.now() - 3600000).toISOString(),
-      urlToImage: undefined,
+      urlToImage: undefined,  // TODO: set in mapper
       author: "dev_dude",
     },
     {
@@ -147,7 +147,7 @@ export function NewsSection() {
       description: "A severe buffer overflow vulnerability has been discovered in OpenSSL 3.x affecting millions of servers worldwide. Patch immediately.",
       url: "#",
       publishedAt: new Date(Date.now() - 7200000).toISOString(),
-      urlToImage: undefined,
+      urlToImage: undefined,  // TODO: set in mapper
       author: "sec_researcher",
     },
     {
@@ -156,7 +156,7 @@ export function NewsSection() {
       description: "Security researcher demonstrates a new WiFi cracking tool that runs on the cheapest Raspberry Pi model, using parallel processing.",
       url: "#",
       publishedAt: new Date(Date.now() - 14400000).toISOString(),
-      urlToImage: undefined,
+      urlToImage: undefined,  // TODO: set in mapper
       author: "net_hacker",
     },
     {
@@ -165,7 +165,7 @@ export function NewsSection() {
       description: "Looking for recommendations on secrets management at scale. Currently evaluating HashiCorp Vault, AWS Secrets Manager, and Doppler.",
       url: "#",
       publishedAt: new Date(Date.now() - 21600000).toISOString(),
-      urlToImage: undefined,
+      urlToImage: undefined,  // TODO: set in mapper
       author: "ops_eng",
     },
     {
@@ -174,7 +174,7 @@ export function NewsSection() {
       description: "A new strain of malware has been infecting Linux servers through SSH brute-force attacks, installing cryptomining software silently.",
       url: "#",
       publishedAt: new Date(Date.now() - 28800000).toISOString(),
-      urlToImage: undefined,
+      urlToImage: undefined,  // TODO: set in mapper
       author: "linux_sec",
     },
     {
@@ -183,7 +183,7 @@ export function NewsSection() {
       description: "The new release of PostgreSQL comes with native audit logging features, making it easier to meet regulatory requirements without third-party tools.",
       url: "#",
       publishedAt: new Date(Date.now() - 43200000).toISOString(),
-      urlToImage: undefined,
+      urlToImage: undefined,  // TODO: set in mapper
       author: "db_admin",
     },
   ]
