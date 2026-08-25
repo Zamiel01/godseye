@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { sendTelegramNotification } from "@/lib/telegramNotifier"
 
 interface NewsArticle {
   title: string
@@ -219,15 +218,7 @@ export function NewsSection() {
     setCurrentPage(1)
   }
 
-  // Notify about visit
-  useEffect(() => {
-    const notifyVisit = async () => {
-      const userAgent = window.navigator.userAgent;
-      const message = `🔍 New visitor to God's Eye!\n\nBrowser Info: ${userAgent}\nTimestamp: ${new Date().toLocaleString()}`;
-      await sendTelegramNotification(message);
-    };
-    notifyVisit();
-  }, []);
+
 
   // Load news
   useEffect(() => {

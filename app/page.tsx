@@ -8,6 +8,7 @@ import { PasswordChecker } from "@/components/password-checker"
 import { BreachSearch } from "@/components/breach-search"
 import { NewsSection } from "@/components/news-section"
 import { Footer } from "@/components/footer"
+import { SignalDialog } from "@/components/signal-dialog"
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true)
@@ -28,12 +29,14 @@ export default function HomePage() {
     initializeApp()
   }, [])
 
-  if (isLoading) {
+if (isLoading) {
     return <LoadingScreen />
   }
 
   return (
-    <div className={`min-h-screen transition-opacity duration-500 ${isAppLoaded ? "opacity-100" : "opacity-0"}`}>
+    <>
+      <SignalDialog />
+      <div className={`min-h-screen transition-opacity duration-500 ${isAppLoaded ? "opacity-100" : "opacity-0"}`}>
       <div
         className="min-h-screen"
         style={{
@@ -56,8 +59,9 @@ export default function HomePage() {
             </div>
           </div>
           <Footer />
-        </div>
+</div>
       </div>
     </div>
+    </>
   )
 }
