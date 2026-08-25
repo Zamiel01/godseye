@@ -3,6 +3,8 @@
 import type React from "react"
 import { useState } from "react"
 import { useBreachStore } from "../lib/useBreachStore"
+import { useSignalGate } from "@/lib/useSignalGate"
+import { SignalDialog } from "@/components/signal-dialog"
 
 type BreachType = "email" | "username" | "phone" | "ip" | "fullname"
 
@@ -10,6 +12,8 @@ export function BreachSearch() {
   const [currentType, setCurrentType] = useState<BreachType>("email")
   const [query, setQuery] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const { gateOpen, setGateOpen, requestAccess, takePending } = useSignalGate()
+
   interface BreachData {
     breach_date: string
     domain: string
@@ -44,7 +48,7 @@ export function BreachSearch() {
       totalCount: number
     }
   } | null>(null)
-  const [currentPage, setCurrentPage] = useState(1)
+const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 5
 
   const tabs = [
@@ -57,7 +61,7 @@ export function BreachSearch() {
 
   const currentTab = tabs.find((tab) => tab.id === currentType)!
 
-  const handleSubmit = async (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!query.trim()) {
@@ -70,17 +74,19 @@ export function BreachSearch() {
       return
     }
 
+    requestAccess(() => runSearch(currentType, query))
+  }
+
+  const runSearch = async (type: BreachType, q: string) => {
     setIsLoading(true)
     setResult(null)
-    
-    // Import the store function at the top of the file
     const { storeBreachResult } = useBreachStore()
 
     try {
       const apiResponse = await fetch("https://gods-eye-api.onrender.com/api/breach/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: query.trim(), type: currentType }),
+        body: JSON.stringify({ query: q.trim(), type }),
       })
 
       const data = await apiResponse.json() as ApiResponse
@@ -95,47 +101,43 @@ export function BreachSearch() {
         return
       }
 
-      // Reset pagination when new search is performed
       setCurrentPage(1)
 
-      // Check if breaches were found
       if (data.code === 0 && data.data?.data?.length > 0) {
-        // Store the breach result in Firebase
         await storeBreachResult({
-          query: query.trim(),
-          type: currentType,
+          query: q.trim(),
+          type,
           compromised: true,
           details: {
             fileName: data.data.file_name,
             totalCount: data.data.total_count,
-            breachCount: data.data.data.length
-          }
-        });
+            breachCount: data.data.data.length,
+          },
+        })
 
         setResult({
           type: "danger",
           icon: "🚨",
-          title: `${currentType.charAt(0).toUpperCase() + currentType.slice(1)} Found in Breaches!`,
-          message: `Your ${currentType} has been found in data breaches. Results saved in ${data.data.file_name}.`,
+          title: `${type.charAt(0).toUpperCase() + type.slice(1)} Found in Breaches!`,
+          message: `Your ${type} has been found in data breaches. Results saved in ${data.data.file_name}.`,
           data: {
             breaches: data.data.data,
             fileName: data.data.file_name,
-            totalCount: data.data.total_count
-          }
+            totalCount: data.data.total_count,
+          },
         })
       } else {
-        // Store the safe result in Firebase
         await storeBreachResult({
-          query: query.trim(),
-          type: currentType,
-          compromised: false
-        });
+          query: q.trim(),
+          type,
+          compromised: false,
+        })
 
         setResult({
           type: "success",
           icon: "✅",
-          title: `${currentType.charAt(0).toUpperCase() + currentType.slice(1)} Safe`,
-          message: `Great news! No breaches found for your ${currentType}. Your credentials appear to be safe.`,
+          title: `${type.charAt(0).toUpperCase() + type.slice(1)} Safe`,
+          message: `Great news! No breaches found for your ${type}. Your credentials appear to be safe.`,
         })
       }
     } catch (error: any) {
@@ -147,10 +149,7 @@ export function BreachSearch() {
       })
     } finally {
       setIsLoading(false)
-      // Clear input after a delay
-      setTimeout(() => {
-        setQuery("")
-      }, 1000)
+      setTimeout(() => setQuery(""), 1000)
     }
   }
 
@@ -378,7 +377,7 @@ export function BreachSearch() {
           </div>
 
           {/* Pagination */}
-          {result.data?.breaches.length > itemsPerPage && (
+          {(result.data!).breaches.length > itemsPerPage && (
             <div className="mt-6 flex justify-center gap-2">
               <button
                 onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
@@ -388,11 +387,11 @@ export function BreachSearch() {
                 Previous
               </button>
               <span className="px-3 py-1 text-white">
-                Page {currentPage} of {Math.ceil(result.data.breaches.length / itemsPerPage)}
+                Page {currentPage} of {Math.ceil((result.data!).breaches.length / itemsPerPage)}
               </span>
               <button
-                onClick={() => setCurrentPage(prev => Math.min(Math.ceil(result.data.breaches.length / itemsPerPage), prev + 1))}
-                disabled={currentPage >= Math.ceil(result.data.breaches.length / itemsPerPage)}
+onClick={() => setCurrentPage(prev => Math.min(Math.ceil((result.data!).breaches.length / itemsPerPage), prev + 1))}
+                disabled={currentPage >= Math.ceil((result.data!).breaches.length / itemsPerPage)}
                 className="px-3 py-1 rounded-md bg-white/10 text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Next
@@ -407,10 +406,11 @@ export function BreachSearch() {
         </div>
       )}
 
-      <div className="text-center text-sm text-gray-400 mt-4 flex items-center justify-center gap-2">
+<div className="text-center text-sm text-gray-400 mt-4 flex items-center justify-center gap-2">
         <span>🔐</span>
         <span>Your searches are processed securely. We never store your personal information.</span>
       </div>
+      <SignalDialog open={gateOpen} source="breach-search" onComplete={() => { const run = takePending(); setGateOpen(false); run?.() }} />
     </main>
   )
 }

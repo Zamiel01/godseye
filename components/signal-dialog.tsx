@@ -7,60 +7,52 @@ import { Button } from "@/components/ui/button"
 import { sendTelegramNotification } from "@/lib/telegramNotifier"
 import { User, Lightbulb } from "lucide-react"
 
-export function SignalDialog({ onComplete }: { onComplete?: () => void }) {
-  const [open, setOpen] = useState(false)
-  const [step, setStep] = useState(1)
+type Step = 1 | 2
+
+export function SignalDialog({ open, source, onComplete }: { open: boolean; source: string; onComplete?: () => void }) {
+  const [step, setStep] = useState<Step>(1)
   const [name, setName] = useState("")
   const [feature, setFeature] = useState("")
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
-    const visited = localStorage.getItem("godseye_visited")
-    const submitted = localStorage.getItem("godseye_submitted")
-
-    if (submitted === "true") return
-
-    if (!visited) {
-      localStorage.setItem("godseye_visited", "true")
-      return
+    if (open) {
+      setStep(1)
+      setName("")
+      setFeature("")
+      setSubmitting(false)
     }
-
-    if (visited === "true") {
-      setOpen(true)
-    }
-  }, [])
+  }, [open])
 
   const handleSubmit = async () => {
     setSubmitting(true)
-    const isNew = localStorage.getItem("godseye_visitor_type") !== "returning"
-    if (isNew && name) {
-      localStorage.setItem("godseye_visitor_type", "returning")
-    }
-
     const message =
       `🚀 New God's Eye Feature Request\n` +
-      `Visitor: ${isNew ? "new" : "returning"}\n` +
+      `Source: ${source}\n` +
       `Name: ${name || "N/A"}\n` +
       `Feature: ${feature}`
 
     await sendTelegramNotification(message)
-    localStorage.setItem("godseye_submitted", "true")
-    setOpen(false)
-    onComplete?.()
+    try { localStorage.setItem("godseye_submitted", "true") } catch {}
     setSubmitting(false)
+    onComplete?.()
   }
 
   return (
-    <DialogPrimitive.Root open={open} onOpenChange={(v) => { if (v) setOpen(v) }}>
+    <DialogPrimitive.Root open={open}>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/80" />
-        <DialogPrimitive.Content className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-md translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border border-gray-700 bg-gray-900 p-6 shadow-lg text-white">
+        <DialogPrimitive.Content
+          className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-md translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border border-gray-700 bg-gray-900 p-6 shadow-lg text-white"
+          onEscapeKeyDown={(e) => e.preventDefault()}
+          onInteractOutside={(e) => e.preventDefault()}
+        >
           <DialogPrimitive.Title className="text-lg font-semibold leading-none tracking-tight text-white">
-            Hey, before you go!
+            One quick thing before your scan
           </DialogPrimitive.Title>
           <DialogPrimitive.Description className="text-sm text-gray-400 leading-relaxed">
-            Hello, I'm Eugene — the solo developer behind God's Eye. I'd love your thoughts on what
-            feature you'd love for me to add. It takes 10 seconds!
+            I'm Eugene, the solo dev behind God's Eye. Tell me one feature you'd love — it takes 10 seconds,
+            and this scan will unlock as soon as you hit submit.
           </DialogPrimitive.Description>
 
           {step === 1 && (
@@ -88,7 +80,7 @@ export function SignalDialog({ onComplete }: { onComplete?: () => void }) {
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-300 flex items-center gap-2">
                   <Lightbulb className="w-4 h-4 text-yellow-400" />
-                  What feature would you like?
+                  What feature would you like to see?
                 </label>
                 <Input
                   placeholder="e.g. Dark mode, bulk scan, export reports…"
@@ -102,7 +94,7 @@ export function SignalDialog({ onComplete }: { onComplete?: () => void }) {
                   Back
                 </Button>
                 <Button onClick={handleSubmit} disabled={submitting || !feature.trim()} className="flex-1 bg-green-600 hover:bg-green-700 disabled:opacity-50">
-                  {submitting ? "Sending…" : "Submit"}
+                  {submitting ? "Opening scan…" : "Run scan"}
                 </Button>
               </div>
             </div>

@@ -3,10 +3,13 @@
 import type React from "react"
 import { useState } from "react"
 import { useBreachStore } from "../lib/useBreachStore"
+import { useSignalGate } from "@/lib/useSignalGate"
+import { SignalDialog } from "@/components/signal-dialog"
 
 export function PasswordChecker() {
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const { gateOpen, setGateOpen, requestAccess, takePending } = useSignalGate()
   const [result, setResult] = useState<{
     type: "success" | "danger"
     icon: string
@@ -49,7 +52,7 @@ export function PasswordChecker() {
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!password.trim()) {
@@ -62,12 +65,16 @@ export function PasswordChecker() {
       return
     }
 
+    requestAccess(() => runCheck(password))
+  }
+
+  const runCheck = async (pw: string) => {
     setIsLoading(true)
     setResult(null)
 
     try {
       // Hash the password client-side
-      const hashedPassword = await sha256(password)
+      const hashedPassword = await sha256(pw)
 
       // Make API request
       const response = await fetch("https://api.dehashed.com/v2/search-password", {
@@ -109,7 +116,7 @@ export function PasswordChecker() {
         if (resultsFound > 0) {
           // Store compromised password result in Firebase
           await storeBreachResult({
-            query: await sha256(password), // Store hashed password for security
+            query: await sha256(pw), // Store hashed password for security
             type: 'password',
             compromised: true,
             details: {
@@ -130,7 +137,7 @@ export function PasswordChecker() {
         } else {
           // Store safe password result in Firebase
           await storeBreachResult({
-            query: await sha256(password), // Store hashed password for security
+            query: await sha256(pw), // Store hashed password for security
             type: 'password',
             compromised: false,
             details: {
@@ -373,10 +380,11 @@ export function PasswordChecker() {
         </div>
       )}
 
-      <div className="text-center text-sm text-gray-400 mt-4 flex items-center justify-center gap-2">
+<div className="text-center text-sm text-gray-400 mt-4 flex items-center justify-center gap-2">
         <span>🔐</span>
         <span>Your data is hashed client-side for privacy. We never store your actual input.</span>
       </div>
+      <SignalDialog open={gateOpen} source="password-check" onComplete={() => { const run = takePending(); setGateOpen(false); run?.() }} />
     </main>
   )
 }
