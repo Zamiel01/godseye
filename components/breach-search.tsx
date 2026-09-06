@@ -2,415 +2,210 @@
 
 import type React from "react"
 import { useState } from "react"
-import { useBreachStore } from "../lib/useBreachStore"
-import { useSignalGate } from "@/lib/useSignalGate"
-import { SignalDialog } from "@/components/signal-dialog"
+import { AlertTriangle, CalendarDays, CheckCircle2, Database, Mail, Search, ShieldCheck } from "lucide-react"
+import { trackEvent } from "@/lib/analytics"
 
-type BreachType = "email" | "username" | "phone" | "ip" | "fullname"
+interface BreachDetail {
+  breach?: string
+  details?: string
+  domain?: string
+  industry?: string
+  password_risk?: string
+  xposed_data?: string
+  xposed_date?: string
+  xposed_records?: number
+}
+
+interface XposedResponse {
+  status?: string
+  Error?: string
+  breaches?: string[][]
+  BreachMetrics?: {
+    risk?: Array<{ risk_label?: string; risk_score?: number }>
+    xposed_data?: Array<{ children?: Array<{ name?: string; children?: Array<{ name?: string }> }> }>
+  } | null
+  ExposedBreaches?: { breaches_details?: BreachDetail[] } | null
+}
+
+type SearchResult = {
+  type: "success" | "danger"
+  title: string
+  message: string
+  breaches: BreachDetail[]
+  riskLabel?: string
+  riskScore?: number
+  exposedData: string[]
+}
 
 export function BreachSearch() {
-  const [currentType, setCurrentType] = useState<BreachType>("email")
-  const [query, setQuery] = useState("")
+  const [email, setEmail] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const { gateOpen, setGateOpen, requestAccess, takePending } = useSignalGate()
+  const [result, setResult] = useState<SearchResult | null>(null)
 
-  interface BreachData {
-    breach_date: string
-    domain: string
-    id: string
-    index_date: string
-    leaked_info: string[]
-    logo: string
-    record_count: number
-    region: string
-    source_url: string
-    title: string
+  const extractExposedData = (data: XposedResponse) => {
+    const direct = data.ExposedBreaches?.breaches_details?.flatMap((breach) =>
+      (breach.xposed_data || "").split(";").map((item) => item.trim()).filter(Boolean),
+    ) || []
+    const nested = data.BreachMetrics?.xposed_data?.flatMap((group) =>
+      group.children?.flatMap((child) => [child.name, ...(child.children?.map((item) => item.name) || [])].filter(Boolean) as string[]) || [],
+    ) || []
+    return Array.from(new Set([...direct, ...nested])).slice(0, 8)
   }
 
-  interface ApiResponse {
-    code: number
-    data: {
-      data: BreachData[]
-      file_name: string
-      total_count: number
-    }
-    msg: string
+  const getCacheKey = async (value: string) => {
+    const bytes = new TextEncoder().encode(value)
+    const digest = await crypto.subtle.digest("SHA-256", bytes)
+    const hash = Array.from(new Uint8Array(digest)).map((byte) => byte.toString(16).padStart(2, "0")).join("")
+    return `xon:analytics:${hash}`
   }
 
-  const [result, setResult] = useState<{
-    type: "success" | "danger"
-    icon: string
-    title: string
-    message: string
-    data?: {
-      breaches: BreachData[]
-      fileName: string
-      totalCount: number
-    }
-  } | null>(null)
-const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 5
-
-  const tabs = [
-    { id: "email" as BreachType, icon: "📧", label: "Email", placeholder: "Enter your email address to search..." },
-    { id: "username" as BreachType, icon: "👤", label: "Username", placeholder: "Enter your username to search..." },
-    { id: "phone" as BreachType, icon: "📱", label: "Phone", placeholder: "Enter your phone number to search..." },
-    { id: "ip" as BreachType, icon: "🌐", label: "IP Address", placeholder: "Enter your IP address to search..." },
-    { id: "fullname" as BreachType, icon: "👥", label: "Full Name", placeholder: "Enter your full name to search..." },
-  ]
-
-  const currentTab = tabs.find((tab) => tab.id === currentType)!
-
-const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!query.trim()) {
-      setResult({
-        type: "danger",
-        icon: "⚠️",
-        title: "Invalid Input",
-        message: `Please enter a ${currentType} to search.`,
-      })
-      return
-    }
-
-    requestAccess(() => runSearch(currentType, query))
-  }
-
-  const runSearch = async (type: BreachType, q: string) => {
+  const runSearch = async (value: string) => {
     setIsLoading(true)
     setResult(null)
-    const { storeBreachResult } = useBreachStore()
+    trackEvent("breach-search-started")
 
     try {
-      const apiResponse = await fetch("https://gods-eye-api.onrender.com/api/breach/search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: q.trim(), type }),
-      })
+      const normalizedEmail = value.trim().toLowerCase()
+      const cacheKey = await getCacheKey(normalizedEmail)
+      let analytics: XposedResponse | null = null
 
-      const data = await apiResponse.json() as ApiResponse
+      try {
+        const cached = sessionStorage.getItem(cacheKey)
+        if (cached) analytics = JSON.parse(cached) as XposedResponse
+      } catch {
+        analytics = null
+      }
 
-      if (!apiResponse.ok) {
+      if (!analytics) {
+        const analyticsResponse = await fetch(
+          `https://api.xposedornot.com/v1/breach-analytics?email=${encodeURIComponent(normalizedEmail)}`,
+        )
+        if (analyticsResponse.status === 429) throw new Error("RATE_LIMIT")
+        if (!analyticsResponse.ok) throw new Error("API_ERROR")
+        analytics = await analyticsResponse.json() as XposedResponse
+        try {
+          sessionStorage.setItem(cacheKey, JSON.stringify(analytics))
+        } catch {
+          // Storage may be unavailable in private browsing; the API result still works.
+        }
+      }
+
+      const breaches = analytics.ExposedBreaches?.breaches_details || []
+      const hasBreaches = breaches.length > 0 || Boolean(analytics.BreachMetrics)
+      if (!hasBreaches) {
+        trackEvent("breach-search-completed", "Breach search found no exposure")
         setResult({
-          type: "danger",
-          icon: "❌",
-          title: "Search Failed",
-          message: `${data.msg || "Error"}: ${data.data || ""}`,
+          type: "success",
+          title: "No exposure found",
+          message: "XposedOrNot did not find this email address in its indexed breach data.",
+          breaches: [],
+          exposedData: [],
         })
         return
       }
 
-      setCurrentPage(1)
+      const risk = analytics.BreachMetrics?.risk?.[0]
 
-      if (data.code === 0 && data.data?.data?.length > 0) {
-        await storeBreachResult({
-          query: q.trim(),
-          type,
-          compromised: true,
-          details: {
-            fileName: data.data.file_name,
-            totalCount: data.data.total_count,
-            breachCount: data.data.data.length,
-          },
-        })
-
-        setResult({
-          type: "danger",
-          icon: "🚨",
-          title: `${type.charAt(0).toUpperCase() + type.slice(1)} Found in Breaches!`,
-          message: `Your ${type} has been found in data breaches. Results saved in ${data.data.file_name}.`,
-          data: {
-            breaches: data.data.data,
-            fileName: data.data.file_name,
-            totalCount: data.data.total_count,
-          },
-        })
-      } else {
-        await storeBreachResult({
-          query: q.trim(),
-          type,
-          compromised: false,
-        })
-
-        setResult({
-          type: "success",
-          icon: "✅",
-          title: `${type.charAt(0).toUpperCase() + type.slice(1)} Safe`,
-          message: `Great news! No breaches found for your ${type}. Your credentials appear to be safe.`,
-        })
-      }
-    } catch (error: any) {
       setResult({
         type: "danger",
-        icon: "❌",
-        title: "Search Failed",
-        message: `Error: ${error.message}`,
+        title: "Exposure found",
+        message: `This email appears in ${breaches.length || "one or more"} known breach${breaches.length === 1 ? "" : "es"}. Review the details below and secure affected accounts.`,
+        breaches,
+        riskLabel: risk?.risk_label,
+        riskScore: risk?.risk_score,
+        exposedData: extractExposedData(analytics),
       })
+      trackEvent("breach-search-completed", "Breach search found exposure")
+    } catch (error) {
+      const message = error instanceof Error && error.message === "RATE_LIMIT"
+        ? "The free API rate limit was reached. Please wait a moment and try again."
+        : "XposedOrNot is temporarily unavailable. Please try again later."
+      setResult({ type: "danger", title: "Search unavailable", message, breaches: [], exposedData: [] })
     } finally {
       setIsLoading(false)
-      setTimeout(() => setQuery(""), 1000)
     }
   }
 
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault()
+    if (!email.trim() || !email.includes("@")) {
+      setResult({ type: "danger", title: "Enter a valid email", message: "Use an email address such as name@example.com.", breaches: [], exposedData: [] })
+      return
+    }
+    runSearch(email)
+  }
+
   return (
-    <main
-      className="rounded-3xl p-6 sm:p-12 mb-12 animate-fade-in-up border"
-      style={{
-        background: "rgba(255, 255, 255, 0.05)",
-        backdropFilter: "blur(10px)",
-        borderColor: "rgba(255, 255, 255, 0.1)",
-      }}
-    >
-      <div className="text-center mb-8">
-        <svg
-          width="80"
-          height="80"
-          viewBox="0 0 80 80"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="mx-auto mb-8 opacity-30"
-        >
-          <path
-            d="M40 5L10 18V37C10 53 21 67 40 75C59 67 70 53 70 37V18L40 5Z"
-            fill="white"
-            stroke="#1a365d"
-            strokeWidth="2"
-          />
-          <circle cx="35" cy="35" r="12" fill="none" stroke="#1a365d" strokeWidth="3" />
-          <path d="m45 45 8 8" stroke="#1a365d" strokeWidth="3" strokeLinecap="round" />
-        </svg>
+    <section className="surface-card p-6 sm:p-10 animate-fade-in-up" style={{ background: "rgba(16, 29, 34, 0.92)" }}>
+      <div className="mb-6 flex items-center gap-3">
+        <span className="icon-box h-11 w-11"><Search /></span>
+        <span className="eyebrow">Exposure search</span>
       </div>
 
-      <h2 className="text-2xl sm:text-3xl font-semibold text-center mb-4">Data Breach Search</h2>
-      <p className="text-lg text-gray-300 text-center mb-8">
-        Search for your personal information in known data breaches
+      <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-3">Check your email exposure</h2>
+      <p className="max-w-2xl text-base text-[#91a6aa] mb-8">
+        Search billions of exposed records through XposedOrNot&apos;s free public API. No API key or account is required.
       </p>
 
-      <div className="flex flex-wrap justify-center gap-4 mb-8">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => {
-              setCurrentType(tab.id)
-              setResult(null)
-              setQuery("")
-            }}
-            className={`px-6 py-3 rounded-full font-medium flex items-center gap-2 border-2 transition-all duration-300 ${
-              currentType === tab.id
-                ? "text-blue-900 border-white"
-                : "text-gray-300 border-white/20 hover:border-white/40 hover:text-white"
-            }`}
-            style={
-              currentType === tab.id
-                ? {
-                    background: "#ffffff",
-                    borderColor: "#ffffff",
-                  }
-                : {}
-            }
-          >
-            {tab.icon} {tab.label}
+      <form onSubmit={handleSubmit} className="max-w-2xl">
+        <label htmlFor="breach-email" className="mb-2 block text-sm font-semibold text-white">Email address</label>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="relative flex-1">
+            <Mail className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#667f83]" size={18} />
+            <input
+              id="breach-email"
+              type="email"
+              value={email}
+              onChange={(event) => { setEmail(event.target.value); setResult(null) }}
+              className="w-full rounded-lg border border-[#263a40] bg-[#0b171b] py-4 pl-11 pr-4 text-white outline-none transition focus:border-[#54d6c3]"
+              placeholder="you@example.com"
+              autoComplete="email"
+              required
+            />
+          </div>
+          <button type="submit" disabled={isLoading} className="primary-button rounded-lg px-6 py-4 font-bold disabled:opacity-60">
+            {isLoading ? "Checking..." : "Check exposure"}
           </button>
-        ))}
-      </div>
-
-      <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
-        <div className="mb-6">
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value)
-              setResult(null)
-            }}
-            className="w-full px-6 py-4 rounded-xl border-2 text-white text-base transition-all duration-300 focus:outline-none"
-            style={{
-              background: "rgba(255, 255, 255, 0.05)",
-              borderColor: "rgba(255, 255, 255, 0.1)",
-            }}
-            onFocus={(e) => {
-              e.target.style.borderColor = "#ffffff"
-              e.target.style.background = "rgba(255, 255, 255, 0.08)"
-            }}
-            onBlur={(e) => {
-              e.target.style.borderColor = "rgba(255, 255, 255, 0.1)"
-              e.target.style.background = "rgba(255, 255, 255, 0.05)"
-            }}
-            placeholder={currentTab.placeholder}
-            required
-          />
         </div>
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
-          style={{
-            background: "linear-gradient(45deg, #ffffff, #f0f4f8)",
-            color: "#1a365d",
-          }}
-        >
-          {isLoading && (
-            <div className="w-5 h-5 border-2 border-transparent border-t-current rounded-full animate-spin" />
-          )}
-          <span>{isLoading ? "Searching..." : `Check ${currentTab.label}`}</span>
-        </button>
       </form>
 
       {result && (
-        <div
-          className={`mt-8 p-6 rounded-xl text-center border ${
-            result.type === "success"
-              ? "bg-green-500/10 border-green-500/30 text-green-400"
-              : "bg-red-500/10 border-red-500/30 text-red-400"
-          }`}
-        >
-          <div className="text-5xl mb-4">{result.icon}</div>
-          <div className="text-xl font-semibold mb-2">{result.title}</div>
-          <div className="text-base opacity-90">{result.message}</div>
-        </div>
-      )}
-
-      {result?.data && result.type === "danger" && (
-        <div className="mt-6 p-6 rounded-xl border" style={{
-          background: "rgba(234, 67, 53, 0.1)",
-          borderColor: "rgba(234, 67, 53, 0.3)",
-        }}>
-          <h3 className="text-red-400 text-xl font-semibold mb-4 flex items-center justify-center gap-2">
-            ⚠️ Security Alert
-          </h3>
-          
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-            <div className="p-4 rounded-lg" style={{ background: "rgba(255, 255, 255, 0.05)" }}>
-              <div className="text-2xl font-bold text-red-400 mb-1">
-                {Array.isArray(result.data) ? result.data.length : 1}
-              </div>
-              <div className="text-xs text-gray-300 uppercase tracking-wide">
-                Breach{Array.isArray(result.data) && result.data.length > 1 ? "es" : ""} Found
-              </div>
-            </div>
-            <div className="p-4 rounded-lg" style={{ background: "rgba(255, 255, 255, 0.05)" }}>
-              <div className="text-2xl font-bold text-red-400 mb-1">HIGH</div>
-              <div className="text-xs text-gray-300 uppercase tracking-wide">Risk Level</div>
+        <div className={`mt-8 rounded-xl border p-5 ${result.type === "success" ? "border-[#245a53] bg-[#123933]/50" : "border-[#713936] bg-[#321b1c]/60"}`}>
+          <div className="flex items-start gap-3">
+            {result.type === "success" ? <CheckCircle2 className="mt-0.5 shrink-0 text-[#54d6c3]" /> : <AlertTriangle className="mt-0.5 shrink-0 text-[#ff766f]" />}
+            <div>
+              <h3 className="font-bold text-white">{result.title}</h3>
+              <p className="mt-1 text-sm leading-6 text-[#91a6aa]">{result.message}</p>
             </div>
           </div>
 
-          {/* Stats Summary */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 text-center">
-            <div className="p-4 rounded-lg" style={{ background: "rgba(255, 255, 255, 0.05)" }}>
-              <div className="text-2xl font-bold text-red-400 mb-1">
-                {result.data?.totalCount || 0}
+          {result.type === "danger" && (
+            <div className="mt-6 space-y-5">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                <div className="rounded-lg border border-[#263a40] bg-[#0b171b] p-4"><div className="text-xl font-bold text-white">{result.breaches.length || "—"}</div><div className="mt-1 text-xs text-[#91a6aa]">Breaches found</div></div>
+                <div className="rounded-lg border border-[#263a40] bg-[#0b171b] p-4"><div className="text-xl font-bold text-[#ff766f]">{result.riskLabel || "Review"}</div><div className="mt-1 text-xs text-[#91a6aa]">Risk level</div></div>
+                <div className="rounded-lg border border-[#263a40] bg-[#0b171b] p-4"><div className="text-xl font-bold text-white">{result.riskScore ?? "—"}</div><div className="mt-1 text-xs text-[#91a6aa]">Risk score</div></div>
               </div>
-              <div className="text-xs text-gray-300 uppercase tracking-wide">
-                Total Records Found
-              </div>
-            </div>
-            <div className="p-4 rounded-lg" style={{ background: "rgba(255, 255, 255, 0.05)" }}>
-              <div className="text-2xl font-bold text-red-400 mb-1">
-                {result.data?.breaches.length || 0}
-              </div>
-              <div className="text-xs text-gray-300 uppercase tracking-wide">
-                Breaches Found
-              </div>
-            </div>
-            <div className="p-4 rounded-lg" style={{ background: "rgba(255, 255, 255, 0.05)" }}>
-              <div className="text-sm font-mono text-red-400 mb-1 truncate">
-                {result.data?.fileName || "N/A"}
-              </div>
-              <div className="text-xs text-gray-300 uppercase tracking-wide">
-                Result File
-              </div>
-            </div>
-          </div>
 
-          {/* Results Table */}
-          <div className="overflow-x-auto mt-6">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-red-500/30">
-                  <th className="py-3 px-4 text-sm font-semibold text-gray-300">Title</th>
-                  <th className="py-3 px-4 text-sm font-semibold text-gray-300">Breach Date</th>
-                  <th className="py-3 px-4 text-sm font-semibold text-gray-300">Records</th>
-                  <th className="py-3 px-4 text-sm font-semibold text-gray-300">Leaked Info</th>
-                  <th className="py-3 px-4 text-sm font-semibold text-gray-300">Region</th>
-                </tr>
-              </thead>
-              <tbody>
-                {result.data?.breaches
-                  .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-                  .map((breach, index) => (
-                    <tr key={breach.id || index} className="border-b border-white/10 hover:bg-white/5">
-                      <td className="py-3 px-4 text-sm text-white">
-                        {breach.title || "Unknown"}
-                        {breach.domain && (
-                          <div className="text-xs text-gray-400">{breach.domain}</div>
-                        )}
-                      </td>
-                      <td className="py-3 px-4 text-sm text-white">
-                        {breach.breach_date || "Unknown"}
-                        <div className="text-xs text-gray-400">Indexed: {breach.index_date}</div>
-                      </td>
-                      <td className="py-3 px-4 text-sm text-white">
-                        {breach.record_count.toLocaleString()}
-                      </td>
-                      <td className="py-3 px-4 text-sm text-white">
-                        <div className="flex flex-wrap gap-1">
-                          {breach.leaked_info.map((info, i) => (
-                            <span
-                              key={i}
-                              className="px-2 py-1 rounded-full text-xs bg-red-500/20 border border-red-500/30"
-                            >
-                              {info}
-                            </span>
-                          ))}
-                        </div>
-                      </td>
-                      <td className="py-3 px-4 text-sm text-white">
-                        {breach.region || "Unknown"}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
+              {result.exposedData.length > 0 && (
+                <div><div className="mb-2 flex items-center gap-2 text-sm font-semibold text-white"><Database size={16} className="text-[#54d6c3]" /> Exposed data types</div><div className="flex flex-wrap gap-2">{result.exposedData.map((item) => <span key={item} className="rounded-md border border-[#245a53] bg-[#123933] px-2.5 py-1 text-xs text-[#9ae9dc]">{item.replace(/^.*?data_/, "")}</span>)}</div></div>
+              )}
 
-          {/* Pagination */}
-          {(result.data!).breaches.length > itemsPerPage && (
-            <div className="mt-6 flex justify-center gap-2">
-              <button
-                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                disabled={currentPage === 1}
-                className="px-3 py-1 rounded-md bg-white/10 text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Previous
-              </button>
-              <span className="px-3 py-1 text-white">
-                Page {currentPage} of {Math.ceil((result.data!).breaches.length / itemsPerPage)}
-              </span>
-              <button
-onClick={() => setCurrentPage(prev => Math.min(Math.ceil((result.data!).breaches.length / itemsPerPage), prev + 1))}
-                disabled={currentPage >= Math.ceil((result.data!).breaches.length / itemsPerPage)}
-                className="px-3 py-1 rounded-md bg-white/10 text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Next
-              </button>
+              <div className="space-y-3">
+                {result.breaches.slice(0, 10).map((breach, index) => (
+                  <article key={`${breach.breach}-${index}`} className="rounded-lg border border-[#263a40] bg-[#0b171b] p-4">
+                    <div className="flex flex-wrap items-start justify-between gap-3"><div><h4 className="font-bold text-white">{breach.breach || "Unknown breach"}</h4><p className="mt-1 text-xs text-[#91a6aa]">{breach.domain || breach.industry || "Indexed breach"}</p></div><div className="flex items-center gap-1 text-xs text-[#91a6aa]"><CalendarDays size={14} /> {breach.xposed_date || "Date unavailable"}</div></div>
+                    {breach.xposed_data && <p className="mt-3 text-sm text-[#91a6aa]">Exposed: {breach.xposed_data}</p>}
+                    {breach.xposed_records && <p className="mt-2 text-xs text-[#667f83]">{breach.xposed_records.toLocaleString()} records affected</p>}
+                  </article>
+                ))}
+              </div>
             </div>
           )}
-
-          <p className="text-white text-sm leading-relaxed mt-6">
-            Your {currentType} has been found in known data breaches. We recommend taking immediate action to secure
-            your accounts.
-          </p>
         </div>
       )}
 
-<div className="text-center text-sm text-gray-400 mt-4 flex items-center justify-center gap-2">
-        <span>🔐</span>
-        <span>Your searches are processed securely. We never store your personal information.</span>
-      </div>
-      <SignalDialog open={gateOpen} source="breach-search" onComplete={() => { const run = takePending(); setGateOpen(false); run?.() }} />
-    </main>
+      <div className="mt-5 flex items-center gap-2 text-xs text-[#667f83]"><ShieldCheck size={14} /> Your email is sent directly to XposedOrNot for this lookup and is not stored by God&apos;s Eye.</div>
+    </section>
   )
 }

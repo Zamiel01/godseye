@@ -118,17 +118,17 @@ export function NewsSection() {
   const getPlaceholderInfo = (title: string, description: string) => {
     const text = (title + " " + description).toLowerCase()
     const categories: Record<string, { gradient: string; icon: string }> = {
-      cybersecurity: { gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", icon: "🛡️" },
-      breach: { gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)", icon: "🚨" },
-      ransomware: { gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)", icon: "🔒" },
-      malware: { gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)", icon: "🦠" },
-      phishing: { gradient: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)", icon: "🎣" },
-      vulnerability: { gradient: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)", icon: "⚠️" },
+      cybersecurity: { gradient: "linear-gradient(135deg, #dcefeb, #a9d6cf)", icon: "SEC" },
+      breach: { gradient: "linear-gradient(135deg, #f1dfdd, #ddb4af)", icon: "RISK" },
+      ransomware: { gradient: "linear-gradient(135deg, #dce7eb, #a9c4cd)", icon: "LOCK" },
+      malware: { gradient: "linear-gradient(135deg, #e3eee9, #b8d4c9)", icon: "CODE" },
+      phishing: { gradient: "linear-gradient(135deg, #eee8d9, #d8c99e)", icon: "SOCIAL" },
+      vulnerability: { gradient: "linear-gradient(135deg, #e9ece7, #c4d0c4)", icon: "CVE" },
     }
     for (const [key, config] of Object.entries(categories)) {
       if (text.includes(key) || text.includes(key.replace("cybersecurity", "security"))) return config
     }
-    return { gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", icon: "📰" }
+    return { gradient: "linear-gradient(135deg, #e5ecea, #c9d8d4)", icon: "BRIEF" }
   }
 
   const getFallbackNews = (): NewsArticle[] => [
@@ -271,10 +271,10 @@ export function NewsSection() {
 
   if (isLoading) {
     return (
-      <section className="rounded-3xl p-6 sm:p-12 mb-12 border" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(10px)", borderColor: "rgba(255,255,255,0.1)" }}>
+      <section className="surface-card p-6 sm:p-10" style={{ background: "rgba(16,29,34,0.92)" }}>
         <div className="text-center">
           <div className="w-10 h-10 border-4 border-t-white rounded-full animate-spin mx-auto mb-4" style={{ borderColor: "rgba(255,255,255,0.1)", borderTopColor: "#ffffff" }} />
-          <p className="text-gray-300">Loading latest stories…</p>
+          <p className="text-[#667781]">Loading latest stories...</p>
         </div>
       </section>
     )
@@ -282,7 +282,7 @@ export function NewsSection() {
 
   if (error) {
     return (
-      <section className="rounded-3xl p-6 sm:p-12 mb-12 border" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(10px)", borderColor: "rgba(255,255,255,0.1)" }}>
+      <section className="surface-card p-6 sm:p-10" style={{ background: "rgba(16,29,34,0.92)" }}>
         <div className="text-center p-8 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400">
           <p>ℹ️ {error}</p>
         </div>
@@ -296,59 +296,59 @@ export function NewsSection() {
   }
 
   return (
-    <section className="rounded-3xl space-responsive mb-12 animate-fade-in-up border w-full overflow-hidden" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(10px)", borderColor: "rgba(255,255,255,0.1)" }}>
+    <section className="surface-card p-6 sm:p-10 animate-fade-in-up w-full overflow-hidden" style={{ background: "rgba(16,29,34,0.92)" }}>
       <div className="text-center mb-8">
         <div className="flex items-center justify-center gap-4 mb-4">
-          <h2 className="text-2xl sm:text-3xl font-semibold flex items-center gap-2">📰 Tech & Cybersecurity Stories</h2>
-          <button onClick={fetchNews} className="p-2 rounded-full hover:bg-white/10 transition-all duration-300" title="Refresh">🔄</button>
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Security briefing</h2>
+          <button onClick={fetchNews} className="rounded-lg border border-[#263a40] px-3 py-2 text-xs font-semibold text-[#91a6aa] hover:border-[#54d6c3] hover:text-[#54d6c3] transition-all duration-300" title="Refresh">Refresh</button>
         </div>
-        <p className="text-lg text-gray-300 mb-8">Top stories from HackerNews — the latest in tech, security, and hacking</p>
+         <p className="text-base text-[#91a6aa] mb-8">A focused read of the latest technology and cybersecurity conversations.</p>
 
         <div className="max-w-2xl mx-auto mb-8">
-          <div className="flex items-center rounded-xl border-2 overflow-hidden transition-all duration-300 focus-within:border-white/30 shadow-lg" style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}>
-            <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSearch()} className="flex-1 px-6 py-4 bg-transparent text-white placeholder-gray-400 outline-none" placeholder="Search stories…" />
-            <button onClick={handleSearch} className="px-4 py-4 text-gray-300 hover:text-white hover:bg-white/10">🔍</button>
-            {searchQuery && <button onClick={() => setSearchQuery("")} className="px-4 py-4 text-gray-300 hover:text-white hover:bg-white/10">✕</button>}
+          <div className="flex items-center rounded-lg border overflow-hidden transition-all duration-300 focus-within:border-[#54d6c3]" style={{ background: "#0b171b", borderColor: "#263a40" }}>
+            <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSearch()} className="flex-1 px-5 py-4 bg-transparent text-white placeholder-[#91a6aa] outline-none" placeholder="Search stories..." />
+            <button onClick={handleSearch} className="px-4 py-4 text-[#91a6aa] hover:text-[#54d6c3] hover:bg-[#123933]" aria-label="Search">Search</button>
+            {searchQuery && <button onClick={() => setSearchQuery("")} className="px-4 py-4 text-[#91a6aa] hover:text-white" aria-label="Clear search">Clear</button>}
           </div>
           {(searchQuery || currentFilter !== "all") && (
-            <p className="text-sm text-gray-300 mt-2">{filteredArticles.length} of {articles.length} stories</p>
+            <p className="text-sm text-[#91a6aa] mt-2">{filteredArticles.length} of {articles.length} stories</p>
           )}
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
+        <div className="flex flex-wrap gap-2 mb-8">
           {(["all", "critical", "high", "medium", "low"] as SeverityFilter[]).map((f) => (
-            <button key={f} onClick={() => setCurrentFilter(f)} className={`px-4 py-2 rounded-full text-sm font-medium border-2 transition-all duration-300 ${currentFilter === f ? "bg-white text-blue-900 border-white" : "text-gray-300 border-white/20 hover:border-white/40 hover:text-white"}`}>{f === "all" ? "All" : f.charAt(0).toUpperCase() + f.slice(1)}</button>
+            <button key={f} onClick={() => setCurrentFilter(f)} className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all duration-300 ${currentFilter === f ? "bg-[#123933] text-[#54d6c3] border-[#245a53]" : "text-[#91a6aa] border-[#263a40] hover:border-[#2fae9e] hover:text-white"}`}>{f === "all" ? "All" : f.charAt(0).toUpperCase() + f.slice(1)}</button>
           ))}
         </div>
       </div>
 
-      <div className="responsive-grid mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
         {getCurrentPageArticles().map((article, index) => {
           const severity = getArticleSeverity(article.title, article.description)
           const tags = generateTags(article.title, article.description)
           const placeholderInfo = getPlaceholderInfo(article.title, article.description)
           return (
-            <div key={article.url + index} onClick={() => window.open(article.url, "_blank")} className={`group rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl border flex flex-col h-full ${severity === "critical" ? "border-l-4 border-l-red-600" : severity === "high" ? "border-l-4 border-l-red-500" : severity === "medium" ? "border-l-4 border-l-yellow-500" : "border-l-4 border-l-green-500"}`} style={{ background: "rgba(255,255,255,0.03)", borderColor: "rgba(255,255,255,0.1)" }}>
-              {article.urlToImage && <img src={article.urlToImage} alt={article.title} className="w-full h-56 object-cover" />}
+            <div key={article.url + index} onClick={() => window.open(article.url, "_blank")} className={`group rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border flex flex-col h-full ${severity === "critical" ? "border-l-4 border-l-red-600" : severity === "high" ? "border-l-4 border-l-red-500" : severity === "medium" ? "border-l-4 border-l-yellow-500" : "border-l-4 border-l-green-500"}`} style={{ background: "#101d22", borderColor: "#263a40" }}>
+              {article.urlToImage && <img src={article.urlToImage} alt={article.title} className="w-full aspect-[16/9] object-cover" />}
               {!article.urlToImage && (
-                <div className="w-full h-56 flex items-center justify-center text-5xl text-white" style={{ background: placeholderInfo.gradient }}>
+                <div className="w-full aspect-[16/9] flex items-center justify-center text-xs font-bold tracking-[0.22em] text-[#10202b]" style={{ background: placeholderInfo.gradient }}>
                   {placeholderInfo.icon}
                 </div>
               )}
-              <div className="p-6 flex-1 flex flex-col">
+              <div className="p-4 flex-1 flex flex-col">
                 <span className={`px-3 py-1 rounded-full text-xs font-medium mb-3 self-start ${severity === "critical" ? "bg-red-500/20 text-red-400" : severity === "high" ? "bg-orange-500/20 text-orange-400" : severity === "medium" ? "bg-yellow-500/20 text-yellow-400" : "bg-green-500/20 text-green-400"}`}>{severity.charAt(0).toUpperCase() + severity.slice(1)} Priority</span>
-                <h3 className="text-xl font-semibold text-white mb-3 line-clamp-2 hover:text-blue-400">{article.title}</h3>
-                <p className="text-base text-gray-300 mb-4 line-clamp-3 flex-1">{article.description}</p>
+                <h3 className="text-lg font-bold text-white mb-3 line-clamp-2 hover:text-[#54d6c3]">{article.title}</h3>
+                <p className="text-sm leading-6 text-[#91a6aa] mb-4 line-clamp-2 flex-1">{article.description}</p>
                 {tags.length > 0 && (
                   <div className="flex flex-wrap gap-2 mb-4">
                     {tags.map((t, i) => <span key={i} className="px-2.5 py-1 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-gray-300">{t}</span>)}
                   </div>
                 )}
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
-                  <a href={article.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-white text-sm font-medium hover:text-blue-400">Read Full Article →</a>
-                  <span className="text-xs text-gray-500">{getTimeAgoLabel(article.publishedAt)}</span>
+                  <a href={article.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-[#54d6c3] text-sm font-bold hover:text-white">Read article →</a>
+                  <span className="text-xs text-[#91a6aa]">{getTimeAgoLabel(article.publishedAt)}</span>
                 </div>
-                <span className="text-xs text-gray-600 mt-2">From {article.source.name}</span>
+                <span className="text-xs text-[#667f83] mt-2">From {article.source.name}</span>
               </div>
             </div>
           )

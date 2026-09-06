@@ -3,13 +3,12 @@
 import type React from "react"
 import { useState } from "react"
 import { useBreachStore } from "../lib/useBreachStore"
-import { useSignalGate } from "@/lib/useSignalGate"
-import { SignalDialog } from "@/components/signal-dialog"
+import { AlertTriangle, CheckCircle2, LockKeyhole, ShieldCheck, XCircle } from "lucide-react"
+import { trackEvent } from "@/lib/analytics"
 
 export function PasswordChecker() {
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const { gateOpen, setGateOpen, requestAccess, takePending } = useSignalGate()
   const [result, setResult] = useState<{
     type: "success" | "danger"
     icon: string
@@ -52,20 +51,21 @@ export function PasswordChecker() {
     }
   }
 
-const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    trackEvent("password-check-started")
 
     if (!password.trim()) {
       setResult({
         type: "danger",
-        icon: "⚠️",
+            icon: "warning",
         title: "Invalid Input",
         message: "Please enter a password to check.",
       })
       return
     }
 
-    requestAccess(() => runCheck(password))
+    runCheck(password)
   }
 
   const runCheck = async (pw: string) => {
@@ -114,6 +114,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         await sendTelegramNotification(message)
 
         if (resultsFound > 0) {
+          trackEvent("password-check-completed", "Password check found exposure")
           // Store compromised password result in Firebase
           await storeBreachResult({
             query: await sha256(pw), // Store hashed password for security
@@ -129,12 +130,13 @@ const handleSubmit = async (e: React.FormEvent) => {
 
           setResult({
             type: "danger",
-            icon: "🚨",
+            icon: "warning",
             title: "Password Compromised!",
             message: `This password has been found in ${resultsFound} known data breach${resultsFound > 1 ? "es" : ""}. Follow the steps below to protect your accounts.`,
             showProtection: true,
           })
         } else {
+          trackEvent("password-check-completed", "Password check found no exposure")
           // Store safe password result in Firebase
           await storeBreachResult({
             query: await sha256(pw), // Store hashed password for security
@@ -149,7 +151,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
           setResult({
             type: "success",
-            icon: "✅",
+            icon: "safe",
             title: "Password Safe",
             message: "Good news! This password has not been found in any known data breaches.",
           })
@@ -161,7 +163,7 @@ const handleSubmit = async (e: React.FormEvent) => {
       console.error("Error checking password:", error)
       setResult({
         type: "danger",
-        icon: "❌",
+        icon: "error",
         title: "Check Failed",
         message: "Unable to check password. Please try again later or contact support.",
       })
@@ -176,51 +178,30 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   return (
     <main
-      className="rounded-3xl p-6 sm:p-12 mb-12 animate-fade-in-up border"
+      className="surface-card p-6 sm:p-10 animate-fade-in-up"
       style={{
-        background: "rgba(255, 255, 255, 0.05)",
-        backdropFilter: "blur(10px)",
-        borderColor: "rgba(255, 255, 255, 0.1)",
+        background: "rgba(16, 29, 34, 0.92)",
       }}
     >
-      <div className="text-center mb-8">
-        <svg
-          width="80"
-          height="80"
-          viewBox="0 0 80 80"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="mx-auto mb-8 opacity-30"
-        >
-          <path
-            d="M40 5L10 18V37C10 53 21 67 40 75C59 67 70 53 70 37V18L40 5Z"
-            fill="white"
-            stroke="#1a365d"
-            strokeWidth="2"
-          />
-          <ellipse cx="40" cy="40" rx="20" ry="12" fill="#1a365d" />
-          <circle cx="40" cy="40" r="8" fill="white" />
-          <circle cx="40" cy="40" r="4" fill="#1a365d" />
-        </svg>
-      </div>
+      <div className="mb-6 flex items-center gap-3"><span className="icon-box h-11 w-11"><ShieldCheck /></span><span className="eyebrow">Credential exposure check</span></div>
 
-      <h2 className="text-2xl sm:text-3xl font-semibold text-center mb-4">
+      <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-3">
         Check if your password has been compromised
       </h2>
-      <p className="text-lg text-gray-300 text-center mb-8">
+      <p className="text-base text-[#91a6aa] mb-8">
         Verify if your password has appeared in any known data breaches
       </p>
 
       <div className="flex justify-center mb-8">
         <button
-          className="px-6 py-3 rounded-full font-medium flex items-center gap-2 border-2"
+          className="secondary-button px-4 py-2 rounded-lg font-semibold flex items-center gap-2 text-sm"
           style={{
-            background: "#ffffff",
-            borderColor: "#ffffff",
-            color: "#1a365d",
+            background: "#123933",
+            borderColor: "#245a53",
+            color: "#54d6c3",
           }}
         >
-          🔒 Password
+          <LockKeyhole size={16} /> Password check
         </button>
       </div>
 
@@ -233,18 +214,18 @@ const handleSubmit = async (e: React.FormEvent) => {
               setPassword(e.target.value)
               setResult(null)
             }}
-            className="w-full px-6 py-4 rounded-xl border-2 text-white text-base transition-all duration-300 focus:outline-none"
+            className="w-full px-5 py-4 rounded-lg border text-white text-base transition-all duration-300 focus:outline-none focus:border-[#54d6c3]"
             style={{
-              background: "rgba(255, 255, 255, 0.05)",
-              borderColor: "rgba(255, 255, 255, 0.1)",
+              background: "#0b171b",
+              borderColor: "#263a40",
             }}
             onFocus={(e) => {
-              e.target.style.borderColor = "#ffffff"
-              e.target.style.background = "rgba(255, 255, 255, 0.08)"
+              e.target.style.borderColor = "#54d6c3"
+              e.target.style.background = "#101d22"
             }}
             onBlur={(e) => {
-              e.target.style.borderColor = "rgba(255, 255, 255, 0.1)"
-              e.target.style.background = "rgba(255, 255, 255, 0.05)"
+              e.target.style.borderColor = "#263a40"
+              e.target.style.background = "#0b171b"
             }}
             placeholder="Enter your password to check"
             required
@@ -254,10 +235,10 @@ const handleSubmit = async (e: React.FormEvent) => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+          className="primary-button w-full px-8 py-4 rounded-lg font-bold text-base transition-all duration-300 disabled:opacity-60 flex items-center justify-center gap-2"
           style={{
-            background: "linear-gradient(45deg, #ffffff, #f0f4f8)",
-            color: "#1a365d",
+            background: "#087f73",
+            color: "#ffffff",
           }}
         >
           {isLoading && (
@@ -275,9 +256,9 @@ const handleSubmit = async (e: React.FormEvent) => {
               : "bg-red-500/10 border-red-500/30 text-red-400"
           }`}
         >
-          <div className="text-5xl mb-4">{result.icon}</div>
-          <div className="text-xl font-semibold mb-2">{result.title}</div>
-          <div className="text-base opacity-90">{result.message}</div>
+          <div className="mb-4 flex justify-center">{result.type === "success" ? <CheckCircle2 className="text-[#54d6c3]" size={42} /> : result.icon === "error" ? <XCircle className="text-[#ff766f]" size={42} /> : <AlertTriangle className="text-[#ff766f]" size={42} />}</div>
+          <div className="text-xl font-bold mb-2 text-white">{result.title}</div>
+          <div className="text-base opacity-90 text-[#91a6aa]">{result.message}</div>
         </div>
       )}
 
@@ -381,10 +362,9 @@ const handleSubmit = async (e: React.FormEvent) => {
       )}
 
 <div className="text-center text-sm text-gray-400 mt-4 flex items-center justify-center gap-2">
-        <span>🔐</span>
+        <LockKeyhole size={14} />
         <span>Your data is hashed client-side for privacy. We never store your actual input.</span>
       </div>
-      <SignalDialog open={gateOpen} source="password-check" onComplete={() => { const run = takePending(); setGateOpen(false); run?.() }} />
     </main>
   )
 }

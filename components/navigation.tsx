@@ -9,21 +9,20 @@ export function Navigation() {
   
   return (
     <nav
-      className="sticky top-0 z-50 mb-8 border-b backdrop-blur-xl"
+      className="sticky top-0 z-50 border-b border-[#263a40] bg-[#081216]/90 backdrop-blur-xl"
       style={{
-        background: "rgba(255, 255, 255, 0.05)",
-        borderColor: "rgba(255, 255, 255, 0.1)",
+        background: "rgba(8, 18, 22, 0.9)",
       }}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-4">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-5 sm:px-8 lg:px-10 py-4">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-3 text-white no-underline font-bold text-xl sm:text-2xl">
+        <a href="/" className="flex items-center gap-3 text-white no-underline font-extrabold tracking-tight text-lg sm:text-xl">
           <div
-            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-lg sm:text-xl border-2"
+            className="icon-box w-9 h-9"
             style={{
-              background: "linear-gradient(45deg, #ffffff, #f0f4f8)",
-              color: "#1a365d",
-              borderColor: "rgba(255, 255, 255, 0.2)",
+              background: "#123933",
+              color: "#54d6c3",
+              borderColor: "#245a53",
             }}
           >
             <svg width="20" height="20" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,14 +44,12 @@ export function Navigation() {
         <div className="hidden md:flex items-center gap-6">
           <Link
             href="/"
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-medium transition-all duration-300 ${
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
               pathname === "/" 
-                ? "bg-white text-blue-900 border-2 border-white hover:bg-white/90"
-                : "text-white hover:bg-white/10 border-2"
+                ? "bg-[#123933] text-[#54d6c3]"
+                : "text-[#91a6aa] hover:bg-[#14262c] hover:text-white"
             }`}
-            style={pathname !== "/" ? {
-              borderColor: "rgba(255, 255, 255, 0.2)",
-            } : undefined}
+            style={undefined}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -74,14 +71,12 @@ export function Navigation() {
           </Link>
           <Link
             href="/find-my-phone"
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-medium transition-all duration-300 ${
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
               pathname === "/find-my-phone"
-                ? "bg-white text-blue-900 border-2 border-white hover:bg-white/90"
-                : "text-white hover:bg-white/10 border-2"
+                ? "bg-[#123933] text-[#54d6c3]"
+                : "text-[#91a6aa] hover:bg-[#14262c] hover:text-white"
             }`}
-            style={pathname !== "/find-my-phone" ? {
-              borderColor: "rgba(255, 255, 255, 0.2)",
-            } : undefined}
+            style={undefined}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -103,14 +98,12 @@ export function Navigation() {
           </Link>
           <Link
             href="/temp-mail"
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-medium transition-all duration-300 ${
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
               pathname === "/temp-mail"
-                ? "bg-white text-blue-900 border-2 border-white hover:bg-white/90"
-                : "text-white hover:bg-white/10 border-2"
+                ? "bg-[#123933] text-[#54d6c3]"
+                : "text-[#91a6aa] hover:bg-[#14262c] hover:text-white"
             }`}
-            style={pathname !== "/temp-mail" ? {
-              borderColor: "rgba(255, 255, 255, 0.2)",
-            } : undefined}
+            style={undefined}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path

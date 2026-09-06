@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Navigation } from '@/components/navigation'
+import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'God\'s Eye',
@@ -28,7 +29,12 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </head>
-      <body className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white antialiased">
+      <body className="min-h-screen antialiased">
+        <Script
+          data-goatcounter="https://zamiel.goatcounter.com/count"
+          src="https://gc.zgo.at/count.js"
+          strategy="afterInteractive"
+        />
         <Navigation />
         <main className="w-full">
           {children}

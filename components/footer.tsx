@@ -1,7 +1,10 @@
 export function Footer() {
   return (
-    <footer className="text-center py-8 text-gray-400 text-sm mt-auto">
-      <p>&copy; 2025 God's Eye | Advanced Data Breach Intelligence Platform</p>
+    <footer className="mt-auto border-t border-[#263a40] px-5 py-8 text-sm text-[#91a6aa]">
+      <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p><span className="font-bold text-white">God&apos;s Eye</span> — practical security intelligence.</p>
+        <p className="mono-label text-xs">© 2025 / privacy first</p>
+      </div>
     </footer>
   )
 }
