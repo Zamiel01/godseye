@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { Navigation } from '@/components/navigation'
 import Script from 'next/script'
+import { SupportPopup } from '@/components/support-popup'
 
 export const metadata: Metadata = {
   title: 'God\'s Eye',
@@ -39,6 +40,7 @@ export default function RootLayout({
         <main className="w-full">
           {children}
         </main>
+        <SupportPopup />
       </body>
     </html>
   )
