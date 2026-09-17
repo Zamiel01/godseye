@@ -1,9 +1,13 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
-import { AlertTriangle, CalendarDays, CheckCircle2, Database, Mail, Search, ShieldCheck } from "lucide-react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { AlertTriangle, CalendarDays, CheckCircle2, Database, Github, Mail, Search, ShieldCheck, Star, X } from "lucide-react"
 import { trackEvent } from "@/lib/analytics"
+
+const GITHUB_REPO_URL = "https://github.com/your-org/gods-eye"
+const STAR_PROMPT_STORAGE_KEY = "xon:github-star-prompt"
+const STAR_PROMPT_DELAY_MS = 900
 
 interface BreachDetail {
   breach?: string
@@ -37,10 +41,139 @@ type SearchResult = {
   exposedData: string[]
 }
 
+function readDismissed() {
+  try {
+    return localStorage.getItem(STAR_PROMPT_STORAGE_KEY) === "dismissed"
+  } catch {
+    return false
+  }
+}
+
+function writeDismissed() {
+  try {
+    localStorage.setItem(STAR_PROMPT_STORAGE_KEY, "dismissed")
+  } catch {
+    // Private browsing: the prompt will simply show again next session.
+  }
+}
+
+function GitHubStarPrompt({ onClose }: { onClose: () => void }) {
+  const [hovered, setHovered] = useState(0)
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose()
+    }
+    document.addEventListener("keydown", onKeyDown)
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => {
+      document.removeEventListener("keydown", onKeyDown)
+      document.body.style.overflow = previousOverflow
+    }
+  }, [onClose])
+
+  const handleStar = () => {
+    trackEvent("github-star-prompt-accepted")
+    writeDismissed()
+    window.open(GITHUB_REPO_URL, "_blank", "noopener,noreferrer")
+    onClose()
+  }
+
+  const handleDismiss = () => {
+    trackEvent("github-star-prompt-dismissed")
+    writeDismissed()
+    onClose()
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="github-star-title"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) handleDismiss()
+      }}
+    >
+      <div className="relative w-full max-w-md rounded-2xl border border-[#263a40] bg-[#101d22] p-6 shadow-2xl animate-fade-in-up">
+        <button
+          type="button"
+          onClick={handleDismiss}
+          aria-label="Close"
+          className="absolute right-4 top-4 rounded-md p-1 text-[#667f83] transition hover:text-white"
+        >
+          <X size={18} />
+        </button>
+
+        <span className="icon-box mb-4 flex h-11 w-11 items-center justify-center"><Github size={20} /></span>
+
+        <h3 id="github-star-title" className="text-xl font-extrabold tracking-tight text-white">
+          Enjoying God&apos;s Eye?
+        </h3>
+        <p className="mt-2 text-sm leading-6 text-[#91a6aa]">
+          Your scan is done. If this tool was useful, a star on GitHub helps other people find it.
+        </p>
+
+        <div className="mt-5 flex items-center justify-center gap-1" onMouseLeave={() => setHovered(0)}>
+          {[1, 2, 3, 4, 5].map((value) => (
+            <button
+              key={value}
+              type="button"
+              aria-label={`Rate ${value} out of 5`}
+              onMouseEnter={() => setHovered(value)}
+              onClick={handleStar}
+              className="p-1 transition-transform hover:scale-110"
+            >
+              <Star
+                size={28}
+                className={value <= hovered ? "text-[#f5c451]" : "text-[#2c4249]"}
+                fill={value <= hovered ? "#f5c451" : "none"}
+              />
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-6 flex flex-col gap-2 sm:flex-row">
+          <button type="button" onClick={handleStar} className="primary-button flex-1 rounded-lg px-5 py-3 font-bold">
+            Star on GitHub
+          </button>
+          <button
+            type="button"
+            onClick={handleDismiss}
+            className="flex-1 rounded-lg border border-[#263a40] px-5 py-3 font-semibold text-[#91a6aa] transition hover:text-white"
+          >
+            Maybe later
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function BreachSearch() {
   const [email, setEmail] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<SearchResult | null>(null)
+  const [showStarPrompt, setShowStarPrompt] = useState(false)
+  const promptTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (promptTimer.current) clearTimeout(promptTimer.current)
+    }
+  }, [])
+
+  // Fires only after a real search round-trip, never on client-side validation errors.
+  const finishSearch = useCallback(() => {
+    window.dispatchEvent(new CustomEvent("tool-completed"))
+    if (readDismissed()) return
+    if (promptTimer.current) clearTimeout(promptTimer.current)
+    promptTimer.current = setTimeout(() => {
+      setShowStarPrompt(true)
+      trackEvent("github-star-prompt-shown")
+    }, STAR_PROMPT_DELAY_MS)
+  }, [])
 
   const extractExposedData = (data: XposedResponse) => {
     const direct = data.ExposedBreaches?.breaches_details?.flatMap((breach) =>
@@ -62,6 +195,7 @@ export function BreachSearch() {
   const runSearch = async (value: string) => {
     setIsLoading(true)
     setResult(null)
+    setShowStarPrompt(false)
     trackEvent("breach-search-started")
 
     try {
@@ -92,6 +226,7 @@ export function BreachSearch() {
 
       const breaches = analytics.ExposedBreaches?.breaches_details || []
       const hasBreaches = breaches.length > 0 || Boolean(analytics.BreachMetrics)
+
       if (!hasBreaches) {
         trackEvent("breach-search-completed", "Breach search found no exposure")
         setResult({
@@ -123,6 +258,7 @@ export function BreachSearch() {
       setResult({ type: "danger", title: "Search unavailable", message, breaches: [], exposedData: [] })
     } finally {
       setIsLoading(false)
+      finishSearch()
     }
   }
 
@@ -206,6 +342,8 @@ export function BreachSearch() {
       )}
 
       <div className="mt-5 flex items-center gap-2 text-xs text-[#667f83]"><ShieldCheck size={14} /> Your email is sent directly to XposedOrNot for this lookup and is not stored by God&apos;s Eye.</div>
+
+      {showStarPrompt && <GitHubStarPrompt onClose={() => setShowStarPrompt(false)} />}
     </section>
   )
 }

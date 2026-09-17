@@ -13,6 +13,20 @@ export function Header() {
           <a href="#security-tools" className="primary-button inline-flex items-center gap-2 rounded-lg px-5 py-3 text-sm font-bold">Start a security check <span aria-hidden="true">↘</span></a>
           <span className="secondary-button inline-flex items-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold"><span className="icon-box h-5 w-5 rounded-full"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 5 6v5c0 4.2 2.8 8 7 10 4.2-2 7-5.8 7-10V6l-7-3Z" stroke="currentColor"/><path d="m9.5 12 1.7 1.7 3.5-3.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/></svg></span> Built for privacy</span>
         </div>
+        <div className="mt-5">
+          <a
+            href="https://github.com/Zamiel01/godseye"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Star God's Eye on GitHub"
+          >
+            <img
+              src="https://img.shields.io/github/stars/Zamiel01/godseye?style=social&label=Star&logo=github"
+              alt="Star God's Eye on GitHub"
+              height="30"
+            />
+          </a>
+        </div>
       </div>
       <div className="hidden lg:block justify-self-end max-w-sm border-l border-[#b9ddd7] pl-7 pb-2">
         <p className="eyebrow mb-3">The signal, not the noise</p>

@@ -125,6 +125,24 @@ export function Navigation() {
           </Link>
         </div>
 
+        {/* GitHub Star */}
+        <a
+          href="https://github.com/Zamiel01/godseye"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Star God's Eye on GitHub"
+          className="hidden md:flex"
+        >
+          <iframe
+            src="https://ghbtns.com/github-btn.html?user=Zamiel01&repo=godseye&type=star&count=true&size=large"
+            width="135"
+            height="30"
+            frameBorder="0"
+            scrolling="0"
+            title="Star God's Eye on GitHub"
+          />
+        </a>
+
         {/* Mobile Navigation */}
         <MobileNav />
       </div>
